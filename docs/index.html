@@ -201,6 +201,7 @@
   <button class="sort-btn" onclick="sortBy('max_drawdown')">最大回撤</button>
   <button class="sort-btn" onclick="sortBy('sharpe')">夏普比率</button>
   <button class="sort-btn" onclick="sortBy('calmar')">卡玛比率</button>
+  <button class="sort-btn" onclick="sortBy('total_value_10k')">1万→总额</button>
   <button class="sort-btn" onclick="sortBy('avg_high_interval_days')">创新高间隔</button>
   <button class="sort-btn" onclick="sortBy('total_return')">累计收益</button>
   <button class="sort-btn" onclick="sortBy('annual_vol')">年化波动率</button>
@@ -220,13 +221,14 @@
         <th>夏普比率</th>
         <th>卡玛比率</th>
         <th>年化波动</th>
+        <th>1万→总额</th>
         <th class="hide-mobile">创新高间隔</th>
         <th class="hide-mobile">距新高天数</th>
         <th class="hide-mobile">新高次数</th>
       </tr>
     </thead>
     <tbody id="tbody">
-      <tr><td colspan="13"><div class="loading">加载历史数据中</div></td></tr>
+      <tr><td colspan="14"><div class="loading">加载历史数据中</div></td></tr>
     </tbody>
   </table>
 </div>
@@ -259,10 +261,11 @@ async function loadData() {
 
     assetData = raw.assets.map(a => ({
       ...a,
-      currentPrice: a.end_price,  // 初始化为最新收盘价
+      currentPrice: a.end_price,
       currentChange: 0,
       currentChangePct: 0,
       livePrice: null,
+      total_value_10k: a.total_value_10k || Math.round(10000 * (1 + a.total_return / 100)),
     }));
 
     document.getElementById('update-time').textContent =
@@ -274,7 +277,7 @@ async function loadData() {
     startRealtimeQuotes();
   } catch(e) {
     document.getElementById('tbody').innerHTML =
-      '<tr><td colspan="13"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
+      '<tr><td colspan="14"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
   }
 }
 
@@ -456,21 +459,22 @@ function recomputeMetrics(asset, livePrice) {
   // 卡玛
   const calmar = maxDD > 0 ? annualReturn / maxDD : 0;
 
-  // 创新高间隔
+  // 创新高间隔 & 新高统计
   let runningPeak = closes[0];
+  let newHighCount = 0;
   let lastHighIdx = 0;
-  let intervals = [];
   for (let i = 1; i < n; i++) {
     if (closes[i] > runningPeak) {
-      intervals.push(i - lastHighIdx);
+      newHighCount++;
       lastHighIdx = i;
       runningPeak = closes[i];
     }
   }
-  const avgInterval = intervals.length >= 2
-    ? intervals.slice(1).reduce((a,b) => a+b, 0) / (intervals.length - 1)
-    : n;
-  const daysSinceHigh = n - 1 - lastHighIdx;
+  const avgInterval = newHighCount > 0 ? n / newHighCount : n;
+  const daysSinceHigh = newHighCount > 0 ? n - 1 - lastHighIdx : n - 1;
+
+  // 1万元初始投资至今总金额
+  const totalValue10k = Math.round(10000 * (1 + totalReturn));
 
   // 更新
   asset.total_return = Math.round(totalReturn * 10000) / 100;
@@ -481,7 +485,8 @@ function recomputeMetrics(asset, livePrice) {
   asset.annual_vol = Math.round(annualVol * 10000) / 100;
   asset.avg_high_interval_days = Math.round(avgInterval * 10) / 10;
   asset.days_since_high = daysSinceHigh;
-  asset.n_new_highs = intervals.length;
+  asset.n_new_highs = newHighCount;
+  asset.total_value_10k = totalValue10k;
   asset.currentPrice = livePrice;
 }
 
@@ -557,6 +562,7 @@ function renderTable() {
       <td class="${sharpeCls}">${a.sharpe.toFixed(2)}</td>
       <td class="${calmarCls}">${a.calmar.toFixed(2)}</td>
       <td>${a.annual_vol.toFixed(1)}%</td>
+      <td style="font-weight:600">¥${a.total_value_10k.toLocaleString()}</td>
       <td class="hide-mobile">${a.avg_high_interval_days.toFixed(0)}天</td>
       <td class="hide-mobile">${a.days_since_high}天</td>
       <td class="hide-mobile">${a.n_new_highs}</td>

@@ -106,29 +106,23 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
     # ---- 4. 卡玛比率 ----
     calmar = annual_return / max_drawdown if max_drawdown > 0 else 0
 
-    # ---- 5. 创新高间隔天数 ----
-    # 计算每次创新高后到下一次创新高的间隔天数，取平均值
-    # 同时计算距上次创新高的天数
+    # ---- 5. 创新高间隔天数 & 新高统计 ----
     running_peak = closes[0]
-    high_dates = [dates[0]]
-    intervals = []
+    new_high_count = 0
+    last_high_idx = 0
 
     for i in range(1, n_days):
         if closes[i] > running_peak:
-            interval = i - len(high_dates) + (len(high_dates) - 1)  # 简化：用日期索引差
-            # 实际用日期计算更准确
-            intervals.append(i)
-            high_dates.append(dates[i])
+            new_high_count += 1
+            last_high_idx = i
             running_peak = closes[i]
 
-    # 计算平均创新高间隔（交易日）
-    if len(intervals) >= 2:
-        avg_high_interval = sum(intervals[i] - intervals[i-1] for i in range(1, len(intervals))) / (len(intervals) - 1)
-    else:
-        avg_high_interval = n_days
+    # 平均创新高间隔 = 总交易日数 / 新高次数
+    # 这个公式涵盖全部时间跨度，不会因为最后一次新高尚在遥远过去而失真
+    avg_high_interval = n_days / new_high_count if new_high_count > 0 else n_days
 
-    # 距上次创新高的天数
-    days_since_high = n_days - 1 - intervals[-1] if intervals else n_days - 1
+    # 距上次创新高的交易日数
+    days_since_high = n_days - 1 - last_high_idx if new_high_count > 0 else n_days - 1
 
     return {
         "code": code,
@@ -148,7 +142,9 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
         "annual_vol": round(annual_vol * 100, 2),
         "avg_high_interval_days": round(avg_high_interval, 1),
         "days_since_high": days_since_high,
-        "n_new_highs": len(intervals),
+        "n_new_highs": new_high_count,
+        # 1万元初始投资至今的总金额
+        "total_value_10k": round(10000 * (1 + total_return), 0),
         # 保留收盘价序列供前端实时更新用
         "closes": [{"d": dates[i], "p": round(closes[i], 3)} for i in range(n_days)],
     }
@@ -167,7 +163,7 @@ def main():
         print(f"{len(bars)}个交易日")
         metrics = compute_metrics(bars, asset["code"], asset["name"])
         results.append(metrics)
-        print(f"    年化: {metrics['annual_return']}%  回撤: {metrics['max_drawdown']}%  夏普: {metrics['sharpe']}  卡玛: {metrics['calmar']}  创新高间隔: {metrics['avg_high_interval_days']}天")
+        print(f"    年化: {metrics['annual_return']}%  回撤: {metrics['max_drawdown']}%  夏普: {metrics['sharpe']}  卡玛: {metrics['calmar']}  新高间隔: {metrics['avg_high_interval_days']}天  1万→{metrics['total_value_10k']:.0f}元")
 
     # 输出JSON
     output = {

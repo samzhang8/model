@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>资产跟踪看板</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --card-bg: #121829;
+    --card-border: #1e2740;
+    --text: #e0e6f0;
+    --text-dim: #6b7a99;
+    --green: #00c853;
+    --red: #ff1744;
+    --blue: #2979ff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', 'Microsoft YaHei', monospace;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 2px;
+  }
+  .header h1 span { color: var(--blue); }
+  .header .clock {
+    font-size: 14px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .status-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .add-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .add-bar input {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    width: 160px;
+  }
+  .add-bar input:focus { border-color: var(--blue); }
+  .add-bar input::placeholder { color: var(--text-dim); }
+  .add-bar button {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .add-bar button:hover { opacity: 0.85; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .card:hover { border-color: var(--blue); }
+  .card .remove-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover .remove-btn { opacity: 1; }
+  .card .remove-btn:hover { color: var(--red); }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .card-name {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .card-code {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .price-section {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .price {
+    font-size: 32px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .change-badge {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+  .flat { color: var(--text-dim); }
+  .change-badge.up { background: rgba(0,200,83,0.12); }
+  .change-badge.down { background: rgba(255,23,68,0.12); }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .stat {
+    text-align: center;
+    padding: 8px 4px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 6px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .card-time {
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align: right;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 60px 20px;
+    font-size: 14px;
+  }
+
+  @keyframes flash-up { 0%{background:rgba(0,200,83,0.15)} 100%{background:transparent} }
+  @keyframes flash-down { 0%{background:rgba(255,23,68,0.15)} 100%{background:transparent} }
+  .flash-up { animation: flash-up 0.6s; }
+  .flash-down { animation: flash-down 0.6s; }
+
+  .footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .footer a { color: var(--blue); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 <span>资产跟踪</span>看板</h1>
+  <div class="clock" id="clock">--:--:-- <span class="status-dot" id="status-dot"></span></div>
+</div>
+
+<div class="add-bar">
+  <input type="text" id="code-input" placeholder="输入代码 如 510300" maxlength="10" onkeydown="if(event.key==='Enter')addAsset()">
+  <button onclick="addAsset()">+ 添加资产</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="footer">
+  数据来源：腾讯实时行情 · 5秒自动刷新 · 
+  <a href="https://github.com/samzhang8/model" target="_blank">GitHub Repo</a>
+</div>
+
+<script>
+// ============================================================
+//  状态管理
+// ============================================================
+let assets = [];
+let prevPrices = {};
+
+function saveAssets() {
+  localStorage.setItem('tracked_assets', JSON.stringify(assets));
+}
+function loadAssets() {
+  try {
+    const saved = localStorage.getItem('tracked_assets');
+    if (saved) assets = JSON.parse(saved);
+  } catch(e) {}
+  if (!assets || !assets.length) {
+    assets = [
+      {code:'510300', name:'沪深300ETF'},
+      {code:'510500', name:'中证500ETF'},
+      {code:'511880', name:'银华日利ETF'},
+    ];
+    saveAssets();
+  }
+}
+
+// ============================================================
+//  增删
+// ============================================================
+function addAsset() {
+  const input = document.getElementById('code-input');
+  let code = input.value.trim();
+  if (!code) return;
+  code = code.replace(/^(sh|sz|bj)/i, '');
+  if (assets.find(a => a.code === code)) {
+    input.value = '';
+    return;
+  }
+  assets.push({code, name: ''});
+  saveAssets();
+  input.value = '';
+  refresh();
+}
+
+function removeAsset(code) {
+  assets = assets.filter(a => a.code !== code);
+  delete prevPrices[code];
+  saveAssets();
+  refresh();
+}
+
+// ============================================================
+//  行情获取：script标签注入法（绕过CORS）
+//  腾讯接口返回 v_sh510300="..." 格式，天然是JS变量赋值
+// ============================================================
+function buildPrefix(code) {
+  // 5/6/9开头→沪市, 0/3/2开头→深市
+  if (/^[569]/.test(code)) return 'sh';
+  if (/^[032]/.test(code)) return 'sz';
+  return 'sh';
+}
+
+function fetchQuotes(codes) {
+  return new Promise((resolve) => {
+    // 构建腾讯接口URL
+    const queryCodes = codes.map(c => buildPrefix(c) + c);
+    const url = 'https://qt.gtimg.cn/q=' + queryCodes.join(',');
+
+    // 用 JSONP-like 方式：动态创建 script 标签
+    const callbackName = '__quote_cb_' + Date.now();
+    const script = document.createElement('script');
+
+    // 腾讯接口直接返回 v_xxx="..." 变量赋值
+    // 但为了安全解析，我们改用 fetch + CORS proxy 作为 fallback
+    // 先尝试 script 注入法
+    let resolved = false;
+
+    script.onload = function() {
+      if (resolved) return;
+      resolved = true;
+      const results = [];
+      for (const code of codes) {
+        const prefix = buildPrefix(code);
+        const varName = 'v_' + prefix + code;
+        const raw = window[varName];
+        if (raw && typeof raw === 'string') {
+          results.push(parseQuote(raw, code, prefix + code));
+          // 清理全局变量
+          try { delete window[varName]; } catch(e) { window[varName] = undefined; }
+        } else {
+          results.push({code, error: '无数据', name: code, price: 0});
+        }
+      }
+      script.remove();
+      resolve(results);
+    };
+
+    script.onerror = function() {
+      if (resolved) return;
+      resolved = true;
+      script.remove();
+      // Fallback: CORS proxy
+      fetchViaProxy(codes, resolve);
+    };
+
+    // 超时保护
+    setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        script.remove();
+        fetchViaProxy(codes, resolve);
+      }
+    }, 5000);
+
+    script.src = url;
+    document.head.appendChild(script);
+  });
+}
+
+// CORS proxy fallback
+function fetchViaProxy(codes, resolve) {
+  const queryCodes = codes.map(c => buildPrefix(c) + c);
+  const tencentUrl = 'https://qt.gtimg.cn/q=' + queryCodes.join(',');
+  const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(tencentUrl);
+
+  fetch(proxyUrl)
+    .then(r => r.text())
+    .then(raw => {
+      const results = [];
+      for (const code of codes) {
+        const prefix = buildPrefix(code);
+        const varName = 'v_' + prefix + code;
+        const regex = new RegExp(varName + '="([^"]*)"');
+        const match = raw.match(regex);
+        if (match) {
+          results.push(parseQuote(match[1], code, prefix + code));
+        } else {
+          results.push({code, error: '无数据', name: code, price: 0});
+        }
+      }
+      resolve(results);
+    })
+    .catch(() => {
+      resolve(codes.map(c => ({code: c, error: '网络错误', name: c, price: 0})));
+    });
+}
+
+// 解析腾讯行情字符串
+function parseQuote(raw, code, fullCode) {
+  const f = raw.split('~');
+  if (f.length < 50) return {code, error: '数据不完整', name: code, price: 0};
+
+  const safeF = (i) => { try { return parseFloat(f[i]) || 0; } catch(e) { return 0; } };
+  const safeS = (i) => { try { return f[i] || ''; } catch(e) { return ''; } };
+
+  const price = safeF(3);
+  const prevClose = safeF(4);
+  const change = price - prevClose;
+  const changePct = prevClose ? (change / prevClose * 100) : 0;
+
+  return {
+    code,
+    full_code: fullCode,
+    name: safeS(1),
+    price: Math.round(price * 1000) / 1000,
+    prev_close: Math.round(prevClose * 1000) / 1000,
+    open: safeF(5),
+    high: safeF(33),
+    low: safeF(34),
+    change: Math.round(change * 1000) / 1000,
+    change_pct: Math.round(changePct * 100) / 100,
+    volume: safeF(6),
+    turnover: safeF(37),
+    amplitude: safeF(43),
+    turnover_rate: safeF(49),
+    timestamp: safeS(30),
+  };
+}
+
+// ============================================================
+//  渲染
+// ============================================================
+async function refresh() {
+  if (!assets.length) {
+    document.getElementById('grid').innerHTML = '<div class="empty">暂无跟踪资产，请在上方添加代码</div>';
+    return;
+  }
+  const codes = assets.map(a => a.code);
+  const quotes = await fetchQuotes(codes);
+  renderCards(quotes);
+}
+
+function renderCards(quotes) {
+  const grid = document.getElementById('grid');
+
+  // 更新资产名称
+  quotes.forEach(q => {
+    if (q.name) {
+      const a = assets.find(a => a.code === q.code);
+      if (a) a.name = q.name;
+    }
+  });
+  saveAssets();
+
+  grid.innerHTML = quotes.map(q => {
+    if (q.error) {
+      return `<div class="card">
+        <button class="remove-btn" onclick="removeAsset('${q.code}')">✕</button>
+        <div class="card-name">${q.name || q.code}</div>
+        <div class="card-code">${q.code}</div>
+        <div style="color:var(--red);margin-top:12px">${q.error}</div>
+      </div>`;
+    }
+
+    const cls = q.change > 0 ? 'up' : q.change < 0 ? 'down' : 'flat';
+    const arrow = q.change > 0 ? '▲' : q.change < 0 ? '▼' : '—';
+
+    // 闪烁效果
+    const prev = prevPrices[q.code];
+    let flash = '';
+    if (prev !== undefined && prev !== q.price) {
+      flash = q.price > prev ? 'flash-up' : 'flash-down';
+    }
+    prevPrices[q.code] = q.price;
+
+    // 格式化时间
+    let timeStr = q.timestamp || '--';
+    if (timeStr.length === 14) {
+      timeStr = timeStr.slice(0,4)+'-'+timeStr.slice(4,6)+'-'+timeStr.slice(6,8)+' '+
+                timeStr.slice(8,10)+':'+timeStr.slice(10,12)+':'+timeStr.slice(12,14);
+    }
+
+    return `
+    <div class="card ${flash}">
+      <button class="remove-btn" onclick="removeAsset('${q.code}')">✕</button>
+      <div class="card-header">
+        <div>
+          <div class="card-name">${q.name || q.code}</div>
+          <div class="card-code">${q.full_code || q.code}</div>
+        </div>
+      </div>
+      <div class="price-section">
+        <div class="price ${cls}">${q.price.toFixed(3)}</div>
+        <div class="change-badge ${cls}">${arrow} ${q.change.toFixed(3)} (${q.change_pct.toFixed(2)}%)</div>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">今开</div>
+          <div class="stat-value">${q.open.toFixed(3)}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">最高</div>
+          <div class="stat-value up">${q.high.toFixed(3)}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">最低</div>
+          <div class="stat-value down">${q.low.toFixed(3)}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">成交量(万手)</div>
+          <div class="stat-value">${(q.volume/10000).toFixed(1)}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">换手率</div>
+          <div class="stat-value">${q.turnover_rate.toFixed(2)}%</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">振幅</div>
+          <div class="stat-value">${q.amplitude.toFixed(2)}%</div>
+        </div>
+      </div>
+      <div class="card-time">${timeStr}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('status-dot').style.background = 'var(--green)';
+}
+
+// ============================================================
+//  时钟
+// ============================================================
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').innerHTML = `${h}:${m}:${s} <span class="status-dot" id="status-dot"></span>`;
+}
+
+// ============================================================
+//  启动
+// ============================================================
+loadAssets();
+refresh();
+updateClock();
+setInterval(refresh, 5000);
+setInterval(updateClock, 1000);
+</script>
+</body>
+</html>

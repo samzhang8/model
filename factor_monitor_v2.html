@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>因子监控面板 v2 · 滚动IC + 动量 + 替补</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d1117;color:#c9d1d9;padding:24px;max-width:1600px;margin:0 auto}
+h1{color:#58a6ff;margin-bottom:4px;font-size:22px}
+h2{color:#58a6ff;margin:24px 0 12px;font-size:16px;border-bottom:1px solid #30363d;padding-bottom:6px}
+.sub{color:#8b949e;font-size:13px;margin-bottom:20px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:16px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th,td{padding:5px 8px;text-align:right;border-bottom:1px solid #21262d}
+th{color:#8b949e;font-weight:500;font-size:10px;text-transform:uppercase;position:sticky;top:0;background:#161b22;z-index:1;white-space:nowrap}
+td:first-child,th:first-child{text-align:left;font-family:monospace;font-size:11px}
+tr:hover{background:#1c2333}
+.positive{color:#3fb950}
+.negative{color:#f85149}
+.neutral{color:#8b949e}
+.badge{display:inline-block;padding:1px 6px;border-radius:8px;font-size:9px;font-weight:600;white-space:nowrap}
+.badge-green{background:#122d1e;color:#3fb950}
+.badge-red{background:#2d1215;color:#f85149}
+.badge-yellow{background:#2d2a12;color:#d2991d}
+.badge-blue{background:#121e2d;color:#58a6ff}
+.highlight{background:#1a2733;border-left:3px solid #58a6ff;padding:10px 14px;border-radius:4px;margin:10px 0;font-size:12px;line-height:1.5}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.summary-num{font-size:24px;font-weight:700}
+.summary-label{font-size:10px;color:#8b949e}
+</style>
+</head>
+<body>
+
+<h1>🧬 因子监控面板 v2</h1>
+<p class="sub">
+  Data: ClickHouse amazingdata.factor_ic · Rolling IC Windows (3/6/12 month) · Factor Momentum · Substitute Ranking
+  <br>Generated: 2026-06-17 06:40 · 6 factors
+</p>
+
+<!-- Key Metrics -->
+<div class="card">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;text-align:center">
+<div><div class="summary-num" style="color:#3fb950">2</div><div class="summary-label">🔥 Rising Factors</div></div>
+<div><div class="summary-num" style="color:#f85149">2</div><div class="summary-label">⚠️ Decaying Factors</div></div>
+<div><div class="summary-num" style="color:#58a6ff">6</div><div class="summary-label">Total Factors</div></div>
+<div><div class="summary-num" style="color:#d2991d">2</div><div class="summary-label">↻ Direction Flips</div></div>
+</div>
+</div>
+
+<!-- Decay Alerts -->
+<div class="card" style="border-color:#f85149"><h2>⚠️ 因子衰退预警</h2><table><thead><tr><th>因子</th><th>全周期IC_IR</th><th>3月IC_IR</th><th>最新IC</th><th>方向</th></tr></thead><tbody><tr>
+                <td style="font-weight:500">volatility_6m</td>
+                <td>-0.4172</td>
+                <td style="color:#f85149">+0.0421</td>
+                <td style="color:#f85149">-0.0125</td>
+                <td>反向</td>
+            </tr><tr>
+                <td style="font-weight:500">min_ret_1m</td>
+                <td>+0.3877</td>
+                <td style="color:#f85149">+0.0832</td>
+                <td style="color:#f85149">-0.0867</td>
+                <td>正向</td>
+            </tr></tbody></table></div>
+
+<!-- Rising Stars -->
+<div class="card" style="border-color:#3fb950"><h2>🔥 动量上升因子 (3m IR > 全周期)</h2><table><thead><tr><th>因子</th><th>全周期IC_IR</th><th>3月IC_IR</th><th>动量提升</th><th>方向</th></tr></thead><tbody><tr>
+                <td style="font-weight:500">avg_amount_1m</td>
+                <td>-0.9645</td>
+                <td style="color:#3fb950">-4.8476</td>
+                <td style="color:#3fb950">+3.883</td>
+                <td>反向</td>
+            </tr><tr>
+                <td style="font-weight:500">illiquidity</td>
+                <td>+0.6099</td>
+                <td style="color:#3fb950">+1.2467</td>
+                <td style="color:#3fb950">+0.637</td>
+                <td>正向</td>
+            </tr></tbody></table></div>
+
+<!-- Substitute Recommendations -->
+<div class="card"><h2>🔄 替补推荐: 当 <span class="badge badge-red">avg_amount_1m</span> 衰退时</h2><table><thead><tr><th>排名</th><th>因子</th><th>3m IC_IR</th><th>全周期IC_IR</th><th>动量</th><th>类型</th></tr></thead><tbody><tr>
+                <td>1</td>
+                <td style="font-weight:500">volatility_3m</td>
+                <td style="color:#d2991d">+0.2393</td>
+                <td style="color:#d2991d">-0.4263</td>
+                <td><span class="badge badge-red">📉FALLING</span></td>
+                <td><span class="badge badge-blue">MODERATE</span></td>
+            </tr></tbody></table></div><div class="card"><h2>🔄 替补推荐: 当 <span class="badge badge-red">volatility_3m</span> 衰退时</h2><table><thead><tr><th>排名</th><th>因子</th><th>3m IC_IR</th><th>全周期IC_IR</th><th>动量</th><th>类型</th></tr></thead><tbody><tr>
+                <td>1</td>
+                <td style="font-weight:500">avg_amount_1m</td>
+                <td style="color:#3fb950">-4.8476</td>
+                <td style="color:#3fb950">-0.9645</td>
+                <td><span class="badge badge-green">🔥RISING</span></td>
+                <td><span class="badge badge-blue">STRONG</span></td>
+            </tr></tbody></table></div><div class="card"><h2>🔄 替补推荐: 当 <span class="badge badge-red">volatility_6m</span> 衰退时</h2><table><thead><tr><th>排名</th><th>因子</th><th>3m IC_IR</th><th>全周期IC_IR</th><th>动量</th><th>类型</th></tr></thead><tbody><tr>
+                <td>1</td>
+                <td style="font-weight:500">avg_amount_1m</td>
+                <td style="color:#3fb950">-4.8476</td>
+                <td style="color:#3fb950">-0.9645</td>
+                <td><span class="badge badge-green">🔥RISING</span></td>
+                <td><span class="badge badge-blue">STRONG</span></td>
+            </tr></tbody></table></div>
+
+<!-- Factor Ranking Table -->
+<div class="card">
+<h2>📊 全因子排名 (按 |全周期 IC_IR| 降序)</h2>
+<div style="max-height:600px;overflow-y:auto">
+<table>
+<thead><tr>
+  <th>因子</th><th>全周期IC</th><th>全周期IR</th><th>12m IR</th><th>6m IR</th><th>3m IR</th><th>最新IC</th><th>动量</th><th>状态</th><th>强度</th><th>方向</th>
+</tr></thead>
+<tbody>
+<tr>
+            <td style="font-weight:500">avg_amount_1m</td>
+            <td class="negative">-0.1046</td>
+            <td style="color:#3fb950">-0.9645</td>
+            <td style="color:#3fb950">-1.5602</td>
+            <td style="color:#3fb950">-1.2365</td>
+            <td style="color:#3fb950">-4.8476</td>
+            <td class="negative">-0.1790</td>
+            <td><span class="badge badge-green">🔥RISING</span></td>
+            <td></td>
+            <td><span class="badge badge-blue">STRONG</span></td>
+            <td><span class="badge badge-red">反向</span></td>
+        </tr><tr>
+            <td style="font-weight:500">illiquidity</td>
+            <td class="positive">+0.0463</td>
+            <td style="color:#3fb950">+0.6099</td>
+            <td style="color:#f85149">+0.1701</td>
+            <td style="color:#f85149">+0.0846</td>
+            <td style="color:#3fb950">+1.2467</td>
+            <td class="positive">+0.0129</td>
+            <td><span class="badge badge-green">🔥RISING</span></td>
+            <td></td>
+            <td><span class="badge badge-blue">STRONG</span></td>
+            <td><span class="badge badge-green">正向</span></td>
+        </tr><tr>
+            <td style="font-weight:500">volatility_3m</td>
+            <td class="negative">-0.0986</td>
+            <td style="color:#d2991d">-0.4263</td>
+            <td style="color:#f85149">-0.0340</td>
+            <td style="color:#d2991d">+0.2692</td>
+            <td style="color:#d2991d">+0.2393</td>
+            <td class="negative">+0.0553</td>
+            <td><span class="badge badge-red">📉FALLING</span></td>
+            <td><span class="badge badge-yellow">↻FLIP</span></td>
+            <td><span class="badge badge-blue">MODERATE</span></td>
+            <td><span class="badge badge-red">反向</span></td>
+        </tr><tr>
+            <td style="font-weight:500">volatility_6m</td>
+            <td class="negative">-0.1004</td>
+            <td style="color:#d2991d">-0.4172</td>
+            <td style="color:#f85149">-0.0542</td>
+            <td style="color:#d2991d">+0.2794</td>
+            <td style="color:#f85149">+0.0421</td>
+            <td class="negative">-0.0125</td>
+            <td><span class="badge badge-red">📉FALLING</span></td>
+            <td><span class="badge badge-red">⚠️DECAY</span></td>
+            <td><span class="badge badge-blue">MODERATE</span></td>
+            <td><span class="badge badge-red">反向</span></td>
+        </tr><tr>
+            <td style="font-weight:500">min_ret_1m</td>
+            <td class="positive">+0.0809</td>
+            <td style="color:#d2991d">+0.3877</td>
+            <td style="color:#f85149">+0.0422</td>
+            <td style="color:#d2991d">-0.2476</td>
+            <td style="color:#f85149">+0.0832</td>
+            <td class="positive">-0.0867</td>
+            <td><span class="badge badge-red">📉FALLING</span></td>
+            <td><span class="badge badge-red">⚠️DECAY</span></td>
+            <td><span class="badge badge-blue">MODERATE</span></td>
+            <td><span class="badge badge-green">正向</span></td>
+        </tr><tr>
+            <td style="font-weight:500">bb_position</td>
+            <td class="positive">+0.0449</td>
+            <td style="color:#d2991d">+0.2400</td>
+            <td style="color:#f85149">+0.1328</td>
+            <td style="color:#f85149">-0.1560</td>
+            <td style="color:#d2991d">+0.2890</td>
+            <td class="positive">-0.1089</td>
+            <td><span class="badge badge-blue">→STABLE</span></td>
+            <td></td>
+            <td><span class="badge badge-blue">MODERATE</span></td>
+            <td><span class="badge badge-green">正向</span></td>
+        </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<p style="color:#484f58;font-size:10px;text-align:center;margin-top:24px">
+  Factor Monitor v2 · Rolling windows: 3-month, 6-month, 12-month · 
+  Momentum = |3m IC_IR| - |Full IC_IR| · 
+  Rising = momentum > 0.1 · Decaying = |3m IR| < 30% of |Full IR|
+</p>
+
+</body>
+</html>

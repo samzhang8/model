@@ -1,0 +1,134 @@
+[
+  {
+    "label": "纯动量3m TOP20 +止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "纯动量3m TOP10 +止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "动量1m TOP20 +止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "趋势强度 TOP20 +止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "动量3m+趋势强度 TOP20 +止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "动量+趋势+低波 TOP20 +止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "动量+趋势 TOP30 +止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "动量+趋势 TOP20 无止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "动量+趋势 TOP20 +止损 无市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "动量+趋势 TOP20 +止损 双周调仓",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "短+中动量 TOP20 +止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  },
+  {
+    "label": "趋势强度 TOP10 +止损 +市场过滤",
+    "ann_return": 0.0,
+    "max_dd": 0.0,
+    "sharpe": 0,
+    "calmar": 0,
+    "win_rate": 0,
+    "new_high": 100.0,
+    "total_return": 0.0,
+    "years": 5.7
+  }
+]

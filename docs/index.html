@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>资产跟踪看板</title>
+<title>资产排名看板</title>
 <style>
   :root {
     --bg: #0a0e1a;
@@ -14,6 +14,8 @@
     --green: #00c853;
     --red: #ff1744;
     --blue: #2979ff;
+    --yellow: #ffd600;
+    --row-hover: #1a2238;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -23,6 +25,7 @@
     min-height: 100vh;
     padding: 20px;
   }
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -35,263 +38,293 @@
     letter-spacing: 2px;
   }
   .header h1 span { color: var(--blue); }
-  .header .clock {
-    font-size: 14px;
+  .header .meta {
+    text-align: right;
+    font-size: 12px;
     color: var(--text-dim);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    line-height: 1.6;
   }
   .status-dot {
     display: inline-block;
     width: 8px; height: 8px;
     border-radius: 50%;
     background: var(--green);
+    margin-left: 4px;
     animation: pulse 2s infinite;
   }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  .add-bar {
+  /* 排序按钮 */
+  .sort-bar {
     display: flex;
     gap: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
   }
-  .add-bar input {
+  .sort-btn {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    color: var(--text);
-    padding: 8px 14px;
+    color: var(--text-dim);
+    padding: 6px 14px;
     border-radius: 6px;
     font-family: inherit;
-    font-size: 14px;
-    outline: none;
-    width: 160px;
-  }
-  .add-bar input:focus { border-color: var(--blue); }
-  .add-bar input::placeholder { color: var(--text-dim); }
-  .add-bar button {
-    background: var(--blue);
-    color: #fff;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 14px;
+    font-size: 13px;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: all 0.2s;
   }
-  .add-bar button:hover { opacity: 0.85; }
+  .sort-btn:hover { border-color: var(--blue); color: var(--text); }
+  .sort-btn.active {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+  }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 16px;
-  }
-  .card {
+  /* 表格 */
+  .table-wrap {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 10px;
-    padding: 20px;
-    position: relative;
-    transition: border-color 0.3s;
+    overflow: hidden;
   }
-  .card:hover { border-color: var(--blue); }
-  .card .remove-btn {
-    position: absolute;
-    top: 12px; right: 12px;
-    background: none;
-    border: none;
-    color: var(--text-dim);
-    font-size: 18px;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .card:hover .remove-btn { opacity: 1; }
-  .card .remove-btn:hover { color: var(--red); }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 16px;
-  }
-  .card-name {
-    font-size: 16px;
-    font-weight: 600;
-  }
-  .card-code {
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-top: 2px;
-  }
-
-  .price-section {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-  .price {
-    font-size: 32px;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-  }
-  .change-badge {
+  table {
+    width: 100%;
+    border-collapse: collapse;
     font-size: 14px;
+  }
+  thead {
+    background: rgba(255,255,255,0.03);
+  }
+  th {
+    padding: 14px 12px;
+    text-align: right;
+    font-size: 12px;
     font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 4px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  th:hover { color: var(--text); }
+  th:first-child, td:first-child { text-align: center; width: 40px; }
+  th:nth-child(2), td:nth-child(2) { text-align: left; }
+  th:last-child, td:last-child { text-align: right; padding-right: 16px; }
+  td {
+    padding: 12px 12px;
+    text-align: right;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  tbody tr {
+    transition: background 0.15s;
+  }
+  tbody tr:hover {
+    background: var(--row-hover);
+  }
+  .rank {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dim);
+  }
+  .rank-1 { color: var(--yellow); }
+  .rank-2 { color: #c0c0c0; }
+  .rank-3 { color: #cd7f32; }
+  .asset-name {
+    font-weight: 600;
+  }
+  .asset-code {
+    font-size: 11px;
+    color: var(--text-dim);
   }
   .up { color: var(--green); }
   .down { color: var(--red); }
-  .flat { color: var(--text-dim); }
-  .change-badge.up { background: rgba(0,200,83,0.12); }
-  .change-badge.down { background: rgba(255,23,68,0.12); }
+  .neutral { color: var(--text-dim); }
 
-  .stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
+  /* 排名变化指示器 */
+  .rank-arrow {
+    font-size: 10px;
+    margin-left: 2px;
   }
-  .stat {
-    text-align: center;
-    padding: 8px 4px;
-    background: rgba(255,255,255,0.02);
-    border-radius: 6px;
-  }
-  .stat-label {
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-bottom: 4px;
-  }
-  .stat-value {
-    font-size: 14px;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .card-time {
-    margin-top: 12px;
-    font-size: 11px;
-    color: var(--text-dim);
-    text-align: right;
-  }
-
-  .empty {
-    text-align: center;
-    color: var(--text-dim);
-    padding: 60px 20px;
-    font-size: 14px;
-  }
-
-  @keyframes flash-up { 0%{background:rgba(0,200,83,0.15)} 100%{background:transparent} }
-  @keyframes flash-down { 0%{background:rgba(255,23,68,0.15)} 100%{background:transparent} }
-  .flash-up { animation: flash-up 0.6s; }
-  .flash-down { animation: flash-down 0.6s; }
 
   .footer {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 20px;
     font-size: 12px;
     color: var(--text-dim);
   }
   .footer a { color: var(--blue); text-decoration: none; }
+
+  /* 响应式 */
+  @media (max-width: 900px) {
+    th, td { padding: 8px 6px; font-size: 12px; }
+    .hide-mobile { display: none; }
+  }
+
+  /* 加载状态 */
+  .loading {
+    text-align: center;
+    padding: 60px;
+    color: var(--text-dim);
+    font-size: 16px;
+  }
+  .loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px; height: 20px;
+    border: 2px solid var(--card-border);
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  @keyframes flash-up { 0%{background:rgba(0,200,83,0.12)} 100%{background:transparent} }
+  @keyframes flash-down { 0%{background:rgba(255,23,68,0.12)} 100%{background:transparent} }
+  .flash-up { animation: flash-up 0.8s; }
+  .flash-down { animation: flash-down 0.8s; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>📊 <span>资产跟踪</span>看板</h1>
-  <div class="clock" id="clock">--:--:-- <span class="status-dot" id="status-dot"></span></div>
+  <h1>📈 <span>资产排名</span>看板</h1>
+  <div class="meta">
+    <div>数据区间: 2020-01-01 至今 <span class="status-dot" id="status-dot"></span></div>
+    <div id="update-time">--</div>
+    <div id="clock">--:--:--</div>
+  </div>
 </div>
 
-<div class="add-bar">
-  <input type="text" id="code-input" placeholder="输入代码 如 510300" maxlength="10" onkeydown="if(event.key==='Enter')addAsset()">
-  <button onclick="addAsset()">+ 添加资产</button>
+<div class="sort-bar">
+  <button class="sort-btn active" onclick="sortBy('annual_return')">年化收益率 ↓</button>
+  <button class="sort-btn" onclick="sortBy('max_drawdown')">最大回撤</button>
+  <button class="sort-btn" onclick="sortBy('sharpe')">夏普比率</button>
+  <button class="sort-btn" onclick="sortBy('calmar')">卡玛比率</button>
+  <button class="sort-btn" onclick="sortBy('avg_high_interval_days')">创新高间隔</button>
+  <button class="sort-btn" onclick="sortBy('total_return')">累计收益</button>
+  <button class="sort-btn" onclick="sortBy('annual_vol')">年化波动率</button>
 </div>
 
-<div class="grid" id="grid"></div>
+<div class="table-wrap">
+  <table id="rank-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>资产名称</th>
+        <th>现价</th>
+        <th>涨跌幅</th>
+        <th>累计收益</th>
+        <th>年化收益</th>
+        <th>最大回撤</th>
+        <th>夏普比率</th>
+        <th>卡玛比率</th>
+        <th>年化波动</th>
+        <th class="hide-mobile">创新高间隔</th>
+        <th class="hide-mobile">距新高天数</th>
+        <th class="hide-mobile">新高次数</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      <tr><td colspan="13"><div class="loading">加载历史数据中</div></td></tr>
+    </tbody>
+  </table>
+</div>
 
 <div class="footer">
-  数据来源：腾讯实时行情 · 5秒自动刷新 · 
-  <a href="https://github.com/samzhang8/model" target="_blank">GitHub Repo</a>
+  数据来源：腾讯行情 · 前复权日线 · 无风险利率2% · 252交易日/年 · 
+  <a href="https://github.com/samzhang8/model" target="_blank">GitHub</a>
 </div>
 
 <script>
 // ============================================================
-//  状态管理
+//  全局状态
 // ============================================================
-let assets = [];
-let prevPrices = {};
+let assetData = [];      // 从 metrics.json 加载的完整数据
+let sortKey = 'annual_return';
+let sortDesc = true;     // 默认降序
+let prevPrices = {};     // 用于闪烁动画
 
-function saveAssets() {
-  localStorage.setItem('tracked_assets', JSON.stringify(assets));
-}
-function loadAssets() {
+const RISK_FREE_RATE = 0.02;
+const TRADING_DAYS = 252;
+
+// ============================================================
+//  加载历史数据
+// ============================================================
+async function loadData() {
   try {
-    const saved = localStorage.getItem('tracked_assets');
-    if (saved) assets = JSON.parse(saved);
-  } catch(e) {}
-  if (!assets || !assets.length) {
-    assets = [
-      {code:'510300', name:'沪深300ETF'},
-      {code:'510500', name:'中证500ETF'},
-      {code:'511880', name:'银华日利ETF'},
-    ];
-    saveAssets();
+    // 加载预计算的 metrics.json
+    const resp = await fetch('metrics.json');
+    const raw = await resp.json();
+
+    assetData = raw.assets.map(a => ({
+      ...a,
+      currentPrice: a.end_price,  // 初始化为最新收盘价
+      currentChange: 0,
+      currentChangePct: 0,
+      livePrice: null,
+    }));
+
+    document.getElementById('update-time').textContent =
+      '历史数据更新: ' + raw.generated_at;
+
+    renderTable();
+
+    // 开始实时行情
+    startRealtimeQuotes();
+  } catch(e) {
+    document.getElementById('tbody').innerHTML =
+      '<tr><td colspan="13"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
   }
 }
 
 // ============================================================
-//  增删
-// ============================================================
-function addAsset() {
-  const input = document.getElementById('code-input');
-  let code = input.value.trim();
-  if (!code) return;
-  code = code.replace(/^(sh|sz|bj)/i, '');
-  if (assets.find(a => a.code === code)) {
-    input.value = '';
-    return;
-  }
-  assets.push({code, name: ''});
-  saveAssets();
-  input.value = '';
-  refresh();
-}
-
-function removeAsset(code) {
-  assets = assets.filter(a => a.code !== code);
-  delete prevPrices[code];
-  saveAssets();
-  refresh();
-}
-
-// ============================================================
-//  行情获取：script标签注入法（绕过CORS）
-//  腾讯接口返回 v_sh510300="..." 格式，天然是JS变量赋值
+//  实时行情
 // ============================================================
 function buildPrefix(code) {
-  // 5/6/9开头→沪市, 0/3/2开头→深市
   if (/^[569]/.test(code)) return 'sh';
   if (/^[032]/.test(code)) return 'sz';
   return 'sh';
 }
 
+function startRealtimeQuotes() {
+  // 立即获取一次
+  fetchRealtime();
+  // 每5秒刷新
+  setInterval(fetchRealtime, 5000);
+}
+
+async function fetchRealtime() {
+  const codes = assetData.map(a => a.code);
+  const quotes = await fetchQuotes(codes);
+
+  let updated = false;
+  for (const q of quotes) {
+    const asset = assetData.find(a => a.code === q.code);
+    if (!asset || q.error) continue;
+
+    asset.livePrice = q.price;
+    asset.currentChange = q.change;
+    asset.currentChangePct = q.change_pct;
+
+    // 用实时价格重算指标
+    recomputeMetrics(asset, q.price);
+    updated = true;
+  }
+
+  if (updated) {
+    renderTable();
+  }
+
+  document.getElementById('status-dot').style.background = 'var(--green)';
+}
+
+// 腾讯行情 script-tag 注入
 function fetchQuotes(codes) {
   return new Promise((resolve) => {
-    // 构建腾讯接口URL
     const queryCodes = codes.map(c => buildPrefix(c) + c);
     const url = 'https://qt.gtimg.cn/q=' + queryCodes.join(',');
-
-    // 用 JSONP-like 方式：动态创建 script 标签
-    const callbackName = '__quote_cb_' + Date.now();
     const script = document.createElement('script');
-
-    // 腾讯接口直接返回 v_xxx="..." 变量赋值
-    // 但为了安全解析，我们改用 fetch + CORS proxy 作为 fallback
-    // 先尝试 script 注入法
     let resolved = false;
 
     script.onload = function() {
@@ -304,10 +337,9 @@ function fetchQuotes(codes) {
         const raw = window[varName];
         if (raw && typeof raw === 'string') {
           results.push(parseQuote(raw, code, prefix + code));
-          // 清理全局变量
           try { delete window[varName]; } catch(e) { window[varName] = undefined; }
         } else {
-          results.push({code, error: '无数据', name: code, price: 0});
+          results.push({code, error: '无数据', price: 0, change: 0, change_pct: 0});
         }
       }
       script.remove();
@@ -318,11 +350,9 @@ function fetchQuotes(codes) {
       if (resolved) return;
       resolved = true;
       script.remove();
-      // Fallback: CORS proxy
       fetchViaProxy(codes, resolve);
     };
 
-    // 超时保护
     setTimeout(() => {
       if (!resolved) {
         resolved = true;
@@ -336,7 +366,6 @@ function fetchQuotes(codes) {
   });
 }
 
-// CORS proxy fallback
 function fetchViaProxy(codes, resolve) {
   const queryCodes = codes.map(c => buildPrefix(c) + c);
   const tencentUrl = 'https://qt.gtimg.cn/q=' + queryCodes.join(',');
@@ -354,145 +383,185 @@ function fetchViaProxy(codes, resolve) {
         if (match) {
           results.push(parseQuote(match[1], code, prefix + code));
         } else {
-          results.push({code, error: '无数据', name: code, price: 0});
+          results.push({code, error: '无数据', price: 0, change: 0, change_pct: 0});
         }
       }
       resolve(results);
     })
     .catch(() => {
-      resolve(codes.map(c => ({code: c, error: '网络错误', name: c, price: 0})));
+      resolve(codes.map(c => ({code: c, error: '网络错误', price: 0, change: 0, change_pct: 0})));
     });
 }
 
-// 解析腾讯行情字符串
 function parseQuote(raw, code, fullCode) {
   const f = raw.split('~');
-  if (f.length < 50) return {code, error: '数据不完整', name: code, price: 0};
+  if (f.length < 50) return {code, error: '数据不完整', price: 0, change: 0, change_pct: 0};
+  const sf = (i) => { try { return parseFloat(f[i]) || 0; } catch(e) { return 0; } };
+  const ss = (i) => { try { return f[i] || ''; } catch(e) { return ''; } };
 
-  const safeF = (i) => { try { return parseFloat(f[i]) || 0; } catch(e) { return 0; } };
-  const safeS = (i) => { try { return f[i] || ''; } catch(e) { return ''; } };
-
-  const price = safeF(3);
-  const prevClose = safeF(4);
+  const price = sf(3);
+  const prevClose = sf(4);
   const change = price - prevClose;
   const changePct = prevClose ? (change / prevClose * 100) : 0;
 
   return {
     code,
     full_code: fullCode,
-    name: safeS(1),
+    name: ss(1),
     price: Math.round(price * 1000) / 1000,
     prev_close: Math.round(prevClose * 1000) / 1000,
-    open: safeF(5),
-    high: safeF(33),
-    low: safeF(34),
     change: Math.round(change * 1000) / 1000,
     change_pct: Math.round(changePct * 100) / 100,
-    volume: safeF(6),
-    turnover: safeF(37),
-    amplitude: safeF(43),
-    turnover_rate: safeF(49),
-    timestamp: safeS(30),
   };
 }
 
 // ============================================================
-//  渲染
+//  用实时价格重算指标
 // ============================================================
-async function refresh() {
-  if (!assets.length) {
-    document.getElementById('grid').innerHTML = '<div class="empty">暂无跟踪资产，请在上方添加代码</div>';
-    return;
+function recomputeMetrics(asset, livePrice) {
+  // 用历史 closes 序列 + 实时价格重算
+  const closes = asset.closes.map(c => c.p);
+  const dates = asset.closes.map(c => c.d);
+
+  // 如果今天已有收盘价，替换；否则追加
+  const today = dates[dates.length - 1];
+  closes[closes.length - 1] = livePrice;  // 用实时价替换最新一天
+
+  const n = closes.length;
+  const nYears = n / TRADING_DAYS;
+
+  // 年化收益
+  const totalReturn = (closes[n-1] / closes[0]) - 1;
+  const annualReturn = (1 + totalReturn) ** (1 / nYears) - 1;
+
+  // 最大回撤
+  let peak = closes[0], maxDD = 0;
+  for (let i = 0; i < n; i++) {
+    if (closes[i] > peak) peak = closes[i];
+    const dd = (peak - closes[i]) / peak;
+    if (dd > maxDD) maxDD = dd;
   }
-  const codes = assets.map(a => a.code);
-  const quotes = await fetchQuotes(codes);
-  renderCards(quotes);
+
+  // 夏普
+  const dailyReturns = [];
+  for (let i = 1; i < n; i++) {
+    dailyReturns.push((closes[i] - closes[i-1]) / closes[i-1]);
+  }
+  const meanDR = dailyReturns.reduce((a,b) => a+b, 0) / dailyReturns.length;
+  const varDR = dailyReturns.reduce((a,b) => a + (b - meanDR)**2, 0) / (dailyReturns.length - 1);
+  const stdDR = Math.sqrt(varDR);
+  const annualVol = stdDR * Math.sqrt(TRADING_DAYS);
+  const sharpe = annualVol > 0 ? (annualReturn - RISK_FREE_RATE) / annualVol : 0;
+
+  // 卡玛
+  const calmar = maxDD > 0 ? annualReturn / maxDD : 0;
+
+  // 创新高间隔
+  let runningPeak = closes[0];
+  let lastHighIdx = 0;
+  let intervals = [];
+  for (let i = 1; i < n; i++) {
+    if (closes[i] > runningPeak) {
+      intervals.push(i - lastHighIdx);
+      lastHighIdx = i;
+      runningPeak = closes[i];
+    }
+  }
+  const avgInterval = intervals.length >= 2
+    ? intervals.slice(1).reduce((a,b) => a+b, 0) / (intervals.length - 1)
+    : n;
+  const daysSinceHigh = n - 1 - lastHighIdx;
+
+  // 更新
+  asset.total_return = Math.round(totalReturn * 10000) / 100;
+  asset.annual_return = Math.round(annualReturn * 10000) / 100;
+  asset.max_drawdown = Math.round(maxDD * 10000) / 100;
+  asset.sharpe = Math.round(sharpe * 1000) / 1000;
+  asset.calmar = Math.round(calmar * 1000) / 1000;
+  asset.annual_vol = Math.round(annualVol * 10000) / 100;
+  asset.avg_high_interval_days = Math.round(avgInterval * 10) / 10;
+  asset.days_since_high = daysSinceHigh;
+  asset.n_new_highs = intervals.length;
+  asset.currentPrice = livePrice;
 }
 
-function renderCards(quotes) {
-  const grid = document.getElementById('grid');
+// ============================================================
+//  排序 & 渲染
+// ============================================================
+function sortBy(key) {
+  if (sortKey === key) {
+    sortDesc = !sortDesc;
+  } else {
+    sortKey = key;
+    // 回撤和波动率默认升序（越小越好），其他降序
+    sortDesc = (key === 'max_drawdown' || key === 'annual_vol' || key === 'avg_high_interval_days') ? false : true;
+  }
 
-  // 更新资产名称
-  quotes.forEach(q => {
-    if (q.name) {
-      const a = assets.find(a => a.code === q.code);
-      if (a) a.name = q.name;
+  // 更新按钮状态
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.classList.remove('active');
+    const btnKey = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+    if (btnKey === key) {
+      btn.classList.add('active');
+      btn.textContent = btn.textContent.replace(/ [↑↓]$/, '') + (sortDesc ? ' ↓' : ' ↑');
+    } else {
+      btn.textContent = btn.textContent.replace(/ [↑↓]$/, '');
     }
   });
-  saveAssets();
 
-  grid.innerHTML = quotes.map(q => {
-    if (q.error) {
-      return `<div class="card">
-        <button class="remove-btn" onclick="removeAsset('${q.code}')">✕</button>
-        <div class="card-name">${q.name || q.code}</div>
-        <div class="card-code">${q.code}</div>
-        <div style="color:var(--red);margin-top:12px">${q.error}</div>
-      </div>`;
-    }
+  renderTable();
+}
 
-    const cls = q.change > 0 ? 'up' : q.change < 0 ? 'down' : 'flat';
-    const arrow = q.change > 0 ? '▲' : q.change < 0 ? '▼' : '—';
+function renderTable() {
+  // 排序
+  const sorted = [...assetData].sort((a, b) => {
+    let va = a[sortKey], vb = b[sortKey];
+    if (typeof va === 'string') va = parseFloat(va);
+    if (typeof vb === 'string') vb = parseFloat(vb);
+    return sortDesc ? vb - va : va - vb;
+  });
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = sorted.map((a, i) => {
+    const rank = i + 1;
+    const rankClass = rank <= 3 ? `rank-${rank}` : '';
+    const price = a.currentPrice;
+    const changeCls = a.currentChangePct > 0 ? 'up' : a.currentChangePct < 0 ? 'down' : 'neutral';
+    const changeArrow = a.currentChangePct > 0 ? '▲' : a.currentChangePct < 0 ? '▼' : '—';
 
     // 闪烁效果
-    const prev = prevPrices[q.code];
+    const prev = prevPrices[a.code];
     let flash = '';
-    if (prev !== undefined && prev !== q.price) {
-      flash = q.price > prev ? 'flash-up' : 'flash-down';
+    if (prev !== undefined && prev !== price) {
+      flash = price > prev ? 'flash-up' : 'flash-down';
     }
-    prevPrices[q.code] = q.price;
+    prevPrices[a.code] = price;
 
-    // 格式化时间
-    let timeStr = q.timestamp || '--';
-    if (timeStr.length === 14) {
-      timeStr = timeStr.slice(0,4)+'-'+timeStr.slice(4,6)+'-'+timeStr.slice(6,8)+' '+
-                timeStr.slice(8,10)+':'+timeStr.slice(10,12)+':'+timeStr.slice(12,14);
-    }
+    // 指标颜色
+    const retCls = a.annual_return >= 0 ? 'up' : 'down';
+    const ddCls = a.max_drawdown > 20 ? 'down' : a.max_drawdown > 10 ? '' : 'up';
+    const sharpeCls = a.sharpe >= 1 ? 'up' : a.sharpe >= 0 ? '' : 'down';
+    const calmarCls = a.calmar >= 1 ? 'up' : a.calmar >= 0 ? '' : 'down';
 
-    return `
-    <div class="card ${flash}">
-      <button class="remove-btn" onclick="removeAsset('${q.code}')">✕</button>
-      <div class="card-header">
-        <div>
-          <div class="card-name">${q.name || q.code}</div>
-          <div class="card-code">${q.full_code || q.code}</div>
-        </div>
-      </div>
-      <div class="price-section">
-        <div class="price ${cls}">${q.price.toFixed(3)}</div>
-        <div class="change-badge ${cls}">${arrow} ${q.change.toFixed(3)} (${q.change_pct.toFixed(2)}%)</div>
-      </div>
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-label">今开</div>
-          <div class="stat-value">${q.open.toFixed(3)}</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">最高</div>
-          <div class="stat-value up">${q.high.toFixed(3)}</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">最低</div>
-          <div class="stat-value down">${q.low.toFixed(3)}</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">成交量(万手)</div>
-          <div class="stat-value">${(q.volume/10000).toFixed(1)}</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">换手率</div>
-          <div class="stat-value">${q.turnover_rate.toFixed(2)}%</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">振幅</div>
-          <div class="stat-value">${q.amplitude.toFixed(2)}%</div>
-        </div>
-      </div>
-      <div class="card-time">${timeStr}</div>
-    </div>`;
+    return `<tr class="${flash}">
+      <td><span class="rank ${rankClass}">${rank}</span></td>
+      <td>
+        <div class="asset-name">${a.name}</div>
+        <div class="asset-code">${a.code}</div>
+      </td>
+      <td class="${changeCls}" style="font-weight:700;font-size:15px">${price.toFixed(3)}</td>
+      <td class="${changeCls}">${changeArrow} ${a.currentChangePct.toFixed(2)}%</td>
+      <td class="${retCls}">${a.total_return.toFixed(1)}%</td>
+      <td class="${retCls}" style="font-weight:600">${a.annual_return.toFixed(1)}%</td>
+      <td class="${ddCls}">-${a.max_drawdown.toFixed(1)}%</td>
+      <td class="${sharpeCls}">${a.sharpe.toFixed(2)}</td>
+      <td class="${calmarCls}">${a.calmar.toFixed(2)}</td>
+      <td>${a.annual_vol.toFixed(1)}%</td>
+      <td class="hide-mobile">${a.avg_high_interval_days.toFixed(0)}天</td>
+      <td class="hide-mobile">${a.days_since_high}天</td>
+      <td class="hide-mobile">${a.n_new_highs}</td>
+    </tr>`;
   }).join('');
-
-  document.getElementById('status-dot').style.background = 'var(--green)';
 }
 
 // ============================================================
@@ -503,16 +572,14 @@ function updateClock() {
   const h = String(now.getHours()).padStart(2,'0');
   const m = String(now.getMinutes()).padStart(2,'0');
   const s = String(now.getSeconds()).padStart(2,'0');
-  document.getElementById('clock').innerHTML = `${h}:${m}:${s} <span class="status-dot" id="status-dot"></span>`;
+  document.getElementById('clock').textContent = `${h}:${m}:${s}`;
 }
 
 // ============================================================
 //  启动
 // ============================================================
-loadAssets();
-refresh();
+loadData();
 updateClock();
-setInterval(refresh, 5000);
 setInterval(updateClock, 1000);
 </script>
 </body>

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
 资产排名看板 - 数据生成器
-拉取2020-01-01至今的历史日线数据，计算5项指标，输出JSON供前端加载
+拉取2020-01-01至今的历史日线数据，计算指标，输出JSON供前端加载
 
 指标：
 1. 年化收益率
 2. 最大回撤
 3. 夏普比率 (无风险利率2%)
 4. 卡玛比率 (年化收益/最大回撤)
-5. 创新高间隔天数 (距上次历史新高的天数)
+5. 创新高最长天数 (两次创新高之间的最长间隔)
 """
 
 import urllib.request
@@ -56,7 +56,7 @@ ASSETS = [
     {"code": "511010", "prefix": "sh", "name": "国债ETF"},
 ]
 
-RISK_FREE_RATE = 0.02  # 无风险利率2%（约等于中国10年期国债）
+RISK_FREE_RATE = 0.02
 TRADING_DAYS_PER_YEAR = 252
 
 
@@ -91,21 +91,13 @@ def fetch_history(symbol: str, prefix: str) -> list:
         if date not in seen:
             seen.add(date)
             unique.append(bar)
-
-    # bar格式: [date, open, close, high, low, volume]
     return unique
-
-
 
 
 def fetch_crypto_history(symbol: str) -> list:
     """从Binance公共API拉取加密货币历史日线 (USD计价)"""
-    # Binance symbol mapping
     binance_symbol = {"BTC": "BTCUSDT", "ETH": "ETHUSDT", "TRX": "TRXUSDT"}[symbol]
     all_bars = []
-    
-    # Binance klines: 每次最多1000条，分多次拉取
-    # 从2020-01-01开始，每1000条约4年
     import time
     
     end_time = int(time.time() * 1000)
@@ -118,21 +110,18 @@ def fetch_crypto_history(symbol: str) -> list:
                 klines = json.loads(resp.read())
                 if not klines:
                     break
-                # Binance format: [open_time, open, high, low, close, volume, ...]
                 for k in klines:
                     ts = k[0] / 1000
                     from datetime import datetime as dt
                     date_str = dt.utcfromtimestamp(ts).strftime("%Y-%m-%d")
-                    price = str(float(k[4]))  # close price
-                    # 腾讯格式: [date, open, close, high, low, volume]
+                    price = str(float(k[4]))
                     all_bars.append([date_str, str(float(k[1])), price, str(float(k[2])), str(float(k[3])), str(float(k[5]))])
-                end_time = klines[0][0] - 86400000  # 前一天
+                end_time = klines[0][0] - 86400000
         except Exception as e:
             print(f"  Binance error for {symbol}: {e}", file=sys.stderr)
             break
         time.sleep(0.5)
     
-    # 按日期排序去重
     seen = set()
     unique = []
     for bar in all_bars:
@@ -140,20 +129,17 @@ def fetch_crypto_history(symbol: str) -> list:
         if date not in seen:
             seen.add(date)
             unique.append(bar)
-    
     unique.sort(key=lambda x: x[0])
     return unique
 
 
 def compute_metrics(bars: list, code: str, name: str) -> dict:
-    """计算5项指标"""
+    """计算各项指标"""
     if len(bars) < 2:
         return {"code": code, "name": name, "error": "数据不足"}
 
-    # 提取收盘价序列
     dates = [bar[0] for bar in bars]
     closes = [float(bar[2]) for bar in bars]
-
     n_days = len(closes)
     n_years = n_days / TRADING_DAYS_PER_YEAR
 
@@ -192,23 +178,25 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
     # ---- 4. 卡玛比率 ----
     calmar = annual_return / max_drawdown if max_drawdown > 0 else 0
 
-    # ---- 5. 创新高间隔天数 & 新高统计 ----
+    # ---- 5. 创新高最长天数 ----
+    # 追踪每次创新高，计算相邻间隔（含最后一次新高到今天），取最大值
     running_peak = closes[0]
-    new_high_count = 0
-    last_high_idx = 0
+    high_indices = [0]  # 起点也算一个参考点
 
     for i in range(1, n_days):
         if closes[i] > running_peak:
-            new_high_count += 1
-            last_high_idx = i
+            high_indices.append(i)
             running_peak = closes[i]
 
-    # 平均创新高间隔 = 总交易日数 / 新高次数
-    # 这个公式涵盖全部时间跨度，不会因为最后一次新高尚在遥远过去而失真
-    avg_high_interval = n_days / new_high_count if new_high_count > 0 else n_days
+    # 最后一次新高到今天的间隔
+    high_indices.append(n_days - 1)
 
-    # 距上次创新高的交易日数
-    days_since_high = n_days - 1 - last_high_idx if new_high_count > 0 else n_days - 1
+    # 计算所有相邻间隔，取最长
+    max_high_gap = 0
+    for i in range(1, len(high_indices)):
+        gap = high_indices[i] - high_indices[i-1]
+        if gap > max_high_gap:
+            max_high_gap = gap
 
     return {
         "code": code,
@@ -226,12 +214,8 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
         "sharpe": round(sharpe, 3),
         "calmar": round(calmar, 3),
         "annual_vol": round(annual_vol * 100, 2),
-        "avg_high_interval_days": round(avg_high_interval, 1),
-        "days_since_high": days_since_high,
-        "n_new_highs": new_high_count,
-        # 1万元初始投资至今的总金额
+        "max_high_gap_days": max_high_gap,
         "total_value_10k": round(10000 * (1 + total_return), 0),
-        # 保留收盘价序列供前端实时更新用
         "closes": [{"d": dates[i], "p": round(closes[i], 3)} for i in range(n_days)],
     }
 
@@ -249,9 +233,8 @@ def main():
         print(f"{len(bars)}个交易日")
         metrics = compute_metrics(bars, asset["code"], asset["name"])
         results.append(metrics)
-        print(f"    年化: {metrics['annual_return']}%  回撤: {metrics['max_drawdown']}%  夏普: {metrics['sharpe']}  卡玛: {metrics['calmar']}  新高间隔: {metrics['avg_high_interval_days']}天  1万→{metrics['total_value_10k']:.0f}元")
+        print(f"    年化: {metrics['annual_return']}%  回撤: {metrics['max_drawdown']}%  夏普: {metrics['sharpe']}  卡玛: {metrics['calmar']}  新高最长间隔: {metrics['max_high_gap_days']}天  1万→{metrics['total_value_10k']:.0f}元")
 
-    # 输出JSON
     output = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "risk_free_rate": RISK_FREE_RATE,
@@ -259,7 +242,6 @@ def main():
         "assets": results,
     }
 
-    # 写入文件
     output_path = "/opt/quant/docs/metrics.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False)
@@ -267,10 +249,9 @@ def main():
     print(f"\n✅ 数据已写入 {output_path}")
     print(f"   {len(results)} 个资产, 生成时间: {output['generated_at']}")
 
-    # 打印排名表
     print("\n📈 年化收益率排名:")
     for i, a in enumerate(sorted(results, key=lambda x: x["annual_return"], reverse=True)):
-        print(f"  {i+1}. {a['name']:<12} 年化{a['annual_return']:>6.1f}%  回撤{a['max_drawdown']:>6.1f}%  夏普{a['sharpe']:>5.2f}  卡玛{a['calmar']:>5.2f}  新高间隔{a['avg_high_interval_days']:>5.1f}天")
+        print(f"  {i+1}. {a['name']:<12} 年化{a['annual_return']:>6.1f}%  回撤{a['max_drawdown']:>6.1f}%  夏普{a['sharpe']:>5.2f}  卡玛{a['calmar']:>5.2f}  最长无新高{a['max_high_gap_days']:>4.0f}天")
 
 
 if __name__ == "__main__":

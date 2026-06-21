@@ -132,7 +132,7 @@
   <button class="sort-btn" onclick="sortBy('sharpe')">夏普比率</button>
   <button class="sort-btn" onclick="sortBy('calmar')">卡玛比率</button>
   <button class="sort-btn" onclick="sortBy('total_value_10k')">1万→总额</button>
-  <button class="sort-btn" onclick="sortBy('avg_high_interval_days')">创新高间隔</button>
+  <button class="sort-btn" onclick="sortBy('max_high_gap_days')">最长无新高</button>
   <button class="sort-btn" onclick="sortBy('total_return')">累计收益</button>
   <button class="sort-btn" onclick="sortBy('annual_vol')">年化波动率</button>
 </div>
@@ -152,13 +152,11 @@
         <th>卡玛比率</th>
         <th>年化波动</th>
         <th>1万→总额</th>
-        <th class="hide-mobile">创新高间隔</th>
-        <th class="hide-mobile">距新高天数</th>
-        <th class="hide-mobile">新高次数</th>
+        <th class="hide-mobile">最长无新高</th>
       </tr>
     </thead>
     <tbody id="tbody">
-      <tr><td colspan="14"><div class="loading">加载历史数据中</div></td></tr>
+      <tr><td colspan="12"><div class="loading">加载历史数据中</div></td></tr>
     </tbody>
   </table>
 </div>
@@ -209,7 +207,7 @@ async function loadData() {
     startRealtimeQuotes();
   } catch(e) {
     document.getElementById('tbody').innerHTML =
-      '<tr><td colspan="14"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
+      '<tr><td colspan="12"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
   }
 }
 
@@ -314,17 +312,18 @@ function recomputeMetrics(asset, livePrice) {
   const stdDR = Math.sqrt(varDR), annualVol = stdDR * Math.sqrt(TRADING_DAYS);
   const sharpe = annualVol > 0 ? (annualReturn - RISK_FREE_RATE) / annualVol : 0;
   const calmar = maxDD > 0 ? annualReturn / maxDD : 0;
-  let runningPeak = closes[0], newHighCount = 0, lastHighIdx = 0;
-  for (let i = 1; i < n; i++) { if (closes[i] > runningPeak) { newHighCount++; lastHighIdx = i; runningPeak = closes[i]; } }
+  let runningPeak = closes[0], highIndices = [0];
+  for (let i = 1; i < n; i++) { if (closes[i] > runningPeak) { highIndices.push(i); runningPeak = closes[i]; } }
+  highIndices.push(n - 1);
+  let maxHighGap = 0;
+  for (let i = 1; i < highIndices.length; i++) { const gap = highIndices[i] - highIndices[i-1]; if (gap > maxHighGap) maxHighGap = gap; }
   asset.total_return = Math.round(totalReturn*10000)/100;
   asset.annual_return = Math.round(annualReturn*10000)/100;
   asset.max_drawdown = Math.round(maxDD*10000)/100;
   asset.sharpe = Math.round(sharpe*1000)/1000;
   asset.calmar = Math.round(calmar*1000)/1000;
   asset.annual_vol = Math.round(annualVol*10000)/100;
-  asset.avg_high_interval_days = Math.round((newHighCount>0 ? n/newHighCount : n)*10)/10;
-  asset.days_since_high = newHighCount > 0 ? n - 1 - lastHighIdx : n - 1;
-  asset.n_new_highs = newHighCount;
+  asset.max_high_gap_days = maxHighGap;
   asset.total_value_10k = Math.round(10000 * (1 + totalReturn));
   asset.currentPrice = livePrice;
 }
@@ -332,7 +331,7 @@ function recomputeMetrics(asset, livePrice) {
 // ========== 排序 & 渲染 ==========
 function sortBy(key) {
   if (sortKey === key) { sortDesc = !sortDesc; }
-  else { sortKey = key; sortDesc = (key === 'max_drawdown' || key === 'annual_vol' || key === 'avg_high_interval_days') ? false : true; }
+  else { sortKey = key; sortDesc = (key === 'max_drawdown' || key === 'annual_vol' || key === 'max_high_gap_days') ? false : true; }
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.classList.remove('active');
     const btnKey = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
@@ -376,9 +375,7 @@ function renderTable() {
       '<td class="' + calmarCls + '">' + a.calmar.toFixed(2) + '</td>' +
       '<td>' + a.annual_vol.toFixed(1) + '%</td>' +
       '<td style="font-weight:600">' + currency + a.total_value_10k.toLocaleString() + '</td>' +
-      '<td class="hide-mobile">' + a.avg_high_interval_days.toFixed(0) + '天</td>' +
-      '<td class="hide-mobile">' + a.days_since_high + '天</td>' +
-      '<td class="hide-mobile">' + a.n_new_highs + '</td></tr>';
+      '<td class="hide-mobile">' + a.max_high_gap_days + '天</td></tr>';
   }).join('');
 }
 

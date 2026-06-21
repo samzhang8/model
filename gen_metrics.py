@@ -18,9 +18,19 @@ import sys
 from datetime import datetime
 
 ASSETS = [
+    # ETF
     {"code": "510300", "prefix": "sh", "name": "沪深300ETF"},
     {"code": "510500", "prefix": "sh", "name": "中证500ETF"},
     {"code": "511880", "prefix": "sh", "name": "银华日利ETF"},
+    {"code": "515980", "prefix": "sh", "name": "机器人ETF"},
+    {"code": "159552", "prefix": "sz", "name": "中证2000增强ETF"},
+    {"code": "518850", "prefix": "sh", "name": "黄金股票ETF"},
+    # 个股
+    {"code": "600519", "prefix": "sh", "name": "贵州茅台"},
+    # 加密货币 (USD计价，CoinGecko)
+    {"code": "BTC", "prefix": "crypto", "name": "比特币"},
+    {"code": "ETH", "prefix": "crypto", "name": "以太坊"},
+    {"code": "TRX", "prefix": "crypto", "name": "波场"},
 ]
 
 RISK_FREE_RATE = 0.02  # 无风险利率2%（约等于中国10年期国债）
@@ -29,6 +39,9 @@ TRADING_DAYS_PER_YEAR = 252
 
 def fetch_history(symbol: str, prefix: str) -> list:
     """分3段拉取2020-01-01至今的前复权日线数据"""
+    if prefix == "crypto":
+        return fetch_crypto_history(symbol)
+    
     chunks = [
         ("2020-01-01", "2021-12-31"),
         ("2022-01-01", "2023-12-31"),
@@ -41,7 +54,8 @@ def fetch_history(symbol: str, prefix: str) -> list:
         try:
             with urllib.request.urlopen(req, timeout=15) as resp:
                 data = json.loads(resp.read())
-                bars = data.get("data", {}).get(f"{prefix}{symbol}", {}).get("qfqday", [])
+                stock_data = data.get("data", {}).get(f"{prefix}{symbol}", {})
+                bars = stock_data.get("qfqday") or stock_data.get("day") or []
                 all_bars.extend(bars)
         except Exception as e:
             print(f"  Error fetching {symbol} {start}-{end}: {e}", file=sys.stderr)
@@ -56,6 +70,55 @@ def fetch_history(symbol: str, prefix: str) -> list:
             unique.append(bar)
 
     # bar格式: [date, open, close, high, low, volume]
+    return unique
+
+
+
+
+def fetch_crypto_history(symbol: str) -> list:
+    """从Binance公共API拉取加密货币历史日线 (USD计价)"""
+    # Binance symbol mapping
+    binance_symbol = {"BTC": "BTCUSDT", "ETH": "ETHUSDT", "TRX": "TRXUSDT"}[symbol]
+    all_bars = []
+    
+    # Binance klines: 每次最多1000条，分多次拉取
+    # 从2020-01-01开始，每1000条约4年
+    import time
+    
+    end_time = int(time.time() * 1000)
+    
+    while len(all_bars) < 2500 and end_time > 0:
+        url = f"https://api.binance.com/api/v3/klines?symbol={binance_symbol}&interval=1d&limit=1000&endTime={end_time}"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                klines = json.loads(resp.read())
+                if not klines:
+                    break
+                # Binance format: [open_time, open, high, low, close, volume, ...]
+                for k in klines:
+                    ts = k[0] / 1000
+                    from datetime import datetime as dt
+                    date_str = dt.utcfromtimestamp(ts).strftime("%Y-%m-%d")
+                    price = str(float(k[4]))  # close price
+                    # 腾讯格式: [date, open, close, high, low, volume]
+                    all_bars.append([date_str, str(float(k[1])), price, str(float(k[2])), str(float(k[3])), str(float(k[5]))])
+                end_time = klines[0][0] - 86400000  # 前一天
+        except Exception as e:
+            print(f"  Binance error for {symbol}: {e}", file=sys.stderr)
+            break
+        time.sleep(0.5)
+    
+    # 按日期排序去重
+    seen = set()
+    unique = []
+    for bar in all_bars:
+        date = bar[0]
+        if date not in seen:
+            seen.add(date)
+            unique.append(bar)
+    
+    unique.sort(key=lambda x: x[0])
     return unique
 
 

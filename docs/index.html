@@ -265,6 +265,7 @@ async function loadData() {
       currentChange: 0,
       currentChangePct: 0,
       livePrice: null,
+      is_crypto: isCrypto(a.code),
       total_value_10k: a.total_value_10k || Math.round(10000 * (1 + a.total_return / 100)),
     }));
 
@@ -290,40 +291,74 @@ function buildPrefix(code) {
   return 'sh';
 }
 
+function isCrypto(code) {
+  return code === 'BTC' || code === 'ETH' || code === 'TRX';
+}
+
 function startRealtimeQuotes() {
   // 立即获取一次
   fetchRealtime();
-  // 每5秒刷新
-  setInterval(fetchRealtime, 5000);
+  // 每10秒刷新（加入crypto后频率降低）
+  setInterval(fetchRealtime, 10000);
 }
 
 async function fetchRealtime() {
-  const codes = assetData.map(a => a.code);
-  const quotes = await fetchQuotes(codes);
+  // A-share: 腾讯行情
+  const aCodes = assetData.filter(a => !isCrypto(a.code)).map(a => a.code);
+  // Crypto: Binance
+  const cryptoCodes = assetData.filter(a => isCrypto(a.code)).map(a => a.code);
+
+  const results = [];
+  if (aCodes.length > 0) {
+    const aQuotes = await fetchAQuotes(aCodes);
+    results.push(...aQuotes);
+  }
+  if (cryptoCodes.length > 0) {
+    const cQuotes = await fetchCryptoQuotes(cryptoCodes);
+    results.push(...cQuotes);
+  }
 
   let updated = false;
-  for (const q of quotes) {
+  for (const q of results) {
     const asset = assetData.find(a => a.code === q.code);
     if (!asset || q.error) continue;
-
     asset.livePrice = q.price;
     asset.currentChange = q.change;
     asset.currentChangePct = q.change_pct;
-
-    // 用实时价格重算指标
     recomputeMetrics(asset, q.price);
     updated = true;
   }
-
-  if (updated) {
-    renderTable();
-  }
-
+  if (updated) renderTable();
   document.getElementById('status-dot').style.background = 'var(--green)';
 }
 
-// 腾讯行情 script-tag 注入
-function fetchQuotes(codes) {
+// Crypto: Binance 24hr ticker
+async function fetchCryptoQuotes(codes) {
+  const symbolMap = {'BTC':'BTCUSDT','ETH':'ETHUSDT','TRX':'TRXUSDT'};
+  const symbols = JSON.stringify(codes.map(c => symbolMap[c] || c));
+  try {
+    const resp = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbols=${symbols}`);
+    const data = await resp.json();
+    return data.map(d => {
+      const code = Object.keys(symbolMap).find(k => symbolMap[k] === d.symbol) || d.symbol;
+      const price = parseFloat(d.lastPrice);
+      const prevClose = parseFloat(d.prevClosePrice);
+      const change = price - prevClose;
+      const changePct = prevClose ? (change / prevClose * 100) : 0;
+      return {
+        code, price: Math.round(price * 1e6) / 1e6,
+        prev_close: prevClose,
+        change: Math.round(change * 1e6) / 1e6,
+        change_pct: Math.round(changePct * 100) / 100,
+      };
+    });
+  } catch(e) {
+    return codes.map(c => ({code: c, error: e.message, price: 0, change: 0, change_pct: 0}));
+  }
+}
+
+// A-share: 腾讯 script-tag 注入
+function fetchAQuotes(codes) {
   return new Promise((resolve) => {
     const queryCodes = codes.map(c => buildPrefix(c) + c);
     const url = 'https://qt.gtimg.cn/q=' + queryCodes.join(',');
@@ -531,6 +566,10 @@ function renderTable() {
     const rank = i + 1;
     const rankClass = rank <= 3 ? `rank-${rank}` : '';
     const price = a.currentPrice;
+    const currency = a.is_crypto ? '$' : '¥';
+    const priceDecimals = a.is_crypto ? (price > 1000 ? 0 : price > 1 ? 2 : 6) : 3;
+    const priceDisplay = currency + (a.is_crypto ? price.toLocaleString('en-US', {minimumFractionDigits: priceDecimals, maximumFractionDigits: priceDecimals}) : price.toFixed(priceDecimals));
+    
     const changeCls = a.currentChangePct > 0 ? 'up' : a.currentChangePct < 0 ? 'down' : 'neutral';
     const changeArrow = a.currentChangePct > 0 ? '▲' : a.currentChangePct < 0 ? '▼' : '—';
 
@@ -554,7 +593,7 @@ function renderTable() {
         <div class="asset-name">${a.name}</div>
         <div class="asset-code">${a.code}</div>
       </td>
-      <td class="${changeCls}" style="font-weight:700;font-size:15px">${price.toFixed(3)}</td>
+      <td class="${changeCls}" style="font-weight:700;font-size:15px">${priceDisplay}</td>
       <td class="${changeCls}">${changeArrow} ${a.currentChangePct.toFixed(2)}%</td>
       <td class="${retCls}">${a.total_return.toFixed(1)}%</td>
       <td class="${retCls}" style="font-weight:600">${a.annual_return.toFixed(1)}%</td>

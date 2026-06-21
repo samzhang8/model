@@ -18,19 +18,42 @@ import sys
 from datetime import datetime
 
 ASSETS = [
-    # ETF
+    # === 原有 ===
     {"code": "510300", "prefix": "sh", "name": "沪深300ETF"},
     {"code": "510500", "prefix": "sh", "name": "中证500ETF"},
     {"code": "511880", "prefix": "sh", "name": "银华日利ETF"},
     {"code": "515980", "prefix": "sh", "name": "机器人ETF"},
     {"code": "159552", "prefix": "sz", "name": "中证2000增强ETF"},
     {"code": "518850", "prefix": "sh", "name": "黄金股票ETF"},
-    # 个股
     {"code": "600519", "prefix": "sh", "name": "贵州茅台"},
-    # 加密货币 (USD计价，CoinGecko)
     {"code": "BTC", "prefix": "crypto", "name": "比特币"},
     {"code": "ETH", "prefix": "crypto", "name": "以太坊"},
     {"code": "TRX", "prefix": "crypto", "name": "波场"},
+    # === 宽基指数 ===
+    {"code": "159915", "prefix": "sz", "name": "创业板ETF"},
+    {"code": "159949", "prefix": "sz", "name": "创业板50"},
+    {"code": "588000", "prefix": "sh", "name": "科创50ETF"},
+    {"code": "510050", "prefix": "sh", "name": "上证50ETF"},
+    # === 国际指数 ===
+    {"code": "513100", "prefix": "sh", "name": "纳指ETF"},
+    {"code": "513500", "prefix": "sh", "name": "标普500ETF"},
+    {"code": "159920", "prefix": "sz", "name": "恒生ETF"},
+    {"code": "513030", "prefix": "sh", "name": "德国30ETF"},
+    # === 行业板块 ===
+    {"code": "512880", "prefix": "sh", "name": "证券ETF"},
+    {"code": "512010", "prefix": "sh", "name": "医药ETF"},
+    {"code": "512660", "prefix": "sh", "name": "军工ETF"},
+    {"code": "512480", "prefix": "sh", "name": "半导体ETF"},
+    {"code": "512690", "prefix": "sh", "name": "酒ETF"},
+    {"code": "515050", "prefix": "sh", "name": "5GETF"},
+    # === 风格策略 ===
+    {"code": "510880", "prefix": "sh", "name": "红利ETF"},
+    {"code": "513050", "prefix": "sh", "name": "中概互联"},
+    # === 商品 ===
+    {"code": "518880", "prefix": "sh", "name": "黄金ETF"},
+    {"code": "159980", "prefix": "sz", "name": "有色ETF"},
+    # === 债券 ===
+    {"code": "511010", "prefix": "sh", "name": "国债ETF"},
 ]
 
 RISK_FREE_RATE = 0.02  # 无风险利率2%（约等于中国10年期国债）

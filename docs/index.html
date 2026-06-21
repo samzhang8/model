@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>资产排名看板</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
   :root {
     --bg: #0a0e1a;
@@ -32,153 +33,82 @@
     align-items: center;
     margin-bottom: 24px;
   }
-  .header h1 {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: 2px;
-  }
+  .header h1 { font-size: 22px; font-weight: 600; letter-spacing: 2px; }
   .header h1 span { color: var(--blue); }
-  .header .meta {
-    text-align: right;
-    font-size: 12px;
-    color: var(--text-dim);
-    line-height: 1.6;
-  }
+  .header .meta { text-align: right; font-size: 12px; color: var(--text-dim); line-height: 1.6; }
   .status-dot {
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    margin-left: 4px;
-    animation: pulse 2s infinite;
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green); margin-left: 4px; animation: pulse 2s infinite;
   }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  /* 排序按钮 */
-  .sort-bar {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-  }
+  .sort-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
   .sort-btn {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    color: var(--text-dim);
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    color: var(--text-dim); padding: 6px 14px; border-radius: 6px;
+    font-family: inherit; font-size: 13px; cursor: pointer; transition: all 0.2s;
   }
   .sort-btn:hover { border-color: var(--blue); color: var(--text); }
-  .sort-btn.active {
-    background: var(--blue);
-    border-color: var(--blue);
-    color: #fff;
-  }
+  .sort-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
 
-  /* 表格 */
-  .table-wrap {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-  }
-  thead {
-    background: rgba(255,255,255,0.03);
-  }
+  .table-wrap { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead { background: rgba(255,255,255,0.03); }
   th {
-    padding: 14px 12px;
-    text-align: right;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-dim);
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    cursor: pointer;
-    user-select: none;
+    padding: 14px 12px; text-align: right; font-size: 12px; font-weight: 600;
+    color: var(--text-dim); letter-spacing: 0.5px; white-space: nowrap; cursor: pointer; user-select: none;
   }
   th:hover { color: var(--text); }
   th:first-child, td:first-child { text-align: center; width: 40px; }
   th:nth-child(2), td:nth-child(2) { text-align: left; }
   th:last-child, td:last-child { text-align: right; padding-right: 16px; }
   td {
-    padding: 12px 12px;
-    text-align: right;
-    border-top: 1px solid rgba(255,255,255,0.04);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
+    padding: 12px 12px; text-align: right; border-top: 1px solid rgba(255,255,255,0.04);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
   }
-  tbody tr {
-    transition: background 0.15s;
-  }
-  tbody tr:hover {
-    background: var(--row-hover);
-  }
-  .rank {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-dim);
-  }
+  tbody tr { transition: background 0.15s; cursor: pointer; }
+  tbody tr:hover { background: var(--row-hover); }
+  .rank { font-size: 16px; font-weight: 700; color: var(--text-dim); }
   .rank-1 { color: var(--yellow); }
   .rank-2 { color: #c0c0c0; }
   .rank-3 { color: #cd7f32; }
-  .asset-name {
-    font-weight: 600;
-  }
-  .asset-code {
-    font-size: 11px;
-    color: var(--text-dim);
-  }
+  .asset-name { font-weight: 600; }
+  .asset-code { font-size: 11px; color: var(--text-dim); }
   .up { color: var(--green); }
   .down { color: var(--red); }
   .neutral { color: var(--text-dim); }
 
-  /* 排名变化指示器 */
-  .rank-arrow {
-    font-size: 10px;
-    margin-left: 2px;
+  /* 图表弹窗 */
+  .chart-overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85); z-index: 1000;
+    justify-content: center; align-items: center;
   }
+  .chart-overlay.active { display: flex; }
+  .chart-modal {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 12px; padding: 24px; width: 90vw;
+    max-width: 1000px; max-height: 85vh; position: relative;
+  }
+  .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .chart-title { font-size: 18px; font-weight: 700; }
+  .chart-title .code { color: var(--text-dim); font-size: 13px; margin-left: 8px; }
+  .chart-close {
+    background: none; border: 1px solid var(--card-border);
+    color: var(--text-dim); font-size: 20px; cursor: pointer;
+    width: 36px; height: 36px; border-radius: 8px; transition: all 0.2s;
+  }
+  .chart-close:hover { border-color: var(--red); color: var(--red); }
+  .chart-stats { display: flex; gap: 24px; margin-bottom: 16px; font-size: 13px; flex-wrap: wrap; }
+  .chart-stat { display: flex; flex-direction: column; }
+  .chart-stat .label { color: var(--text-dim); font-size: 11px; }
+  .chart-stat .value { font-weight: 600; font-size: 15px; }
+  .chart-container { position: relative; height: 380px; }
+  canvas { width: 100% !important; }
 
-  .footer {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 12px;
-    color: var(--text-dim);
-  }
+  .footer { text-align: center; margin-top: 20px; font-size: 12px; color: var(--text-dim); }
   .footer a { color: var(--blue); text-decoration: none; }
 
-  /* 响应式 */
-  @media (max-width: 900px) {
-    th, td { padding: 8px 6px; font-size: 12px; }
-    .hide-mobile { display: none; }
-  }
-
-  /* 加载状态 */
-  .loading {
-    text-align: center;
-    padding: 60px;
-    color: var(--text-dim);
-    font-size: 16px;
-  }
-  .loading::after {
-    content: '';
-    display: inline-block;
-    width: 20px; height: 20px;
-    border: 2px solid var(--card-border);
-    border-top-color: var(--blue);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin-left: 10px;
-    vertical-align: middle;
-  }
   @keyframes flash-up { 0%{background:rgba(0,200,83,0.12)} 100%{background:transparent} }
   @keyframes flash-down { 0%{background:rgba(255,23,68,0.12)} 100%{background:transparent} }
   .flash-up { animation: flash-up 0.8s; }
@@ -201,7 +131,8 @@
   <button class="sort-btn" onclick="sortBy('max_drawdown')">最大回撤</button>
   <button class="sort-btn" onclick="sortBy('sharpe')">夏普比率</button>
   <button class="sort-btn" onclick="sortBy('calmar')">卡玛比率</button>
-  <button class="sort-btn" onclick="sortBy('avg_high_interval_days')">创新高间隔</button>
+  <button class="sort-btn" onclick="sortBy('total_value_10k')">1万→总额</button>
+  <button class="sort-btn" onclick="sortBy('max_high_gap_days')">最长无新高</button>
   <button class="sort-btn" onclick="sortBy('total_return')">累计收益</button>
   <button class="sort-btn" onclick="sortBy('annual_vol')">年化波动率</button>
 </div>
@@ -220,364 +151,354 @@
         <th>夏普比率</th>
         <th>卡玛比率</th>
         <th>年化波动</th>
-        <th class="hide-mobile">创新高间隔</th>
-        <th class="hide-mobile">距新高天数</th>
-        <th class="hide-mobile">新高次数</th>
+        <th>1万→总额</th>
+        <th class="hide-mobile">最长无新高</th>
       </tr>
     </thead>
     <tbody id="tbody">
-      <tr><td colspan="13"><div class="loading">加载历史数据中</div></td></tr>
+      <tr><td colspan="12"><div class="loading">加载历史数据中</div></td></tr>
     </tbody>
   </table>
 </div>
 
 <div class="footer">
-  数据来源：腾讯行情 · 前复权日线 · 无风险利率2% · 252交易日/年 · 
+  📡 腾讯行情 · Binance · 前复权 · 无风险利率2% · 点击资产查看净值曲线 · 
   <a href="https://github.com/samzhang8/model" target="_blank">GitHub</a>
 </div>
 
+<div class="chart-overlay" id="chart-overlay" onclick="if(event.target===this)closeChart()">
+  <div class="chart-modal">
+    <div class="chart-header">
+      <div class="chart-title" id="chart-title"></div>
+      <button class="chart-close" onclick="closeChart()">✕</button>
+    </div>
+    <div class="chart-stats" id="chart-stats"></div>
+    <div class="chart-container">
+      <canvas id="nav-chart"></canvas>
+    </div>
+  </div>
+</div>
+
 <script>
-// ============================================================
-//  全局状态
-// ============================================================
-let assetData = [];      // 从 metrics.json 加载的完整数据
-let sortKey = 'annual_return';
-let sortDesc = true;     // 默认降序
-let prevPrices = {};     // 用于闪烁动画
+let assetData = [], sortKey = 'annual_return', sortDesc = true, prevPrices = {};
+let chartInstance = null;
+const RISK_FREE_RATE = 0.02, TRADING_DAYS = 252;
 
-const RISK_FREE_RATE = 0.02;
-const TRADING_DAYS = 252;
-
-// ============================================================
-//  加载历史数据
-// ============================================================
-async function loadData() {
-  try {
-    // 加载预计算的 metrics.json
-    const resp = await fetch('metrics.json');
-    const raw = await resp.json();
-
-    assetData = raw.assets.map(a => ({
-      ...a,
-      currentPrice: a.end_price,  // 初始化为最新收盘价
-      currentChange: 0,
-      currentChangePct: 0,
-      livePrice: null,
-    }));
-
-    document.getElementById('update-time').textContent =
-      '历史数据更新: ' + raw.generated_at;
-
-    renderTable();
-
-    // 开始实时行情
-    startRealtimeQuotes();
-  } catch(e) {
-    document.getElementById('tbody').innerHTML =
-      '<tr><td colspan="13"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
-  }
-}
-
-// ============================================================
-//  实时行情
-// ============================================================
+function isCrypto(code) { return code === 'BTC' || code === 'ETH' || code === 'TRX'; }
 function buildPrefix(code) {
   if (/^[569]/.test(code)) return 'sh';
   if (/^[032]/.test(code)) return 'sz';
   return 'sh';
 }
 
-function startRealtimeQuotes() {
-  // 立即获取一次
-  fetchRealtime();
-  // 每5秒刷新
-  setInterval(fetchRealtime, 5000);
+// ========== 数据加载 ==========
+async function loadData() {
+  try {
+    const resp = await fetch('metrics.json');
+    const raw = await resp.json();
+    assetData = raw.assets.map(a => ({
+      ...a,
+      currentPrice: a.end_price, currentChange: 0, currentChangePct: 0,
+      livePrice: null, is_crypto: isCrypto(a.code),
+      total_value_10k: a.total_value_10k || Math.round(10000 * (1 + a.total_return / 100)),
+    }));
+    document.getElementById('update-time').textContent = '历史数据更新: ' + raw.generated_at;
+    renderTable();
+    startRealtimeQuotes();
+  } catch(e) {
+    document.getElementById('tbody').innerHTML =
+      '<tr><td colspan="12"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
+  }
 }
 
-async function fetchRealtime() {
-  const codes = assetData.map(a => a.code);
-  const quotes = await fetchQuotes(codes);
+// ========== 实时行情 ==========
+function startRealtimeQuotes() { fetchRealtime(); setInterval(fetchRealtime, 10000); }
 
+async function fetchRealtime() {
+  const aCodes = assetData.filter(a => !isCrypto(a.code)).map(a => a.code);
+  const cryptoCodes = assetData.filter(a => isCrypto(a.code)).map(a => a.code);
+  const results = [];
+  if (aCodes.length > 0) { const q = await fetchAQuotes(aCodes); results.push(...q); }
+  if (cryptoCodes.length > 0) { const q = await fetchCryptoQuotes(cryptoCodes); results.push(...q); }
   let updated = false;
-  for (const q of quotes) {
+  for (const q of results) {
     const asset = assetData.find(a => a.code === q.code);
     if (!asset || q.error) continue;
-
-    asset.livePrice = q.price;
-    asset.currentChange = q.change;
-    asset.currentChangePct = q.change_pct;
-
-    // 用实时价格重算指标
+    asset.livePrice = q.price; asset.currentChange = q.change; asset.currentChangePct = q.change_pct;
     recomputeMetrics(asset, q.price);
     updated = true;
   }
-
-  if (updated) {
-    renderTable();
-  }
-
+  if (updated) renderTable();
   document.getElementById('status-dot').style.background = 'var(--green)';
 }
 
-// 腾讯行情 script-tag 注入
-function fetchQuotes(codes) {
+async function fetchCryptoQuotes(codes) {
+  const symbolMap = {'BTC':'BTCUSDT','ETH':'ETHUSDT','TRX':'TRXUSDT'};
+  const symbols = JSON.stringify(codes.map(c => symbolMap[c] || c));
+  try {
+    const resp = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbols=' + symbols);
+    const data = await resp.json();
+    return data.map(d => {
+      const code = Object.keys(symbolMap).find(k => symbolMap[k] === d.symbol) || d.symbol;
+      const price = parseFloat(d.lastPrice), prevClose = parseFloat(d.prevClosePrice);
+      const change = price - prevClose;
+      return { code, price: Math.round(price*1e6)/1e6, prev_close: prevClose,
+        change: Math.round(change*1e6)/1e6, change_pct: prevClose ? Math.round(change/prevClose*10000)/100 : 0 };
+    });
+  } catch(e) {
+    return codes.map(c => ({code: c, error: e.message, price: 0, change: 0, change_pct: 0}));
+  }
+}
+
+function fetchAQuotes(codes) {
   return new Promise((resolve) => {
     const queryCodes = codes.map(c => buildPrefix(c) + c);
     const url = 'https://qt.gtimg.cn/q=' + queryCodes.join(',');
     const script = document.createElement('script');
     let resolved = false;
-
     script.onload = function() {
-      if (resolved) return;
-      resolved = true;
+      if (resolved) return; resolved = true;
       const results = [];
       for (const code of codes) {
-        const prefix = buildPrefix(code);
-        const varName = 'v_' + prefix + code;
+        const varName = 'v_' + buildPrefix(code) + code;
         const raw = window[varName];
         if (raw && typeof raw === 'string') {
-          results.push(parseQuote(raw, code, prefix + code));
+          results.push(parseQuote(raw, code));
           try { delete window[varName]; } catch(e) { window[varName] = undefined; }
-        } else {
-          results.push({code, error: '无数据', price: 0, change: 0, change_pct: 0});
-        }
+        } else { results.push({code, error: '无数据', price: 0, change: 0, change_pct: 0}); }
       }
-      script.remove();
-      resolve(results);
+      script.remove(); resolve(results);
     };
-
-    script.onerror = function() {
-      if (resolved) return;
-      resolved = true;
-      script.remove();
-      fetchViaProxy(codes, resolve);
-    };
-
-    setTimeout(() => {
-      if (!resolved) {
-        resolved = true;
-        script.remove();
-        fetchViaProxy(codes, resolve);
-      }
-    }, 5000);
-
-    script.src = url;
-    document.head.appendChild(script);
+    script.onerror = function() { if (!resolved) { resolved = true; script.remove(); fetchViaProxy(codes, resolve); } };
+    setTimeout(() => { if (!resolved) { resolved = true; script.remove(); fetchViaProxy(codes, resolve); } }, 5000);
+    script.src = url; document.head.appendChild(script);
   });
 }
 
 function fetchViaProxy(codes, resolve) {
-  const queryCodes = codes.map(c => buildPrefix(c) + c);
-  const tencentUrl = 'https://qt.gtimg.cn/q=' + queryCodes.join(',');
-  const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(tencentUrl);
-
-  fetch(proxyUrl)
-    .then(r => r.text())
-    .then(raw => {
-      const results = [];
-      for (const code of codes) {
-        const prefix = buildPrefix(code);
-        const varName = 'v_' + prefix + code;
-        const regex = new RegExp(varName + '="([^"]*)"');
-        const match = raw.match(regex);
-        if (match) {
-          results.push(parseQuote(match[1], code, prefix + code));
-        } else {
-          results.push({code, error: '无数据', price: 0, change: 0, change_pct: 0});
-        }
-      }
-      resolve(results);
-    })
-    .catch(() => {
-      resolve(codes.map(c => ({code: c, error: '网络错误', price: 0, change: 0, change_pct: 0})));
-    });
+  const url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://qt.gtimg.cn/q=' + codes.map(c => buildPrefix(c) + c).join(','));
+  fetch(url).then(r => r.text()).then(raw => {
+    resolve(codes.map(code => {
+      const regex = new RegExp('v_' + buildPrefix(code) + code + '="([^"]*)"');
+      const match = raw.match(regex);
+      return match ? parseQuote(match[1], code) : {code, error: '无数据', price: 0, change: 0, change_pct: 0};
+    }));
+  }).catch(() => resolve(codes.map(c => ({code: c, error: '网络错误', price: 0, change: 0, change_pct: 0}))));
 }
 
-function parseQuote(raw, code, fullCode) {
+function parseQuote(raw, code) {
   const f = raw.split('~');
   if (f.length < 50) return {code, error: '数据不完整', price: 0, change: 0, change_pct: 0};
-  const sf = (i) => { try { return parseFloat(f[i]) || 0; } catch(e) { return 0; } };
-  const ss = (i) => { try { return f[i] || ''; } catch(e) { return ''; } };
-
-  const price = sf(3);
-  const prevClose = sf(4);
+  const sf = (i) => parseFloat(f[i]) || 0;
+  const price = sf(3), prevClose = sf(4);
   const change = price - prevClose;
-  const changePct = prevClose ? (change / prevClose * 100) : 0;
-
-  return {
-    code,
-    full_code: fullCode,
-    name: ss(1),
-    price: Math.round(price * 1000) / 1000,
-    prev_close: Math.round(prevClose * 1000) / 1000,
-    change: Math.round(change * 1000) / 1000,
-    change_pct: Math.round(changePct * 100) / 100,
-  };
+  return { code, price: Math.round(price*1000)/1000, prev_close: Math.round(prevClose*1000)/1000,
+    change: Math.round(change*1000)/1000, change_pct: prevClose ? Math.round(change/prevClose*10000)/100 : 0 };
 }
 
-// ============================================================
-//  用实时价格重算指标
-// ============================================================
+// ========== 指标重算 ==========
 function recomputeMetrics(asset, livePrice) {
-  // 用历史 closes 序列 + 实时价格重算
   const closes = asset.closes.map(c => c.p);
-  const dates = asset.closes.map(c => c.d);
-
-  // 如果今天已有收盘价，替换；否则追加
-  const today = dates[dates.length - 1];
-  closes[closes.length - 1] = livePrice;  // 用实时价替换最新一天
-
-  const n = closes.length;
-  const nYears = n / TRADING_DAYS;
-
-  // 年化收益
+  closes[closes.length - 1] = livePrice;
+  const n = closes.length, nYears = n / TRADING_DAYS;
   const totalReturn = (closes[n-1] / closes[0]) - 1;
   const annualReturn = (1 + totalReturn) ** (1 / nYears) - 1;
-
-  // 最大回撤
   let peak = closes[0], maxDD = 0;
-  for (let i = 0; i < n; i++) {
-    if (closes[i] > peak) peak = closes[i];
-    const dd = (peak - closes[i]) / peak;
-    if (dd > maxDD) maxDD = dd;
-  }
-
-  // 夏普
+  for (let i = 0; i < n; i++) { if (closes[i] > peak) peak = closes[i]; const dd = (peak - closes[i]) / peak; if (dd > maxDD) maxDD = dd; }
   const dailyReturns = [];
-  for (let i = 1; i < n; i++) {
-    dailyReturns.push((closes[i] - closes[i-1]) / closes[i-1]);
-  }
+  for (let i = 1; i < n; i++) dailyReturns.push((closes[i] - closes[i-1]) / closes[i-1]);
   const meanDR = dailyReturns.reduce((a,b) => a+b, 0) / dailyReturns.length;
-  const varDR = dailyReturns.reduce((a,b) => a + (b - meanDR)**2, 0) / (dailyReturns.length - 1);
-  const stdDR = Math.sqrt(varDR);
-  const annualVol = stdDR * Math.sqrt(TRADING_DAYS);
+  const varDR = dailyReturns.reduce((a,b) => a + (b-meanDR)**2, 0) / (dailyReturns.length - 1);
+  const stdDR = Math.sqrt(varDR), annualVol = stdDR * Math.sqrt(TRADING_DAYS);
   const sharpe = annualVol > 0 ? (annualReturn - RISK_FREE_RATE) / annualVol : 0;
-
-  // 卡玛
   const calmar = maxDD > 0 ? annualReturn / maxDD : 0;
-
-  // 创新高间隔
-  let runningPeak = closes[0];
-  let lastHighIdx = 0;
-  let intervals = [];
-  for (let i = 1; i < n; i++) {
-    if (closes[i] > runningPeak) {
-      intervals.push(i - lastHighIdx);
-      lastHighIdx = i;
-      runningPeak = closes[i];
-    }
-  }
-  const avgInterval = intervals.length >= 2
-    ? intervals.slice(1).reduce((a,b) => a+b, 0) / (intervals.length - 1)
-    : n;
-  const daysSinceHigh = n - 1 - lastHighIdx;
-
-  // 更新
-  asset.total_return = Math.round(totalReturn * 10000) / 100;
-  asset.annual_return = Math.round(annualReturn * 10000) / 100;
-  asset.max_drawdown = Math.round(maxDD * 10000) / 100;
-  asset.sharpe = Math.round(sharpe * 1000) / 1000;
-  asset.calmar = Math.round(calmar * 1000) / 1000;
-  asset.annual_vol = Math.round(annualVol * 10000) / 100;
-  asset.avg_high_interval_days = Math.round(avgInterval * 10) / 10;
-  asset.days_since_high = daysSinceHigh;
-  asset.n_new_highs = intervals.length;
+  let runningPeak = closes[0], highIndices = [0];
+  for (let i = 1; i < n; i++) { if (closes[i] > runningPeak) { highIndices.push(i); runningPeak = closes[i]; } }
+  highIndices.push(n - 1);
+  let maxHighGap = 0;
+  for (let i = 1; i < highIndices.length; i++) { const gap = highIndices[i] - highIndices[i-1]; if (gap > maxHighGap) maxHighGap = gap; }
+  asset.total_return = Math.round(totalReturn*10000)/100;
+  asset.annual_return = Math.round(annualReturn*10000)/100;
+  asset.max_drawdown = Math.round(maxDD*10000)/100;
+  asset.sharpe = Math.round(sharpe*1000)/1000;
+  asset.calmar = Math.round(calmar*1000)/1000;
+  asset.annual_vol = Math.round(annualVol*10000)/100;
+  asset.max_high_gap_days = maxHighGap;
+  asset.total_value_10k = Math.round(10000 * (1 + totalReturn));
   asset.currentPrice = livePrice;
 }
 
-// ============================================================
-//  排序 & 渲染
-// ============================================================
+// ========== 排序 & 渲染 ==========
 function sortBy(key) {
-  if (sortKey === key) {
-    sortDesc = !sortDesc;
-  } else {
-    sortKey = key;
-    // 回撤和波动率默认升序（越小越好），其他降序
-    sortDesc = (key === 'max_drawdown' || key === 'annual_vol' || key === 'avg_high_interval_days') ? false : true;
-  }
-
-  // 更新按钮状态
+  if (sortKey === key) { sortDesc = !sortDesc; }
+  else { sortKey = key; sortDesc = (key === 'max_drawdown' || key === 'annual_vol' || key === 'max_high_gap_days') ? false : true; }
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.classList.remove('active');
     const btnKey = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
-    if (btnKey === key) {
-      btn.classList.add('active');
-      btn.textContent = btn.textContent.replace(/ [↑↓]$/, '') + (sortDesc ? ' ↓' : ' ↑');
-    } else {
-      btn.textContent = btn.textContent.replace(/ [↑↓]$/, '');
-    }
+    if (btnKey === key) { btn.classList.add('active'); btn.textContent = btn.textContent.replace(/ [↑↓]$/, '') + (sortDesc ? ' ↓' : ' ↑'); }
+    else { btn.textContent = btn.textContent.replace(/ [↑↓]$/, ''); }
   });
-
   renderTable();
 }
 
 function renderTable() {
-  // 排序
   const sorted = [...assetData].sort((a, b) => {
     let va = a[sortKey], vb = b[sortKey];
     if (typeof va === 'string') va = parseFloat(va);
     if (typeof vb === 'string') vb = parseFloat(vb);
     return sortDesc ? vb - va : va - vb;
   });
-
-  const tbody = document.getElementById('tbody');
-  tbody.innerHTML = sorted.map((a, i) => {
-    const rank = i + 1;
-    const rankClass = rank <= 3 ? `rank-${rank}` : '';
+  document.getElementById('tbody').innerHTML = sorted.map((a, i) => {
+    const rank = i + 1, rankClass = rank <= 3 ? 'rank-' + rank : '';
     const price = a.currentPrice;
+    const currency = a.is_crypto ? '$' : '¥';
+    const priceDecimals = a.is_crypto ? (price > 1000 ? 0 : price > 1 ? 2 : 6) : 3;
+    const priceDisplay = currency + (a.is_crypto ? price.toLocaleString('en-US', {minimumFractionDigits: priceDecimals, maximumFractionDigits: priceDecimals}) : price.toFixed(priceDecimals));
     const changeCls = a.currentChangePct > 0 ? 'up' : a.currentChangePct < 0 ? 'down' : 'neutral';
-    const changeArrow = a.currentChangePct > 0 ? '▲' : a.currentChangePct < 0 ? '▼' : '—';
-
-    // 闪烁效果
-    const prev = prevPrices[a.code];
-    let flash = '';
-    if (prev !== undefined && prev !== price) {
-      flash = price > prev ? 'flash-up' : 'flash-down';
-    }
+    const changeArrow = a.currentChangePct > 0 ? '\u25b2' : a.currentChangePct < 0 ? '\u25bc' : '\u2014';
+    const prev = prevPrices[a.code]; let flash = '';
+    if (prev !== undefined && prev !== price) flash = price > prev ? 'flash-up' : 'flash-down';
     prevPrices[a.code] = price;
-
-    // 指标颜色
     const retCls = a.annual_return >= 0 ? 'up' : 'down';
     const ddCls = a.max_drawdown > 20 ? 'down' : a.max_drawdown > 10 ? '' : 'up';
     const sharpeCls = a.sharpe >= 1 ? 'up' : a.sharpe >= 0 ? '' : 'down';
     const calmarCls = a.calmar >= 1 ? 'up' : a.calmar >= 0 ? '' : 'down';
-
-    return `<tr class="${flash}">
-      <td><span class="rank ${rankClass}">${rank}</span></td>
-      <td>
-        <div class="asset-name">${a.name}</div>
-        <div class="asset-code">${a.code}</div>
-      </td>
-      <td class="${changeCls}" style="font-weight:700;font-size:15px">${price.toFixed(3)}</td>
-      <td class="${changeCls}">${changeArrow} ${a.currentChangePct.toFixed(2)}%</td>
-      <td class="${retCls}">${a.total_return.toFixed(1)}%</td>
-      <td class="${retCls}" style="font-weight:600">${a.annual_return.toFixed(1)}%</td>
-      <td class="${ddCls}">-${a.max_drawdown.toFixed(1)}%</td>
-      <td class="${sharpeCls}">${a.sharpe.toFixed(2)}</td>
-      <td class="${calmarCls}">${a.calmar.toFixed(2)}</td>
-      <td>${a.annual_vol.toFixed(1)}%</td>
-      <td class="hide-mobile">${a.avg_high_interval_days.toFixed(0)}天</td>
-      <td class="hide-mobile">${a.days_since_high}天</td>
-      <td class="hide-mobile">${a.n_new_highs}</td>
-    </tr>`;
+    return '<tr class="' + flash + '" onclick="showChart(\'' + a.code + '\')">' +
+      '<td><span class="rank ' + rankClass + '">' + rank + '</span></td>' +
+      '<td><div class="asset-name">' + a.name + '</div><div class="asset-code">' + a.code + '</div></td>' +
+      '<td class="' + changeCls + '" style="font-weight:700;font-size:15px">' + priceDisplay + '</td>' +
+      '<td class="' + changeCls + '">' + changeArrow + ' ' + a.currentChangePct.toFixed(2) + '%</td>' +
+      '<td class="' + retCls + '">' + a.total_return.toFixed(1) + '%</td>' +
+      '<td class="' + retCls + '" style="font-weight:600">' + a.annual_return.toFixed(1) + '%</td>' +
+      '<td class="' + ddCls + '">-' + a.max_drawdown.toFixed(1) + '%</td>' +
+      '<td class="' + sharpeCls + '">' + a.sharpe.toFixed(2) + '</td>' +
+      '<td class="' + calmarCls + '">' + a.calmar.toFixed(2) + '</td>' +
+      '<td>' + a.annual_vol.toFixed(1) + '%</td>' +
+      '<td style="font-weight:600">' + currency + a.total_value_10k.toLocaleString() + '</td>' +
+      '<td class="hide-mobile">' + a.max_high_gap_days + '天</td></tr>';
   }).join('');
 }
 
-// ============================================================
-//  时钟
-// ============================================================
-function updateClock() {
-  const now = new Date();
-  const h = String(now.getHours()).padStart(2,'0');
-  const m = String(now.getMinutes()).padStart(2,'0');
-  const s = String(now.getSeconds()).padStart(2,'0');
-  document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+// ========== 净值曲线图表 ==========
+function showChart(code) {
+  const asset = assetData.find(a => a.code === code);
+  if (!asset) return;
+  const overlay = document.getElementById('chart-overlay');
+  const titleEl = document.getElementById('chart-title');
+  const statsEl = document.getElementById('chart-stats');
+  const currency = asset.is_crypto ? '$' : '\u00a5';
+
+  titleEl.innerHTML = asset.name + ' <span class="code">' + asset.code + '</span>';
+  statsEl.innerHTML =
+    '<div class="chart-stat"><span class="label">数据区间</span><span class="value">' + asset.start_date + ' ~ ' + asset.end_date + '</span></div>' +
+    '<div class="chart-stat"><span class="label">累计收益</span><span class="value ' + (asset.total_return >= 0 ? 'up' : 'down') + '">' + asset.total_return.toFixed(1) + '%</span></div>' +
+    '<div class="chart-stat"><span class="label">最大回撤</span><span class="value down">-' + asset.max_drawdown.toFixed(1) + '%</span></div>' +
+    '<div class="chart-stat"><span class="label">年化收益</span><span class="value ' + (asset.annual_return >= 0 ? 'up' : 'down') + '">' + asset.annual_return.toFixed(1) + '%</span></div>' +
+    '<div class="chart-stat"><span class="label">夏普比率</span><span class="value">' + asset.sharpe.toFixed(2) + '</span></div>' +
+    '<div class="chart-stat"><span class="label">' + currency + '1万\u2192总额</span><span class="value">' + currency + asset.total_value_10k.toLocaleString() + '</span></div>';
+
+  overlay.classList.add('active');
+
+  // 准备数据: 归一化到1.0起点
+  const closes = asset.closes.map(c => c.p);
+  const dates = asset.closes.map(c => c.d);
+  const initPrice = closes[0];
+  const navData = closes.map(p => p / initPrice);
+
+  // 计算回撤线 (从峰值到当前)
+  let peak = 1.0;
+  const peakLine = [];
+  for (let i = 0; i < navData.length; i++) {
+    if (navData[i] > peak) peak = navData[i];
+    peakLine.push(peak);
+  }
+
+  // 日期标签: 约10个
+  const labelStep = Math.max(1, Math.floor(dates.length / 10));
+  const labels = dates.map((d, i) => i % labelStep === 0 ? d : '');
+
+  if (chartInstance) chartInstance.destroy();
+
+  const ctx = document.getElementById('nav-chart').getContext('2d');
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: '净值曲线 (起点=1.0)',
+          data: navData,
+          borderColor: '#2979ff',
+          backgroundColor: 'rgba(41,121,255,0.08)',
+          fill: true,
+          borderWidth: 1.5,
+          pointRadius: 0,
+          tension: 0.1,
+        },
+        {
+          label: '历史峰值',
+          data: peakLine,
+          borderColor: 'rgba(255,255,255,0.15)',
+          borderDash: [4, 4],
+          borderWidth: 1,
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      plugins: {
+        legend: {
+          labels: { color: '#6b7a99', font: { size: 11 }, usePointStyle: true, pointStyleWidth: 8 }
+        },
+        tooltip: {
+          callbacks: {
+            title: (ctx) => dates[ctx[0].dataIndex],
+            label: (ctx) => {
+              if (ctx.datasetIndex === 1) return '峰值: ' + ctx.parsed.y.toFixed(4);
+              const nav = ctx.parsed.y;
+              const ret = ((nav - 1) * 100).toFixed(1);
+              return '净值: ' + nav.toFixed(4) + ' (' + (ret >= 0 ? '+' : '') + ret + '%)';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#4a5568', maxTicksLimit: 12, font: { size: 10 } },
+          grid: { color: 'rgba(255,255,255,0.04)' }
+        },
+        y: {
+          ticks: {
+            color: '#6b7a99',
+            font: { size: 11 },
+            callback: (v) => v.toFixed(2) + 'x'
+          },
+          grid: { color: 'rgba(255,255,255,0.06)' }
+        }
+      }
+    }
+  });
 }
 
-// ============================================================
-//  启动
-// ============================================================
+function closeChart() {
+  document.getElementById('chart-overlay').classList.remove('active');
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+}
+
+// ========== 时钟 ==========
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    String(now.getHours()).padStart(2,'0') + ':' +
+    String(now.getMinutes()).padStart(2,'0') + ':' +
+    String(now.getSeconds()).padStart(2,'0');
+}
+
+// ========== 启动 ==========
 loadData();
 updateClock();
 setInterval(updateClock, 1000);

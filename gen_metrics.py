@@ -52,6 +52,7 @@ ASSETS = [
     {"code": "512200", "prefix": "sh", "name": "房地产ETF"},
     {"code": "515700", "prefix": "sh", "name": "新能源车ETF"},
     {"code": "515790", "prefix": "sh", "name": "光伏ETF"},
+    {"code": "516160", "prefix": "sh", "name": "新能源ETF"},
     {"code": "159996", "prefix": "sz", "name": "家电ETF"},
     {"code": "159611", "prefix": "sz", "name": "电力ETF"},
     {"code": "515220", "prefix": "sh", "name": "煤炭ETF"},

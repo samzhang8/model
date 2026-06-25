@@ -4,46 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>因子监控面板</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
          background: #0f172a; color: #e2e8f0; padding: 20px; }
   h1 { font-size: 22px; margin-bottom: 4px; }
-  .sub { color: #94a3b8; font-size: 13px; margin-bottom: 16px; }
-  .nav { margin-bottom: 16px; }
+  .sub { color: #94a3b8; font-size: 13px; margin-bottom: 8px; }
+  .nav { margin-bottom: 10px; }
   .nav a { color: #60a5fa; text-decoration: none; font-size: 14px; }
+
+  .help-toggle { background: #1e293b; border: 1px solid #334155; color: #94a3b8;
+    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-bottom: 8px; }
+  .help-box { background: #1e293b; border: 1px solid #334155; border-radius: 8px;
+    padding: 14px; margin-bottom: 12px; display: none; font-size: 13px; line-height: 1.6; }
+  .help-box.show { display: block; }
+  .help-box dt { color: #60a5fa; font-weight: 600; margin-top: 6px; }
+  .help-box dd { color: #94a3b8; margin-left: 0; margin-bottom: 4px; }
+
   .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .filters button { background: #1e293b; border: 1px solid #334155; color: #94a3b8;
     padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; }
   .filters button.active { background: #2563eb; border-color: #2563eb; color: white; }
-  .legend { display: flex; gap: 16px; margin-bottom: 12px; font-size: 12px; }
+
+  .legend { display: flex; gap: 16px; margin-bottom: 10px; font-size: 12px; flex-wrap: wrap; }
   .legend span { display: flex; align-items: center; gap: 4px; }
   .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { background: #1e293b; padding: 8px 10px; text-align: left; border-bottom: 2px solid #334155;
     position: sticky; top: 0; cursor: pointer; white-space: nowrap; }
   th:hover { background: #334155; }
+  th .hint { font-weight: normal; color: #64748b; font-size: 11px; }
   td { padding: 7px 10px; border-bottom: 1px solid #1e293b; white-space: nowrap; }
-  tr:hover { background: #1e293b; }
+  tr.clickable { cursor: pointer; }
+  tr.clickable:hover { background: #1e3a5f; }
+  tr.selected { background: #1e3a5f; outline: 1px solid #2563eb; }
+
   .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-  .status-green { background: #22c55e; }
-  .status-yellow { background: #eab308; }
-  .status-red { background: #ef4444; }
-  .trend-up { color: #22c55e; }
-  .trend-down { color: #ef4444; }
-  .trend-flat { color: #94a3b8; }
+  .status-green { background: #22c55e; } .status-yellow { background: #eab308; } .status-red { background: #ef4444; }
+  .trend-up { color: #22c55e; } .trend-down { color: #ef4444; } .trend-flat { color: #94a3b8; }
   .tag { font-size: 11px; padding: 2px 6px; border-radius: 4px; }
-  .tag-neg { background: #7c3aed20; color: #a78bfa; }
-  .tag-pos { background: #05966920; color: #34d399; }
-  .corr-lo { color: #22c55e; }
-  .corr-md { color: #eab308; }
-  .corr-hi { color: #ef4444; }
+  .tag-neg { background: #7c3aed20; color: #a78bfa; } .tag-pos { background: #05966920; color: #34d399; }
+  .corr-lo { color: #22c55e; } .corr-md { color: #eab308; } .corr-hi { color: #ef4444; }
   .bar-cell { min-width: 60px; }
   .bar { height: 6px; border-radius: 3px; background: #334155; position: relative; }
   .bar-fill { height: 100%; border-radius: 3px; position: absolute; left: 0; top: 0; }
-  .bar-green { background: #22c55e; }
-  .bar-yellow { background: #eab308; }
-  .bar-red { background: #ef4444; }
+  .bar-green { background: #22c55e; } .bar-yellow { background: #eab308; } .bar-red { background: #ef4444; }
+
+  .detail-panel { display: none; background: #1e293b; border: 1px solid #334155; border-radius: 8px;
+    padding: 16px; margin-top: 14px; }
+  .detail-panel.show { display: block; }
+  .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .detail-header h3 { font-size: 16px; }
+  .detail-close { background: none; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; }
+  .detail-stats { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; font-size: 13px; }
+  .detail-stat { background: #0f172a; padding: 8px 14px; border-radius: 6px; }
+  .detail-stat .val { font-size: 18px; font-weight: 600; }
+  .detail-stat .lbl { color: #94a3b8; font-size: 11px; }
+  .chart-wrap { height: 300px; position: relative; }
+  canvas { width: 100% !important; }
 </style>
 </head>
 <body>
@@ -51,14 +71,15 @@
 <div class="sub">数据源: ClickHouse amazingdata.factor_ic · <span id="gentime"></span></div>
 <div class="nav"><a href="./">← 资产排名看板</a></div>
 
+<button class="help-toggle" onclick="toggleHelp()">📖 字段说明</button>
+<div class="help-box" id="helpBox"></div>
+
 <div class="legend">
-  <span><span class="dot" style="background:#22c55e"></span> 强有效(IR≥0.3)</span>
-  <span><span class="dot" style="background:#eab308"></span> 中等(IR 0.1-0.3)</span>
-  <span><span class="dot" style="background:#ef4444"></span> 弱/失效(IR&lt;0.1)</span>
-  <span>|</span>
-  <span>↑ IC上升</span><span>↓ IC衰减</span>
-  <span>|</span>
-  <span style="color:#22c55e">⇋ 独立于市值</span>
+  <span><span class="dot" style="background:#22c55e"></span> IR≥0.3</span>
+  <span><span class="dot" style="background:#eab308"></span> IR 0.1-0.3</span>
+  <span><span class="dot" style="background:#ef4444"></span> IR&lt;0.1</span>
+  <span>|</span><span>↑上升 ↓衰减</span><span>|</span>
+  <span style="color:#22c55e">⇋独立于市值</span>
 </div>
 
 <div class="filters">
@@ -66,80 +87,94 @@
   <button onclick="filter('green')">强有效</button>
   <button onclick="filter('yellow')">中等</button>
   <button onclick="filter('red')">弱/失效</button>
-  <button onclick="filter('category')">按分类</button>
 </div>
 
 <table id="tbl">
-<thead>
-<tr>
-  <th onclick="sortBy('status')">状态</th>
-  <th onclick="sortBy('name')">因子</th>
+<thead><tr>
+  <th>状态</th><th onclick="sortBy('name')">因子</th>
   <th onclick="sortBy('category')">分类</th>
   <th onclick="sortBy('ic_ir')">IC_IR</th>
   <th onclick="sortBy('ic_mean')">IC均值</th>
   <th onclick="sortBy('win_rate')">胜率</th>
-  <th>近期IC</th>
-  <th>IC柱</th>
+  <th>近期IC</th><th>IC柱</th>
   <th onclick="sortBy('direction')">方向</th>
   <th onclick="sortBy('smallcap_corr')">市值相关</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody></tbody>
 </table>
 
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-header">
+    <h3 id="detailTitle"></h3>
+    <button class="detail-close" onclick="closeDetail()">✕</button>
+  </div>
+  <div class="detail-stats" id="detailStats"></div>
+  <div class="chart-wrap"><canvas id="icChart"></canvas></div>
+</div>
+
 <script>
-let allFactors = [];
-let currentFilter = 'all';
-let sortKey = 'ic_ir';
-let sortDesc = true;
+let allFactors = [], descriptions = {};
+let currentFilter = 'all', sortKey = 'ic_ir', sortDesc = true;
+let chart = null, selectedRow = null;
 
 fetch('factor_metrics.json?' + Date.now())
   .then(r => r.json())
   .then(d => {
     allFactors = d.factors;
+    descriptions = d.descriptions || {};
     document.getElementById('gentime').textContent = d.generated_at;
+    buildHelp();
     render();
   });
 
+function buildHelp() {
+  let h = '<dl>';
+  h += '<dt>IC_IR (信息比率)</dt><dd>'+descriptions.ic_ir+'</dd>';
+  h += '<dt>IC均值 (Rank IC)</dt><dd>'+descriptions.ic_mean+'</dd>';
+  h += '<dt>胜率</dt><dd>'+descriptions.win_rate+'</dd>';
+  h += '<dt>方向</dt><dd>'+descriptions['方向']+'</dd>';
+  h += '<dt>市值相关</dt><dd>'+descriptions['市值相关']+'</dd>';
+  h += '<dt>近期IC</dt><dd>'+descriptions['近期IC']+'</dd>';
+  h += '<dt>分类</dt><dd>'+descriptions['分类']+'</dd>';
+  h += '</dl>';
+  document.getElementById('helpBox').innerHTML = h;
+}
+
+function toggleHelp() {
+  document.getElementById('helpBox').classList.toggle('show');
+}
+
 function render() {
   let list = [...allFactors];
-  
   if (currentFilter === 'green') list = list.filter(f => f.status === 'green');
   if (currentFilter === 'yellow') list = list.filter(f => f.status === 'yellow');
   if (currentFilter === 'red') list = list.filter(f => f.status === 'red');
-  
+
   list.sort((a,b) => {
     let va = a[sortKey] ?? 0, vb = b[sortKey] ?? 0;
     if (typeof va === 'string') va = va.toLowerCase();
     if (typeof vb === 'string') vb = vb.toLowerCase();
     return sortDesc ? (vb > va ? 1 : -1) : (va > vb ? 1 : -1);
   });
-  
+
   let html = '';
   for (let f of list) {
     let ir = Math.abs(f.ic_ir);
     let barW = Math.min(ir / 1.1 * 100, 100);
     let barC = ir >= 0.3 ? 'bar-green' : (ir >= 0.1 ? 'bar-yellow' : 'bar-red');
-    
     let trendIcon = f.trend === 'up' ? '<span class="trend-up">↑</span>' :
                     f.trend === 'down' ? '<span class="trend-down">↓</span>' : '<span class="trend-flat">→</span>';
-    
-    let sc = f.smallcap_corr;
-    let scHtml = '';
+    let sc = f.smallcap_corr, scHtml = '-';
     if (sc !== null && sc !== undefined) {
       let scC = Math.abs(sc) < 0.15 ? 'corr-lo' : (Math.abs(sc) < 0.30 ? 'corr-md' : 'corr-hi');
       scHtml = `<span class="${scC}">${sc >= 0 ? '+' : ''}${sc.toFixed(3)}</span>`;
-    } else {
-      scHtml = '-';
     }
-    
     let recent = f.recent_3m || [];
     let recentStr = recent.map(v => (v>=0?'+':'')+v.toFixed(3)).join(' ');
-    
-    html += `<tr>
+
+    html += `<tr class="clickable" data-factor="${f.name}" onclick="showDetail('${f.name}')">
       <td><span class="status-dot status-${f.status}"></span></td>
-      <td><strong>${f.name}</strong></td>
-      <td>${f.category}</td>
+      <td><strong>${f.name}</strong></td><td>${f.category}</td>
       <td>${f.ic_ir >= 0 ? '+' : ''}${f.ic_ir.toFixed(3)}</td>
       <td>${(f.ic_mean >= 0 ? '+' : '') + f.ic_mean.toFixed(4)}</td>
       <td>${f.win_rate}%</td>
@@ -152,10 +187,71 @@ function render() {
   document.querySelector('#tbl tbody').innerHTML = html;
 }
 
+function showDetail(name) {
+  let f = allFactors.find(x => x.name === name);
+  if (!f) return;
+
+  // Highlight row
+  document.querySelectorAll('tr.selected').forEach(r => r.classList.remove('selected'));
+  let row = document.querySelector(`tr[data-factor="${name}"]`);
+  if (row) row.classList.add('selected');
+
+  // Fill panel
+  document.getElementById('detailTitle').textContent = f.name + ' — ' + f.category + ' · ' + f.direction;
+  let stats = `<div class="detail-stat"><div class="val">${f.ic_ir >= 0 ? '+' : ''}${f.ic_ir.toFixed(3)}</div><div class="lbl">IC_IR</div></div>`;
+  stats += `<div class="detail-stat"><div class="val">${(f.ic_mean >= 0 ? '+' : '') + f.ic_mean.toFixed(4)}</div><div class="lbl">IC均值</div></div>`;
+  stats += `<div class="detail-stat"><div class="val">${f.win_rate}%</div><div class="lbl">胜率</div></div>`;
+  stats += `<div class="detail-stat"><div class="val">${f.n_months}</div><div class="lbl">月数</div></div>`;
+  if (f.smallcap_corr !== null && f.smallcap_corr !== undefined) {
+    let scC = Math.abs(f.smallcap_corr) < 0.15 ? '#22c55e' : (Math.abs(f.smallcap_corr) < 0.30 ? '#eab308' : '#ef4444');
+    stats += `<div class="detail-stat"><div class="val" style="color:${scC}">${f.smallcap_corr >= 0 ? '+' : ''}${f.smallcap_corr.toFixed(3)}</div><div class="lbl">市值相关</div></div>`;
+  }
+  document.getElementById('detailStats').innerHTML = stats;
+
+  // Chart
+  if (chart) chart.destroy();
+  let hist = f.ic_history || [];
+  let labels = hist.map(h => h.date.substring(0,7));
+  let ics = hist.map(h => h.ic);
+  let ctx = document.getElementById('icChart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Rank IC',
+        data: ics,
+        backgroundColor: ics.map(v => v >= 0 ? 'rgba(34,197,94,0.6)' : 'rgba(239,68,68,0.6)'),
+        borderColor: ics.map(v => v >= 0 ? '#22c55e' : '#ef4444'),
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#94a3b8', maxTicksLimit: 30, font: { size: 10 } }, grid: { color: '#1e293b' } },
+        y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' },
+          title: { display: true, text: 'Rank IC', color: '#94a3b8' } }
+      }
+    }
+  });
+
+  document.getElementById('detailPanel').classList.add('show');
+  document.getElementById('detailPanel').scrollIntoView({ behavior: 'smooth' });
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('show');
+  document.querySelectorAll('tr.selected').forEach(r => r.classList.remove('selected'));
+  if (chart) { chart.destroy(); chart = null; }
+}
+
 function filter(type) {
   currentFilter = type;
   document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
   event.target.classList.add('active');
+  closeDetail();
   render();
 }
 

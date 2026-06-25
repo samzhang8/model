@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-因子面板数据生成器
-从ClickHouse拉取因子IC数据，生成JSON供前端因子面板加载
+因子面板数据生成器 v2 — 含IC时序数据用于详情图表
 """
 import subprocess, json, math, sys
 from datetime import datetime
@@ -12,7 +11,6 @@ def ch(sql, timeout=30):
     r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout)
     return r.stdout
 
-# 因子分类
 CATEGORIES = {
     "avg_amount_1m": "规模", "log_amount_1m": "规模", "log_price": "规模",
     "illiquidity": "流动性", "turnover_proxy": "流动性",
@@ -38,7 +36,6 @@ DIRECTION = {
     "roa_ttm": "负向", "net_margin": "负向", "roe_ttm": "负向",
 }
 
-# 小市值相关性（之前算的）
 SMALLCAP_CORR = {
     "illiquidity": -0.047, "volume_ratio": -0.016, "net_margin": 0.004,
     "profit_yoy": -0.004, "eps_yoy": -0.004, "roe_ttm": 0.006,
@@ -50,6 +47,16 @@ SMALLCAP_CORR = {
     "amplitude_1m": 0.188, "volatility_1m": 0.196, "momentum_12_1": 0.214,
     "ret_3m_vol_adj": 0.223, "ret_12m": 0.230, "ret_3m": 0.237,
     "ret_6m": 0.265, "turnover_proxy": 0.298,
+}
+
+DESCRIPTIONS = {
+    "ic_ir": "信息比率 = IC均值/IC标准差。绝对值越大，因子预测稳定性越强。|IR|≥0.3为强有效。",
+    "ic_mean": "Rank IC均值。正值=因子值与未来收益正相关，负值=负相关。",
+    "win_rate": "IC为正的月份占比。>50%说明因子多数时候方向正确。",
+    "方向": "正向=因子值越大未来收益越好；负向=因子值越小未来收益越好。",
+    "市值相关": "因子与小市值因子(avg_amount_1m)的Spearman相关。绝对值<0.15=独立，>0.3=同质化。",
+    "近期IC": "最近3个月IC值。↑=IC上升，↓=IC衰减。",
+    "分类": "因子的学术类别：规模/低波动/动量/反转/技术/基本面/成长/流动性。",
 }
 
 # 1. 全期IC统计
@@ -75,46 +82,39 @@ for row in rows:
         "smallcap_corr": SMALLCAP_CORR.get(f, None),
     }
 
-# 2. 最近3个月IC趋势
-sql3 = """
-SELECT factor, groupArray(3)(IC) as recent_ic
-FROM (SELECT factor, trade_date, IC FROM amazingdata.factor_ic
-      WHERE trade_date >= '2026-01-01' ORDER BY trade_date)
-GROUP BY factor
-"""
-rows3 = ch(sql3).strip().split("\n")[1:]
-for row in rows3:
+# 2. IC时间序列（全部历史）
+sql_hist = "SELECT factor, trade_date, IC FROM amazingdata.factor_ic ORDER BY factor, trade_date"
+rows_h = ch(sql_hist).strip().split("\n")[1:]
+for row in rows_h:
     p = row.split(",")
-    if len(p) < 2: continue
+    if len(p) < 3: continue
     f = p[0].strip('"')
     if f in factors:
-        try:
-            ics = [float(x) for x in p[1].strip('"[]').split(",") if x]
-            factors[f]["recent_3m"] = ics[-3:] if len(ics) >= 3 else ics
-            # 趋势：最近3个月的IC方向
-            if len(ics) >= 3:
-                factors[f]["trend"] = "up" if ics[-1] > ics[-3] else "down"
-            else:
-                factors[f]["trend"] = "flat"
-        except:
-            factors[f]["recent_3m"] = []
-            factors[f]["trend"] = "flat"
+        if "ic_history" not in factors[f]:
+            factors[f]["ic_history"] = []
+        factors[f]["ic_history"].append({
+            "date": p[1].strip('"'), 
+            "ic": round(float(p[2]), 4)
+        })
 
-# 3. 状态灯：绿=IC_IR>0.3, 黄=0.1-0.3, 红=<0.1
+# 3. 最近3月IC + 趋势
 for f, d in factors.items():
-    ir = abs(d["ic_ir"])
-    if ir >= 0.3:
-        d["status"] = "green"
-    elif ir >= 0.1:
-        d["status"] = "yellow"
+    hist = d.get("ic_history", [])
+    if len(hist) >= 3:
+        d["recent_3m"] = [h["ic"] for h in hist[-3:]]
+        d["trend"] = "up" if hist[-1]["ic"] > hist[-3]["ic"] else "down"
     else:
-        d["status"] = "red"
+        d["recent_3m"] = []
+        d["trend"] = "flat"
+    
+    ir = abs(d["ic_ir"])
+    d["status"] = "green" if ir >= 0.3 else ("yellow" if ir >= 0.1 else "red")
 
-# 输出JSON
 result = {
     "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     "data_source": "ClickHouse amazingdata.factor_ic",
     "total_factors": len(factors),
+    "descriptions": DESCRIPTIONS,
     "factors": sorted(factors.values(), key=lambda x: abs(x["ic_ir"]), reverse=True),
 }
 

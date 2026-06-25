@@ -59,8 +59,9 @@ ASSETS = [
     {"code": "512980", "prefix": "sh", "name": "传媒ETF"},
     {"code": "159865", "prefix": "sz", "name": "养殖ETF"},
     {"code": "515210", "prefix": "sh", "name": "钢铁ETF"},
-    {"code": "515980", "prefix": "sh", "name": "机器人ETF"},
     {"code": "159819", "prefix": "sz", "name": "人工智能ETF"},
+    {"code": "515980", "prefix": "sh", "name": "人工智能ETF华富"},
+    {"code": "159530", "prefix": "sz", "name": "机器人ETF"},
     {"code": "159928", "prefix": "sz", "name": "消费ETF"},
     {"code": "159647", "prefix": "sz", "name": "中药ETF"},
     # ═══ 商品 ═══

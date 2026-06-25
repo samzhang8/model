@@ -6,11 +6,9 @@
 指标：
 1. 年化收益率
 2. 最大回撤
-# 3. 夏普比率 (纯收益/风险比，不做超额收益扣减)
-#    所有资产使用统一 0% 无风险利率，避免货币ETF自身被扣出负夏普
-#    年化收益率10%意味着每承担1%年化波动获得10%/vol的夏普
+3. 夏普比率 (统一0%无风险利率)
 4. 卡玛比率 (年化收益/最大回撤)
-5. 创新高最长天数 (两次创新高之间的最长间隔)
+5. 创新高最长天数 + 起止日期区间
 """
 
 import urllib.request
@@ -85,7 +83,7 @@ ASSETS = [
     {"code": "TRX", "prefix": "crypto", "name": "波场"},
 ]
 
-RISK_FREE_RATE = 0.0  # 使用0%避免货币/短融ETF自身被扣出负夏普
+RISK_FREE_RATE = 0.0
 TRADING_DAYS_PER_YEAR = 252
 
 
@@ -93,7 +91,7 @@ def fetch_history(symbol: str, prefix: str) -> list:
     """分3段拉取2020-01-01至今的前复权日线数据"""
     if prefix == "crypto":
         return fetch_crypto_history(symbol)
-    
+
     chunks = [
         ("2020-01-01", "2021-12-31"),
         ("2022-01-01", "2023-12-31"),
@@ -112,7 +110,6 @@ def fetch_history(symbol: str, prefix: str) -> list:
         except Exception as e:
             print(f"  Error fetching {symbol} {start}-{end}: {e}", file=sys.stderr)
 
-    # 去重
     seen = set()
     unique = []
     for bar in all_bars:
@@ -128,9 +125,9 @@ def fetch_crypto_history(symbol: str) -> list:
     binance_symbol = {"BTC": "BTCUSDT", "ETH": "ETHUSDT", "TRX": "TRXUSDT"}[symbol]
     all_bars = []
     import time
-    
+
     end_time = int(time.time() * 1000)
-    
+
     while len(all_bars) < 2500 and end_time > 0:
         url = f"https://api.binance.com/api/v3/klines?symbol={binance_symbol}&interval=1d&limit=1000&endTime={end_time}"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
@@ -141,8 +138,7 @@ def fetch_crypto_history(symbol: str) -> list:
                     break
                 for k in klines:
                     ts = k[0] / 1000
-                    from datetime import datetime as dt
-                    date_str = dt.utcfromtimestamp(ts).strftime("%Y-%m-%d")
+                    date_str = datetime.utcfromtimestamp(ts).strftime("%Y-%m-%d")
                     price = str(float(k[4]))
                     all_bars.append([date_str, str(float(k[1])), price, str(float(k[2])), str(float(k[3])), str(float(k[5]))])
                 end_time = klines[0][0] - 86400000
@@ -150,7 +146,7 @@ def fetch_crypto_history(symbol: str) -> list:
             print(f"  Binance error for {symbol}: {e}", file=sys.stderr)
             break
         time.sleep(0.5)
-    
+
     seen = set()
     unique = []
     for bar in all_bars:
@@ -207,25 +203,26 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
     # ---- 4. 卡玛比率 ----
     calmar = annual_return / max_drawdown if max_drawdown > 0 else 0
 
-    # ---- 5. 创新高最长天数 ----
-    # 追踪每次创新高，计算相邻间隔（含最后一次新高到今天），取最大值
+    # ---- 5. 创新高最长天数 + 起止日期 ----
     running_peak = closes[0]
-    high_indices = [0]  # 起点也算一个参考点
+    high_indices = [0]
 
     for i in range(1, n_days):
         if closes[i] > running_peak:
             high_indices.append(i)
             running_peak = closes[i]
 
-    # 最后一次新高到今天的间隔
     high_indices.append(n_days - 1)
 
-    # 计算所有相邻间隔，取最长
     max_high_gap = 0
+    max_high_gap_start = ""
+    max_high_gap_end = ""
     for i in range(1, len(high_indices)):
         gap = high_indices[i] - high_indices[i-1]
         if gap > max_high_gap:
             max_high_gap = gap
+            max_high_gap_start = dates[high_indices[i-1]]
+            max_high_gap_end = dates[high_indices[i]]
 
     return {
         "code": code,
@@ -244,6 +241,8 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
         "calmar": round(calmar, 3),
         "annual_vol": round(annual_vol * 100, 2),
         "max_high_gap_days": max_high_gap,
+        "max_high_gap_start": max_high_gap_start,
+        "max_high_gap_end": max_high_gap_end,
         "total_value_10k": round(10000 * (1 + total_return), 0),
         "closes": [{"d": dates[i], "p": round(closes[i], 3)} for i in range(n_days)],
     }
@@ -262,7 +261,10 @@ def main():
         print(f"{len(bars)}个交易日")
         metrics = compute_metrics(bars, asset["code"], asset["name"])
         results.append(metrics)
-        print(f"    年化: {metrics['annual_return']}%  回撤: {metrics['max_drawdown']}%  夏普: {metrics['sharpe']}  卡玛: {metrics['calmar']}  新高最长间隔: {metrics['max_high_gap_days']}天  1万→{metrics['total_value_10k']:.0f}元")
+        gap_info = ""
+        if metrics.get("max_high_gap_start"):
+            gap_info = f"  无新高: {metrics['max_high_gap_start']} ~ {metrics['max_high_gap_end']} ({metrics['max_high_gap_days']}天)"
+        print(f"    年化: {metrics['annual_return']}%  回撤: {metrics['max_drawdown']}%  夏普: {metrics['sharpe']}  卡玛: {metrics['calmar']}{gap_info}  1万→{metrics['total_value_10k']:.0f}元")
 
     output = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -280,7 +282,10 @@ def main():
 
     print("\n📈 年化收益率排名:")
     for i, a in enumerate(sorted(results, key=lambda x: x["annual_return"], reverse=True)):
-        print(f"  {i+1}. {a['name']:<12} 年化{a['annual_return']:>6.1f}%  回撤{a['max_drawdown']:>6.1f}%  夏普{a['sharpe']:>5.2f}  卡玛{a['calmar']:>5.2f}  最长无新高{a['max_high_gap_days']:>4.0f}天")
+        gap_str = ""
+        if a.get("max_high_gap_start"):
+            gap_str = f"  {a['max_high_gap_start']}~{a['max_high_gap_end']}"
+        print(f"  {i+1}. {a['name']:<15} 年化{a['annual_return']:>6.1f}%  回撤{a['max_drawdown']:>6.1f}%  夏普{a['sharpe']:>5.2f}  卡玛{a['calmar']:>5.2f}  无新高{a['max_high_gap_days']:>4.0f}天{gap_str}")
 
 
 if __name__ == "__main__":

@@ -154,10 +154,11 @@
         <th>年化波动</th>
         <th>1万→总额</th>
         <th class="hide-mobile">最长无新高</th>
+        <th class="hide-mobile">无新高区间</th>
       </tr>
     </thead>
     <tbody id="tbody">
-      <tr><td colspan="12"><div class="loading">加载历史数据中</div></td></tr>
+      <tr><td colspan="13"><div class="loading">加载历史数据中</div></td></tr>
     </tbody>
   </table>
 </div>
@@ -208,7 +209,7 @@ async function loadData() {
     startRealtimeQuotes();
   } catch(e) {
     document.getElementById('tbody').innerHTML =
-      '<tr><td colspan="12"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
+      '<tr><td colspan="13"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
   }
 }
 
@@ -376,7 +377,8 @@ function renderTable() {
       '<td class="' + calmarCls + '">' + a.calmar.toFixed(2) + '</td>' +
       '<td>' + a.annual_vol.toFixed(1) + '%</td>' +
       '<td style="font-weight:600">' + currency + a.total_value_10k.toLocaleString() + '</td>' +
-      '<td class="hide-mobile">' + a.max_high_gap_days + '天</td></tr>';
+      '<td class="hide-mobile">' + a.max_high_gap_days + '天</td>' +
+      '<td class="hide-mobile" style="font-size:12px;color:var(--text-dim)">' + (a.max_high_gap_start ? a.max_high_gap_start + ' ~<br>' + a.max_high_gap_end : '—') + '</td></tr>';
   }).join('');
 }
 

@@ -43,23 +43,18 @@
   }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  .sort-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-  .sort-btn {
-    background: var(--card-bg); border: 1px solid var(--card-border);
-    color: var(--text-dim); padding: 6px 14px; border-radius: 6px;
-    font-family: inherit; font-size: 13px; cursor: pointer; transition: all 0.2s;
-  }
-  .sort-btn:hover { border-color: var(--blue); color: var(--text); }
-  .sort-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
 
   .table-wrap { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   thead { background: rgba(255,255,255,0.03); }
   th {
     padding: 14px 12px; text-align: right; font-size: 12px; font-weight: 600;
-    color: var(--text-dim); letter-spacing: 0.5px; white-space: nowrap; cursor: pointer; user-select: none;
+    color: var(--text-dim); letter-spacing: 0.5px; white-space: nowrap; user-select: none;
   }
   th:hover { color: var(--text); }
+  th.sort-active { color: var(--blue); }
+  th[data-sort] { cursor: pointer; }
   th:first-child, td:first-child { text-align: center; width: 40px; }
   th:nth-child(2), td:nth-child(2) { text-align: left; }
   th:last-child, td:last-child { text-align: right; padding-right: 16px; }
@@ -127,17 +122,6 @@
   </div>
 </div>
 
-<div class="sort-bar">
-  <button class="sort-btn active" onclick="sortBy('annual_return')">年化收益率 ↓</button>
-  <button class="sort-btn" onclick="sortBy('max_drawdown')">最大回撤</button>
-  <button class="sort-btn" onclick="sortBy('sharpe')">夏普比率</button>
-  <button class="sort-btn" onclick="sortBy('calmar')">卡玛比率</button>
-  <button class="sort-btn" onclick="sortBy('total_value_10k')">1万→总额</button>
-  <button class="sort-btn" onclick="sortBy('max_high_gap_days')">最长无新高</button>
-  <button class="sort-btn" onclick="sortBy('total_return')">累计收益</button>
-  <button class="sort-btn" onclick="sortBy('annual_vol')">年化波动率</button>
-</div>
-
 <div class="table-wrap">
   <table id="rank-table">
     <thead>
@@ -146,17 +130,17 @@
         <th>资产名称</th>
         <th>现价</th>
         <th>涨跌幅</th>
-        <th>累计收益</th>
-        <th>年化收益</th>
-        <th>最大回撤</th>
-        <th>夏普比率</th>
-        <th>卡玛比率</th>
-        <th>年化波动</th>
-        <th>1万→总额</th>
-        <th class="hide-mobile">最长无新高</th>
+        <th data-sort="total_return" onclick="sortBy('total_return')">累计收益</th>
+        <th data-sort="annual_return" onclick="sortBy('annual_return')" class="sort-active">年化收益 ▾</th>
+        <th data-sort="max_drawdown" onclick="sortBy('max_drawdown')">最大回撤</th>
+        <th data-sort="sharpe" onclick="sortBy('sharpe')">夏普比率</th>
+        <th data-sort="calmar" onclick="sortBy('calmar')">卡玛比率</th>
+        <th data-sort="annual_vol" onclick="sortBy('annual_vol')">年化波动</th>
+        <th data-sort="total_value_10k" onclick="sortBy('total_value_10k')">1万→总额</th>
+        <th data-sort="max_high_gap_days" onclick="sortBy('max_high_gap_days')">最长无新高</th>
         <th class="hide-mobile">无新高区间</th>
-        <th class="hide-mobile">近期高点</th>
-        <th class="hide-mobile">已回撤天数</th>
+        <th class="hide-mobile" data-sort="days_since_last_peak" onclick="sortBy('days_since_last_peak')">已回撤天数</th>
+        <th class="hide-mobile" data-sort="last_peak_date" onclick="sortBy('last_peak_date')">近期高点</th>
       </tr>
     </thead>
     <tbody id="tbody">
@@ -335,12 +319,16 @@ function recomputeMetrics(asset, livePrice) {
 // ========== 排序 & 渲染 ==========
 function sortBy(key) {
   if (sortKey === key) { sortDesc = !sortDesc; }
-  else { sortKey = key; sortDesc = (key === 'max_drawdown' || key === 'annual_vol' || key === 'max_high_gap_days') ? false : true; }
-  document.querySelectorAll('.sort-btn').forEach(btn => {
-    btn.classList.remove('active');
-    const btnKey = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
-    if (btnKey === key) { btn.classList.add('active'); btn.textContent = btn.textContent.replace(/ [↑↓]$/, '') + (sortDesc ? ' ↓' : ' ↑'); }
-    else { btn.textContent = btn.textContent.replace(/ [↑↓]$/, ''); }
+  else { sortKey = key; sortDesc = true; }
+  document.querySelectorAll('th[data-sort]').forEach(th => {
+    const thKey = th.getAttribute('data-sort');
+    if (thKey === key) {
+      th.classList.add('sort-active');
+      th.textContent = th.textContent.replace(/ [▴▾]$/, '') + (sortDesc ? ' ▾' : ' ▴');
+    } else {
+      th.classList.remove('sort-active');
+      th.textContent = th.textContent.replace(/ [▴▾]$/, '');
+    }
   });
   renderTable();
 }

@@ -198,7 +198,7 @@ function buildPrefix(code) {
 // ========== 数据加载 ==========
 async function loadData() {
   try {
-    const resp = await fetch('metrics.json');
+    const resp = await fetch('metrics.json?v=' + Date.now());
     const raw = await resp.json();
     assetData = raw.assets.map(a => ({
       ...a,

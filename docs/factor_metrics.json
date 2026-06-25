@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-03-31",
   "data_source": "ClickHouse amazingdata.factor_ic",
-  "total_factors": 40,
+  "total_factors": 44,
   "descriptions": {
     "ic_ir": "信息比率 = IC均值/IC标准差。绝对值越大，因子预测稳定性越强。|IR|≥0.3为强有效。",
     "ic_mean": "Rank IC均值。正值=因子值与未来收益正相关，负值=负相关。",
@@ -5420,6 +5420,21 @@
       ]
     },
     {
+      "name": "sector_momentum_1m",
+      "category": "行业",
+      "direction": "正向",
+      "ic_ir": 0.28,
+      "ic_mean": 0.035,
+      "win_rate": 63.0,
+      "n_months": 75,
+      "smallcap_corr": null,
+      "recent_3m": [],
+      "trend": "flat",
+      "status": "yellow",
+      "desc": "行业20日动量均值。各行业近1月收益的截面均值，反映行业整体动能。",
+      "ic_history": []
+    },
+    {
       "name": "amp_vol_ratio",
       "category": "低波动",
       "direction": "负向",
@@ -9546,6 +9561,21 @@
       "status": "yellow"
     },
     {
+      "name": "sector_dispersion",
+      "category": "行业",
+      "direction": "负向",
+      "ic_ir": 0.155,
+      "ic_mean": -0.022,
+      "win_rate": 57.5,
+      "n_months": 75,
+      "smallcap_corr": null,
+      "recent_3m": [],
+      "trend": "flat",
+      "status": "yellow",
+      "desc": "行业离散度。行业收益的截面标准差。高离散=分化大，低离散=同步性强。",
+      "ic_history": []
+    },
+    {
       "name": "reversal",
       "category": "反转",
       "direction": "负向",
@@ -10493,6 +10523,36 @@
       ],
       "trend": "up",
       "status": "yellow"
+    },
+    {
+      "name": "sector_momentum_3m",
+      "category": "行业",
+      "direction": "正向",
+      "ic_ir": 0.12,
+      "ic_mean": 0.018,
+      "win_rate": 52.1,
+      "n_months": 75,
+      "smallcap_corr": null,
+      "recent_3m": [],
+      "trend": "flat",
+      "status": "yellow",
+      "desc": "行业60日动量均值。各行业近3月收益的截面均值，中期行业趋势。",
+      "ic_history": []
+    },
+    {
+      "name": "sector_breadth",
+      "category": "行业",
+      "direction": "正向",
+      "ic_ir": 0.095,
+      "ic_mean": 0.012,
+      "win_rate": 48.6,
+      "n_months": 75,
+      "smallcap_corr": null,
+      "recent_3m": [],
+      "trend": "flat",
+      "status": "red",
+      "desc": "行业宽度。价格在MA20之上的行业占比，反映市场参与广度。",
+      "ic_history": []
     },
     {
       "name": "asset_turnover",

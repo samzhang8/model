@@ -27,6 +27,7 @@ ASSETS = [
     {"code": "588000", "prefix": "sh", "name": "科创50ETF"},
     {"code": "159552", "prefix": "sz", "name": "中证2000增强ETF"},
     {"code": "512100", "prefix": "sh", "name": "中证1000ETF"},
+    {"code": "560110", "prefix": "sh", "name": "中证1000增强ETF"},
     {"code": "159901", "prefix": "sz", "name": "深证100ETF"},
     # ═══ 风格/策略 ═══
     {"code": "510880", "prefix": "sh", "name": "红利ETF(上证)"},

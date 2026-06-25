@@ -214,6 +214,11 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
 
     high_indices.append(n_days - 1)
 
+    # 最后一个真正创新高的位置（不含最后追加的终点索引）
+    last_peak_idx = high_indices[-2] if len(high_indices) >= 2 else 0
+    last_peak_date = dates[last_peak_idx]
+    days_since_last_peak = n_days - 1 - last_peak_idx
+
     max_high_gap = 0
     max_high_gap_start = ""
     max_high_gap_end = ""
@@ -243,6 +248,8 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
         "max_high_gap_days": max_high_gap,
         "max_high_gap_start": max_high_gap_start,
         "max_high_gap_end": max_high_gap_end,
+        "last_peak_date": last_peak_date,
+        "days_since_last_peak": days_since_last_peak,
         "total_value_10k": round(10000 * (1 + total_return), 0),
         "closes": [{"d": dates[i], "p": round(closes[i], 3)} for i in range(n_days)],
     }

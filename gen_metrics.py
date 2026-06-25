@@ -20,43 +20,69 @@ import sys
 from datetime import datetime
 
 ASSETS = [
-    # === 原有 ===
+    # ═══ 宽基指数 ═══
     {"code": "510300", "prefix": "sh", "name": "沪深300ETF"},
     {"code": "510500", "prefix": "sh", "name": "中证500ETF"},
-    {"code": "511880", "prefix": "sh", "name": "银华日利ETF"},
-    {"code": "515980", "prefix": "sh", "name": "机器人ETF"},
-    {"code": "159552", "prefix": "sz", "name": "中证2000增强ETF"},
-    {"code": "518850", "prefix": "sh", "name": "黄金股票ETF"},
-    {"code": "600519", "prefix": "sh", "name": "贵州茅台"},
-    {"code": "BTC", "prefix": "crypto", "name": "比特币"},
-    {"code": "ETH", "prefix": "crypto", "name": "以太坊"},
-    {"code": "TRX", "prefix": "crypto", "name": "波场"},
-    # === 宽基指数 ===
+    {"code": "510050", "prefix": "sh", "name": "上证50ETF"},
     {"code": "159915", "prefix": "sz", "name": "创业板ETF"},
     {"code": "159949", "prefix": "sz", "name": "创业板50"},
     {"code": "588000", "prefix": "sh", "name": "科创50ETF"},
-    {"code": "510050", "prefix": "sh", "name": "上证50ETF"},
-    # === 国际指数 ===
-    {"code": "513100", "prefix": "sh", "name": "纳指ETF"},
+    {"code": "159552", "prefix": "sz", "name": "中证2000增强ETF"},
+    {"code": "512100", "prefix": "sh", "name": "中证1000ETF"},
+    {"code": "159901", "prefix": "sz", "name": "深证100ETF"},
+    # ═══ 风格/策略 ═══
+    {"code": "510880", "prefix": "sh", "name": "红利ETF(上证)"},
+    {"code": "515080", "prefix": "sh", "name": "中证红利ETF"},
+    {"code": "512890", "prefix": "sh", "name": "红利低波ETF"},
+    # ═══ 国际指数 ═══
+    {"code": "513100", "prefix": "sh", "name": "纳指ETF(国泰)"},
     {"code": "513500", "prefix": "sh", "name": "标普500ETF"},
     {"code": "159920", "prefix": "sz", "name": "恒生ETF"},
     {"code": "513030", "prefix": "sh", "name": "德国30ETF"},
-    # === 行业板块 ===
+    {"code": "513520", "prefix": "sh", "name": "日经ETF"},
+    {"code": "513080", "prefix": "sh", "name": "法国CAC40ETF"},
+    {"code": "513050", "prefix": "sh", "name": "中概互联"},
+    # ═══ 行业板块 (无重叠) ═══
     {"code": "512880", "prefix": "sh", "name": "证券ETF"},
     {"code": "512010", "prefix": "sh", "name": "医药ETF"},
     {"code": "512660", "prefix": "sh", "name": "军工ETF"},
     {"code": "512480", "prefix": "sh", "name": "半导体ETF"},
     {"code": "512690", "prefix": "sh", "name": "酒ETF"},
     {"code": "515050", "prefix": "sh", "name": "5GETF"},
-    # === 风格策略 ===
-    {"code": "510880", "prefix": "sh", "name": "红利ETF"},
-    {"code": "513050", "prefix": "sh", "name": "中概互联"},
-    # === 商品 ===
+    {"code": "512800", "prefix": "sh", "name": "银行ETF"},
+    {"code": "512200", "prefix": "sh", "name": "房地产ETF"},
+    {"code": "515700", "prefix": "sh", "name": "新能源车ETF"},
+    {"code": "515790", "prefix": "sh", "name": "光伏ETF"},
+    {"code": "159996", "prefix": "sz", "name": "家电ETF"},
+    {"code": "159611", "prefix": "sz", "name": "电力ETF"},
+    {"code": "515220", "prefix": "sh", "name": "煤炭ETF"},
+    {"code": "516110", "prefix": "sh", "name": "汽车ETF"},
+    {"code": "159766", "prefix": "sz", "name": "旅游ETF"},
+    {"code": "512980", "prefix": "sh", "name": "传媒ETF"},
+    {"code": "159865", "prefix": "sz", "name": "养殖ETF"},
+    {"code": "515210", "prefix": "sh", "name": "钢铁ETF"},
+    {"code": "515980", "prefix": "sh", "name": "机器人ETF"},
+    {"code": "159819", "prefix": "sz", "name": "人工智能ETF"},
+    {"code": "159928", "prefix": "sz", "name": "消费ETF"},
+    {"code": "159647", "prefix": "sz", "name": "中药ETF"},
+    # ═══ 商品 ═══
     {"code": "518880", "prefix": "sh", "name": "黄金ETF"},
+    {"code": "518850", "prefix": "sh", "name": "黄金股票ETF"},
     {"code": "159980", "prefix": "sz", "name": "有色ETF"},
-    # === 债券 ===
+    {"code": "159985", "prefix": "sz", "name": "豆粕ETF"},
+    # ═══ 债券/货基 ═══
     {"code": "511010", "prefix": "sh", "name": "国债ETF"},
     {"code": "511360", "prefix": "sh", "name": "短融ETF"},
+    {"code": "511880", "prefix": "sh", "name": "银华日利ETF"},
+    {"code": "511380", "prefix": "sh", "name": "可转债ETF"},
+    {"code": "511520", "prefix": "sh", "name": "政金债ETF"},
+    # ═══ REITs ═══
+    {"code": "508056", "prefix": "sh", "name": "普洛斯REIT"},
+    # ═══ 另类 ═══
+    {"code": "600519", "prefix": "sh", "name": "贵州茅台"},
+    {"code": "BTC", "prefix": "crypto", "name": "比特币"},
+    {"code": "ETH", "prefix": "crypto", "name": "以太坊"},
+    {"code": "TRX", "prefix": "crypto", "name": "波场"},
 ]
 
 RISK_FREE_RATE = 0.0  # 使用0%避免货币/短融ETF自身被扣出负夏普

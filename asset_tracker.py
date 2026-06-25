@@ -328,11 +328,35 @@ function loadAssets() {
     if (saved) assets = JSON.parse(saved);
   } catch(e) {}
   if (!assets.length) {
-    // Default: 3 assets
+    // Default: 55 assets 全品类覆盖
     assets = [
-      {code:'510300', name:'沪深300ETF'},
-      {code:'510500', name:'中证500ETF'},
-      {code:'511880', name:'银华日利ETF'},
+      {code:'510300', name:'沪深300ETF'},{code:'510500', name:'中证500ETF'},
+      {code:'510050', name:'上证50ETF'},{code:'159915', name:'创业板ETF'},
+      {code:'159949', name:'创业板50'},{code:'588000', name:'科创50ETF'},
+      {code:'159552', name:'中证2000增强ETF'},{code:'512100', name:'中证1000ETF'},
+      {code:'159901', name:'深证100ETF'},{code:'510880', name:'红利ETF(上证)'},
+      {code:'515080', name:'中证红利ETF'},{code:'512890', name:'红利低波ETF'},
+      {code:'513100', name:'纳指ETF(国泰)'},{code:'513500', name:'标普500ETF'},
+      {code:'159920', name:'恒生ETF'},{code:'513030', name:'德国30ETF'},
+      {code:'513520', name:'日经ETF'},{code:'513080', name:'法国CAC40ETF'},
+      {code:'513050', name:'中概互联'},{code:'512880', name:'证券ETF'},
+      {code:'512010', name:'医药ETF'},{code:'512660', name:'军工ETF'},
+      {code:'512480', name:'半导体ETF'},{code:'512690', name:'酒ETF'},
+      {code:'515050', name:'5GETF'},{code:'512800', name:'银行ETF'},
+      {code:'512200', name:'房地产ETF'},{code:'515700', name:'新能源车ETF'},
+      {code:'515790', name:'光伏ETF'},{code:'159996', name:'家电ETF'},
+      {code:'159611', name:'电力ETF'},{code:'515220', name:'煤炭ETF'},
+      {code:'516110', name:'汽车ETF'},{code:'159766', name:'旅游ETF'},
+      {code:'512980', name:'传媒ETF'},{code:'159865', name:'养殖ETF'},
+      {code:'515210', name:'钢铁ETF'},{code:'515980', name:'机器人ETF'},
+      {code:'159819', name:'人工智能ETF'},{code:'159928', name:'消费ETF'},
+      {code:'159647', name:'中药ETF'},{code:'518880', name:'黄金ETF'},
+      {code:'518850', name:'黄金股票ETF'},{code:'159980', name:'有色ETF'},
+      {code:'159985', name:'豆粕ETF'},{code:'511010', name:'国债ETF'},
+      {code:'511360', name:'短融ETF'},{code:'511880', name:'银华日利ETF'},
+      {code:'511380', name:'可转债ETF'},{code:'511520', name:'政金债ETF'},
+      {code:'508056', name:'普洛斯REIT'},{code:'600519', name:'贵州茅台'},
+      {code:'BTC', name:'比特币'},{code:'ETH', name:'以太坊'},{code:'TRX', name:'波场'},
     ];
     saveAssets();
   }

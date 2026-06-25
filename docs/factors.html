@@ -208,10 +208,11 @@ function showDetail(name) {
 
   if (chart) chart.destroy();
   let hist = f.ic_history || [];
+  let canvas = document.getElementById('icChart');
   if (hist.length > 0) {
     let labels = hist.map(h => h.date.substring(0,7));
     let ics = hist.map(h => h.ic);
-    let ctx = document.getElementById('icChart').getContext('2d');
+    let ctx = canvas.getContext('2d');
     chart = new Chart(ctx, {
       type: 'bar',
       data: { labels: labels, datasets: [{ label: 'Rank IC', data: ics,
@@ -223,6 +224,10 @@ function showDetail(name) {
                   y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' }, title: { display: true, text: 'Rank IC', color: '#94a3b8' } } }
       }
     });
+  } else {
+    let parent = canvas.parentElement;
+    parent.innerHTML = '<div style=\"text-align:center;color:#64748b;padding:60px 0;font-size:14px\">'
+      +'该因子暂无IC时序数据<br><span style=\"font-size:12px\">仅显示汇总统计（从因子库计算得出）</span></div>';
   }
   document.getElementById('detailPanel').classList.add('show');
   document.getElementById('detailPanel').scrollIntoView({ behavior: 'smooth' });

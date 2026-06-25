@@ -1,0 +1,502 @@
+{
+  "generated_at": "2026-06-25 23:42:21",
+  "data_source": "ClickHouse amazingdata.factor_ic",
+  "total_factors": 33,
+  "factors": [
+    {
+      "name": "log_amount_1m",
+      "category": "规模",
+      "direction": "负向",
+      "ic_mean": -0.1104,
+      "ic_ir": -1.022,
+      "win_rate": 14.7,
+      "n_months": 75,
+      "smallcap_corr": null,
+      "recent_3m": [
+        -0.025319
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "avg_amount_1m",
+      "category": "规模",
+      "direction": "负向",
+      "ic_mean": -0.1104,
+      "ic_ir": -1.022,
+      "win_rate": 14.7,
+      "n_months": 75,
+      "smallcap_corr": null,
+      "recent_3m": [
+        -0.025319
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "illiquidity",
+      "category": "流动性",
+      "direction": "正向",
+      "ic_mean": 0.059,
+      "ic_ir": 0.654,
+      "win_rate": 79.7,
+      "n_months": 74,
+      "smallcap_corr": -0.047,
+      "recent_3m": [
+        0.202113
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "min_ret_1m",
+      "category": "反转",
+      "direction": "正向",
+      "ic_mean": 0.1063,
+      "ic_ir": 0.638,
+      "win_rate": 78.7,
+      "n_months": 75,
+      "smallcap_corr": -0.12,
+      "recent_3m": [
+        0.045985
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "volatility_1m",
+      "category": "低波动",
+      "direction": "负向",
+      "ic_mean": -0.1039,
+      "ic_ir": -0.564,
+      "win_rate": 25.3,
+      "n_months": 75,
+      "smallcap_corr": 0.196,
+      "recent_3m": [
+        0.021737
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "amplitude_1m",
+      "category": "低波动",
+      "direction": "负向",
+      "ic_mean": -0.0993,
+      "ic_ir": -0.555,
+      "win_rate": 29.7,
+      "n_months": 74,
+      "smallcap_corr": 0.188,
+      "recent_3m": [
+        0.099649
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "high_low_1m",
+      "category": "低波动",
+      "direction": "负向",
+      "ic_mean": -0.0986,
+      "ic_ir": -0.547,
+      "win_rate": 29.3,
+      "n_months": 75,
+      "smallcap_corr": 0.182,
+      "recent_3m": [
+        0.090488
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "volatility_3m",
+      "category": "低波动",
+      "direction": "负向",
+      "ic_mean": -0.1053,
+      "ic_ir": -0.543,
+      "win_rate": 30.7,
+      "n_months": 75,
+      "smallcap_corr": 0.176,
+      "recent_3m": [
+        0.027587
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "volatility_6m",
+      "category": "低波动",
+      "direction": "负向",
+      "ic_mean": -0.0991,
+      "ic_ir": -0.499,
+      "win_rate": 30.7,
+      "n_months": 75,
+      "smallcap_corr": 0.148,
+      "recent_3m": [
+        -0.035747
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "log_price",
+      "category": "规模",
+      "direction": "负向",
+      "ic_mean": -0.063,
+      "ic_ir": -0.486,
+      "win_rate": 32.0,
+      "n_months": 75,
+      "smallcap_corr": null,
+      "recent_3m": [
+        -0.036174
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "max_ret_1m",
+      "category": "反转",
+      "direction": "负向",
+      "ic_mean": -0.0729,
+      "ic_ir": -0.458,
+      "win_rate": 26.7,
+      "n_months": 75,
+      "smallcap_corr": 0.161,
+      "recent_3m": [
+        0.051885
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "bb_position",
+      "category": "技术",
+      "direction": "正向",
+      "ic_mean": 0.0741,
+      "ic_ir": 0.411,
+      "win_rate": 65.3,
+      "n_months": 75,
+      "smallcap_corr": 0.03,
+      "recent_3m": [
+        0.499053
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "turnover_proxy",
+      "category": "流动性",
+      "direction": "负向",
+      "ic_mean": -0.0416,
+      "ic_ir": -0.39,
+      "win_rate": 28.0,
+      "n_months": 75,
+      "smallcap_corr": 0.298,
+      "recent_3m": [
+        0.126037
+      ],
+      "trend": "flat",
+      "status": "green"
+    },
+    {
+      "name": "rsi_14",
+      "category": "技术",
+      "direction": "正向",
+      "ic_mean": 0.0278,
+      "ic_ir": 0.239,
+      "win_rate": 61.3,
+      "n_months": 75,
+      "smallcap_corr": 0.046,
+      "recent_3m": [
+        0.267984
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "ma_signal",
+      "category": "技术",
+      "direction": "正向",
+      "ic_mean": 0.0447,
+      "ic_ir": 0.239,
+      "win_rate": 57.3,
+      "n_months": 75,
+      "smallcap_corr": 0.074,
+      "recent_3m": [
+        0.500014
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "ret_6m",
+      "category": "动量",
+      "direction": "负向",
+      "ic_mean": -0.0337,
+      "ic_ir": -0.227,
+      "win_rate": 40.6,
+      "n_months": 69,
+      "smallcap_corr": 0.265,
+      "recent_3m": [
+        0.174977
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "profit_yoy",
+      "category": "成长",
+      "direction": "正向",
+      "ic_mean": 0.02,
+      "ic_ir": 0.195,
+      "win_rate": 51.7,
+      "n_months": 60,
+      "smallcap_corr": -0.004,
+      "recent_3m": [
+        -0.020793
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "eps_yoy",
+      "category": "成长",
+      "direction": "正向",
+      "ic_mean": 0.02,
+      "ic_ir": 0.195,
+      "win_rate": 51.7,
+      "n_months": 60,
+      "smallcap_corr": -0.004,
+      "recent_3m": [
+        -0.020793
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "vol_convergence",
+      "category": "技术",
+      "direction": "正向",
+      "ic_mean": -0.0178,
+      "ic_ir": -0.18,
+      "win_rate": 36.0,
+      "n_months": 75,
+      "smallcap_corr": 0.053,
+      "recent_3m": [
+        -0.006023
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "ret_3m",
+      "category": "动量",
+      "direction": "负向",
+      "ic_mean": -0.0288,
+      "ic_ir": -0.179,
+      "win_rate": 43.1,
+      "n_months": 72,
+      "smallcap_corr": 0.237,
+      "recent_3m": [
+        0.316314
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "momentum_12_1",
+      "category": "动量",
+      "direction": "负向",
+      "ic_mean": -0.0251,
+      "ic_ir": -0.176,
+      "win_rate": 42.9,
+      "n_months": 63,
+      "smallcap_corr": 0.214,
+      "recent_3m": [
+        0.013159
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "revenue_yoy",
+      "category": "成长",
+      "direction": "正向",
+      "ic_mean": 0.0101,
+      "ic_ir": 0.172,
+      "win_rate": 56.7,
+      "n_months": 60,
+      "smallcap_corr": 0.008,
+      "recent_3m": [
+        -0.019629
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "ret_12m",
+      "category": "动量",
+      "direction": "负向",
+      "ic_mean": -0.0246,
+      "ic_ir": -0.17,
+      "win_rate": 44.4,
+      "n_months": 63,
+      "smallcap_corr": 0.23,
+      "recent_3m": [
+        0.109646
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "volume_ratio",
+      "category": "技术",
+      "direction": "正向",
+      "ic_mean": 0.0151,
+      "ic_ir": 0.164,
+      "win_rate": 52.0,
+      "n_months": 75,
+      "smallcap_corr": -0.016,
+      "recent_3m": [
+        0.324264
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "ret_3m_vol_adj",
+      "category": "动量",
+      "direction": "负向",
+      "ic_mean": -0.0246,
+      "ic_ir": -0.159,
+      "win_rate": 44.4,
+      "n_months": 72,
+      "smallcap_corr": 0.223,
+      "recent_3m": [
+        0.332093
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "reversal",
+      "category": "反转",
+      "direction": "负向",
+      "ic_mean": -0.0243,
+      "ic_ir": -0.134,
+      "win_rate": 40.5,
+      "n_months": 74,
+      "smallcap_corr": -0.117,
+      "recent_3m": [
+        -0.366251
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "ret_1m",
+      "category": "动量",
+      "direction": "正向",
+      "ic_mean": 0.0243,
+      "ic_ir": 0.134,
+      "win_rate": 59.5,
+      "n_months": 74,
+      "smallcap_corr": 0.117,
+      "recent_3m": [
+        0.366251
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "up_ratio_1m",
+      "category": "技术",
+      "direction": "正向",
+      "ic_mean": 0.0152,
+      "ic_ir": 0.12,
+      "win_rate": 56.0,
+      "n_months": 75,
+      "smallcap_corr": 0.078,
+      "recent_3m": [
+        0.308041
+      ],
+      "trend": "flat",
+      "status": "yellow"
+    },
+    {
+      "name": "asset_turnover",
+      "category": "基本面",
+      "direction": "正向",
+      "ic_mean": 0.0051,
+      "ic_ir": 0.08,
+      "win_rate": 52.8,
+      "n_months": 72,
+      "smallcap_corr": null,
+      "recent_3m": [
+        -0.002566
+      ],
+      "trend": "flat",
+      "status": "red"
+    },
+    {
+      "name": "roa_ttm",
+      "category": "基本面",
+      "direction": "负向",
+      "ic_mean": -0.0087,
+      "ic_ir": -0.071,
+      "win_rate": 47.2,
+      "n_months": 72,
+      "smallcap_corr": 0.101,
+      "recent_3m": [
+        -0.076045
+      ],
+      "trend": "flat",
+      "status": "red"
+    },
+    {
+      "name": "debt_to_asset",
+      "category": "基本面",
+      "direction": "正向",
+      "ic_mean": 0.0062,
+      "ic_ir": 0.063,
+      "win_rate": 51.4,
+      "n_months": 72,
+      "smallcap_corr": 0.062,
+      "recent_3m": [
+        0.077749
+      ],
+      "trend": "flat",
+      "status": "red"
+    },
+    {
+      "name": "net_margin",
+      "category": "基本面",
+      "direction": "负向",
+      "ic_mean": -0.0063,
+      "ic_ir": -0.056,
+      "win_rate": 47.2,
+      "n_months": 72,
+      "smallcap_corr": 0.004,
+      "recent_3m": [
+        -0.071771
+      ],
+      "trend": "flat",
+      "status": "red"
+    },
+    {
+      "name": "roe_ttm",
+      "category": "基本面",
+      "direction": "负向",
+      "ic_mean": -0.0042,
+      "ic_ir": -0.032,
+      "win_rate": 40.3,
+      "n_months": 72,
+      "smallcap_corr": 0.006,
+      "recent_3m": [
+        -0.05832
+      ],
+      "trend": "flat",
+      "status": "red"
+    }
+  ]
+}

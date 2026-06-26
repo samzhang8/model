@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>策略监控面板</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: #0f172a; color: #e2e8f0; padding: 20px; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .sub { color: #94a3b8; font-size: 13px; margin-bottom: 16px; }
+  .nav { margin-bottom: 12px; }
+  .nav a { color: #60a5fa; text-decoration: none; font-size: 14px; margin-right: 16px; }
+  .cards { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 14px 18px; min-width: 110px; }
+  .card .val { font-size: 24px; font-weight: 700; }
+  .card .lbl { color: #94a3b8; font-size: 12px; margin-top: 4px; }
+  .card .vs { color: #64748b; font-size: 11px; }
+  .green { color: #22c55e; } .red { color: #ef4444; }
+  .chart-wrap { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 16px; height: 400px; position: relative; }
+  canvas { width: 100% !important; }
+  .info { margin-top: 16px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 14px; font-size: 13px; line-height: 1.6; }
+  .info dt { color: #60a5fa; font-weight: 600; margin-top: 8px; }
+  .info dd { color: #94a3b8; margin-left: 0; }
+</style>
+</head>
+<body>
+<h1>📊 策略监控面板</h1>
+<div class="sub">数据更新: <span id="gentime"></span></div>
+<div class="nav">
+  <a href="./">资产排名看板</a>
+  <a href="factors.html">因子监控面板</a>
+</div>
+
+<div class="cards" id="cards"></div>
+<div class="chart-wrap"><canvas id="navChart"></canvas></div>
+<div class="info" id="info"></div>
+
+<script>
+fetch('strategy.json?' + Date.now())
+  .then(r => r.json())
+  .then(d => {
+    document.getElementById('gentime').textContent = d.generated_at;
+    let s = d.strategy, b = d.benchmark;
+    
+    // Cards
+    document.getElementById('cards').innerHTML = 
+      '<div class="card"><div class="val green">+' + s.total_return + '%</div><div class="lbl">累计收益</div><div class="vs">基准 +' + b.total_return + '%</div></div>' +
+      '<div class="card"><div class="val green">+' + s.annual_return + '%</div><div class="lbl">年化收益</div><div class="vs">基准 +' + b.annual_return + '%</div></div>' +
+      '<div class="card"><div class="val">' + s.sharpe + '</div><div class="lbl">夏普比率</div></div>' +
+      '<div class="card"><div class="val red">-' + s.max_drawdown + '%</div><div class="lbl">最大回撤</div></div>' +
+      '<div class="card"><div class="val">' + s.n_years + '</div><div class="lbl">回测年数</div></div>' +
+      '<div class="card"><div class="val">' + s.n_assets + '</div><div class="lbl">持仓数</div></div>';
+    
+    // Info
+    document.getElementById('info').innerHTML = 
+      '<dt>策略规则</dt><dd>' + d.strategy.description + '</dd>' +
+      '<dt>回测区间</dt><dd>' + s.start_date + ' 至 ' + s.end_date + '</dd>' +
+      '<dt>基准</dt><dd>' + b.name + '（等权配置所有ETF）</dd>';
+    
+    // Chart
+    let nav = d.nav_history;
+    let labels = nav.map(h => h.date);
+    let navs = nav.map(h => h.nav);
+    let ctx = document.getElementById('navChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '策略净值',
+          data: navs,
+          borderColor: '#22c55e',
+          backgroundColor: 'rgba(34,197,94,0.1)',
+          fill: true, tension: 0.1, pointRadius: 0
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { 
+            callbacks: { label: function(ctx) { return '净值: ' + ctx.parsed.y.toFixed(4); } }
+          }
+        },
+        scales: {
+          x: { ticks: { color: '#94a3b8', maxTicksLimit: 20, font: {size:10} }, grid: { color: '#1e293b' } },
+          y: { ticks: { color: '#94a3b8', callback: function(v) { return v.toFixed(2); } }, grid: { color: '#1e293b' } }
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>

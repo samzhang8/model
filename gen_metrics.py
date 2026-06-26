@@ -20,6 +20,7 @@ from datetime import datetime
 ASSETS = [
     # ═══ 宽基指数 ═══
     {"code": "510300", "prefix": "sh", "name": "沪深300ETF"},
+    {"code": "512090", "prefix": "sh", "name": "MSCI A股ETF"},
     {"code": "510500", "prefix": "sh", "name": "中证500ETF"},
     {"code": "510050", "prefix": "sh", "name": "上证50ETF"},
     {"code": "159915", "prefix": "sz", "name": "创业板ETF"},
@@ -48,6 +49,9 @@ ASSETS = [
     {"code": "512480", "prefix": "sh", "name": "半导体ETF"},
     {"code": "512690", "prefix": "sh", "name": "酒ETF"},
     {"code": "515050", "prefix": "sh", "name": "5GETF"},
+    {"code": "515880", "prefix": "sh", "name": "通信ETF"},
+    {"code": "516510", "prefix": "sh", "name": "云计算ETF"},
+    {"code": "515400", "prefix": "sh", "name": "大数据ETF"},
     {"code": "512800", "prefix": "sh", "name": "银行ETF"},
     {"code": "512200", "prefix": "sh", "name": "房地产ETF"},
     {"code": "515700", "prefix": "sh", "name": "新能源车ETF"},

@@ -20,9 +20,11 @@
   .chart-stat .label { color: var(--dim); font-size: 11px; }
   .chart-stat .value { font-weight: 600; font-size: 15px; }
   .chart-stat .up { color: var(--green); } .chart-stat .down { color: var(--red); }
-  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; height: 420px; position: relative; margin-bottom: 12px; }
+  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; height: 440px; position: relative; }
   canvas { width: 100% !important; }
-  .footer { text-align: center; font-size: 12px; color: var(--dim); }
+  .crosshair-tip { display: none; position: absolute; background: #0f172a; border: 1px solid var(--dim); border-radius: 4px;
+    padding: 4px 8px; font-size: 12px; pointer-events: none; z-index: 10; white-space: nowrap; }
+  .footer { text-align: center; font-size: 12px; color: var(--dim); margin-top: 8px; }
   .footer a { color: var(--blue); text-decoration: none; }
 </style>
 </head>
@@ -36,10 +38,11 @@
 </div>
 
 <div class="chart-stats" id="stats"></div>
-<div class="chart-wrap"><canvas id="navChart"></canvas></div>
-<div class="footer">
-  基准: 中证全指(000985) · <a href="strategy.json">原始数据</a>
+<div class="chart-wrap" id="chartWrap">
+  <canvas id="navChart"></canvas>
+  <div class="crosshair-tip" id="crosshairTip"></div>
 </div>
+<div class="footer">基准: 中证全指(000985) · <a href="strategy.json">原始数据</a></div>
 
 <script>
 fetch('strategy.json?' + Date.now())
@@ -48,7 +51,6 @@ fetch('strategy.json?' + Date.now())
     document.getElementById('gentime').textContent = d.generated_at;
     let s = d.strategy;
     
-    // Stats — same fields as asset panel
     document.getElementById('stats').innerHTML =
       '<div class="chart-stat"><span class="label">涨跌幅</span><span class="value ' + (s.latest_change>=0?'up':'down') + '">' + (s.latest_change>=0?'+':'') + s.latest_change + '%</span></div>' +
       '<div class="chart-stat"><span class="label">累计收益</span><span class="value ' + (s.total_return>=0?'up':'down') + '">' + (s.total_return>=0?'+':'') + s.total_return + '%</span></div>' +
@@ -65,13 +67,30 @@ fetch('strategy.json?' + Date.now())
 
     let nav = d.nav_history, bnav = d.benchmark_nav;
     let labels = nav.map(h => h.date);
-    let ctx = document.getElementById('navChart').getContext('2d');
-    
-    // Red line for normal, green for drawdown period
     let navData = nav.map(h => h.nav);
-    let pointColors = nav.map(h => h.in_drawdown ? '#22c55e' : '#ef4444');
-    
-    new Chart(ctx, {
+    let ctx = document.getElementById('navChart').getContext('2d');
+    let tip = document.getElementById('crosshairTip');
+    let wrap = document.getElementById('chartWrap');
+
+    // Crosshair plugin
+    const crosshairPlugin = {
+      id: 'crosshair',
+      afterDatasetsDraw(chart, args, opts) {
+        if (!opts.active) return;
+        let x = opts.x, y = opts.y;
+        let ctx = chart.ctx;
+        let ca = chart.chartArea;
+        ctx.save();
+        ctx.setLineDash([3,3]);
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(x, ca.top); ctx.lineTo(x, ca.bottom); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ca.left, y); ctx.lineTo(ca.right, y); ctx.stroke();
+        ctx.restore();
+      }
+    };
+
+    let chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
@@ -82,6 +101,7 @@ fetch('strategy.json?' + Date.now())
             borderColor: '#ef4444',
             backgroundColor: 'rgba(239,68,68,0.08)',
             fill: true, tension: 0.1, pointRadius: 0, borderWidth: 2,
+            pointHoverRadius: 5, pointHoverBackgroundColor: '#fff',
             segment: {
               borderColor: function(ctx) {
                 return nav[ctx.p0DataIndex] && nav[ctx.p0DataIndex].in_drawdown ? '#22c55e' : '#ef4444';
@@ -98,15 +118,47 @@ fetch('strategy.json?' + Date.now())
       },
       options: {
         responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { labels: { color: '#94a3b8', usePointStyle: true } },
-          tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(4); } } }
+          crosshair: { active: false, x: 0, y: 0 },
+          tooltip: {
+            enabled: true,
+            position: 'nearest',
+            callbacks: {
+              title: function(items) { return items[0].label; },
+              label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(4); }
+            }
+          }
         },
         scales: {
           x: { ticks: { color: '#94a3b8', maxTicksLimit: 20, font:{size:10} }, grid: { color: '#1e293b' } },
           y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
         }
+      },
+      plugins: [crosshairPlugin]
+    });
+
+    // Handle mousemove to update crosshair
+    wrap.addEventListener('mousemove', function(evt) {
+      let rect = wrap.getBoundingClientRect();
+      let x = evt.clientX - rect.left;
+      let y = evt.clientY - rect.top;
+      
+      let points = chart.getElementsAtEventForMode(evt, 'index', { intersect: false }, true);
+      if (points.length) {
+        chart.options.plugins.crosshair = {
+          active: true,
+          x: points[0].element.x,
+          y: points[0].element.y
+        };
       }
+      chart.update('none');
+    });
+    
+    wrap.addEventListener('mouseleave', function() {
+      chart.options.plugins.crosshair.active = false;
+      chart.update('none');
     });
   });
 </script>

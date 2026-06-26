@@ -10,157 +10,146 @@
   :root { --bg: #0f172a; --card: #1e293b; --border: #334155; --text: #e2e8f0; --dim: #94a3b8; --blue: #60a5fa; --green: #22c55e; --red: #ef4444; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
          background: var(--bg); color: var(--text); padding: 20px; }
-  h1 { font-size: 22px; margin-bottom: 4px; }
-  .sub { color: var(--dim); font-size: 13px; margin-bottom: 10px; }
+  h1 { font-size: 22px; margin-bottom: 10px; }
   .nav { margin-bottom: 14px; display: flex; gap: 14px; }
   .nav a { color: var(--blue); text-decoration: none; font-size: 14px; }
   .nav a.active { color: var(--text); font-weight: 600; }
-  .chart-stats { display: flex; gap: 24px; margin-bottom: 14px; font-size: 13px; flex-wrap: wrap; }
-  .chart-stat { display: flex; flex-direction: column; }
-  .chart-stat .label { color: var(--dim); font-size: 11px; }
-  .chart-stat .value { font-weight: 600; font-size: 15px; }
-  .chart-stat .up { color: var(--green); } .chart-stat .down { color: var(--red); }
-  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; height: 440px; position: relative; }
+  .up { color: var(--green); } .down { color: var(--red); }
+  
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 10px 12px; text-align: right; white-space: nowrap; }
+  th { color: var(--dim); font-weight: 500; border-bottom: 1px solid var(--border); cursor: pointer; position: sticky; top: 0; background: var(--bg); }
+  th:first-child, td:first-child { text-align: left; }
+  td { border-bottom: 1px solid #1e293b; }
+  tr:hover td { background: #1e293b; }
+  tr { cursor: pointer; }
+  .name { color: var(--blue); }
+  
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; width: min(95vw, 900px); max-height: 90vh; overflow-y: auto; }
+  .modal h2 { font-size: 18px; margin-bottom: 4px; }
+  .modal .src { color: var(--dim); font-size: 12px; margin-bottom: 14px; }
+  .modal .desc { color: var(--dim); font-size: 13px; margin-bottom: 12px; }
+  .modal-stats { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; }
+  .modal-stat { display: flex; flex-direction: column; }
+  .modal-stat .label { color: var(--dim); font-size: 11px; }
+  .modal-stat .value { font-weight: 600; font-size: 15px; }
+  .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: 1px solid var(--border); color: var(--dim); font-size: 18px; cursor: pointer; border-radius: 4px; padding: 2px 8px; }
+  .chart-wrap { position: relative; height: 380px; }
   canvas { width: 100% !important; }
-  .crosshair-tip { display: none; position: absolute; background: #0f172a; border: 1px solid var(--dim); border-radius: 4px;
-    padding: 4px 8px; font-size: 12px; pointer-events: none; z-index: 10; white-space: nowrap; }
-  .footer { text-align: center; font-size: 12px; color: var(--dim); margin-top: 8px; }
-  .footer a { color: var(--blue); text-decoration: none; }
+  @media (max-width: 600px) { table { font-size: 11px; } th, td { padding: 6px 4px; } }
 </style>
 </head>
 <body>
 <h1>📊 策略监控面板</h1>
-<div class="sub">数据更新: <span id="gentime"></span></div>
 <div class="nav">
   <a href="./">📈 资产排名</a>
   <a href="factors.html">📐 因子监控</a>
   <a href="strategy.html" class="active">📊 策略监控</a>
 </div>
 
-<div class="chart-stats" id="stats"></div>
-<div class="chart-wrap" id="chartWrap">
-  <canvas id="navChart"></canvas>
-  <div class="crosshair-tip" id="crosshairTip"></div>
+<table>
+<thead>
+<tr>
+  <th onclick="sortTable(0)">策略名称</th>
+  <th onclick="sortTable(1)" class="sort-active">年化收益 ▾</th>
+  <th onclick="sortTable(2)">累计收益</th>
+  <th onclick="sortTable(3)">夏普比率</th>
+  <th onclick="sortTable(4)">最大回撤</th>
+  <th onclick="sortTable(5)">卡玛比率</th>
+  <th onclick="sortTable(6)">年化波动</th>
+  <th onclick="sortTable(7)">1万→总额</th>
+  <th onclick="sortTable(8)">调仓</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 id="modalTitle"></h2>
+    <div class="src" id="modalSource"></div>
+    <div class="desc" id="modalDesc"></div>
+    <div class="modal-stats" id="modalStats"></div>
+    <div class="chart-wrap"><canvas id="modalChart"></canvas></div>
+  </div>
 </div>
-<div class="footer">基准: 中证全指(000985) · <a href="strategy.json">原始数据</a></div>
 
 <script>
-fetch('strategy.json?' + Date.now())
-  .then(r => r.json())
-  .then(d => {
-    document.getElementById('gentime').textContent = d.generated_at;
-    let s = d.strategy;
-    
-    document.getElementById('stats').innerHTML =
-      '<div class="chart-stat"><span class="label">涨跌幅</span><span class="value ' + (s.latest_change>=0?'up':'down') + '">' + (s.latest_change>=0?'+':'') + s.latest_change + '%</span></div>' +
-      '<div class="chart-stat"><span class="label">累计收益</span><span class="value ' + (s.total_return>=0?'up':'down') + '">' + (s.total_return>=0?'+':'') + s.total_return + '%</span></div>' +
-      '<div class="chart-stat"><span class="label">年化收益</span><span class="value ' + (s.annual_return>=0?'up':'down') + '">' + (s.annual_return>=0?'+':'') + s.annual_return + '%</span></div>' +
-      '<div class="chart-stat"><span class="label">最大回撤</span><span class="value down">-' + s.max_drawdown + '%</span></div>' +
-      '<div class="chart-stat"><span class="label">夏普比率</span><span class="value">' + s.sharpe + '</span></div>' +
-      '<div class="chart-stat"><span class="label">卡玛比率</span><span class="value">' + s.calmar + '</span></div>' +
-      '<div class="chart-stat"><span class="label">年化波动</span><span class="value">' + s.annual_vol + '%</span></div>' +
-      '<div class="chart-stat"><span class="label">1万→总额</span><span class="value">¥' + s.total_value_10k.toLocaleString() + '</span></div>' +
-      '<div class="chart-stat"><span class="label">最长无新高</span><span class="value">' + s.max_high_gap_days + '天</span></div>' +
-      '<div class="chart-stat"><span class="label">无新高区间</span><span class="value">' + s.no_high_start + '~' + s.no_high_end + '</span></div>' +
-      '<div class="chart-stat"><span class="label">已回撤天数</span><span class="value">' + s.days_since_last_peak + '天</span></div>' +
-      '<div class="chart-stat"><span class="label">近期高点</span><span class="value">' + s.last_peak_date + '</span></div>';
+let chart, strategies;
 
-    let nav = d.nav_history, bnav = d.benchmark_nav;
-    let labels = nav.map(h => h.date);
-    let navData = nav.map(h => h.nav);
-    let ctx = document.getElementById('navChart').getContext('2d');
-    let tip = document.getElementById('crosshairTip');
-    let wrap = document.getElementById('chartWrap');
-
-    // Crosshair plugin
-    const crosshairPlugin = {
-      id: 'crosshair',
-      afterDatasetsDraw(chart, args, opts) {
-        if (!opts.active) return;
-        let x = opts.x, y = opts.y;
-        let ctx = chart.ctx;
-        let ca = chart.chartArea;
-        ctx.save();
-        ctx.setLineDash([3,3]);
-        ctx.strokeStyle = '#64748b';
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(x, ca.top); ctx.lineTo(x, ca.bottom); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(ca.left, y); ctx.lineTo(ca.right, y); ctx.stroke();
-        ctx.restore();
-      }
-    };
-
-    let chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: '策略净值',
-            data: navData,
-            borderColor: '#ef4444',
-            backgroundColor: 'rgba(239,68,68,0.08)',
-            fill: true, tension: 0.1, pointRadius: 0, borderWidth: 2,
-            pointHoverRadius: 5, pointHoverBackgroundColor: '#fff',
-            segment: {
-              borderColor: function(ctx) {
-                return nav[ctx.p0DataIndex] && nav[ctx.p0DataIndex].in_drawdown ? '#22c55e' : '#ef4444';
-              }
-            }
-          },
-          {
-            label: '中证全指(000985)',
-            data: bnav.map(h => h.nav),
-            borderColor: '#64748b', backgroundColor: 'transparent',
-            borderDash: [4,4], tension: 0.1, pointRadius: 0, borderWidth: 1
-          }
-        ]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-          legend: { labels: { color: '#94a3b8', usePointStyle: true } },
-          crosshair: { active: false, x: 0, y: 0 },
-          tooltip: {
-            enabled: true,
-            position: 'nearest',
-            callbacks: {
-              title: function(items) { return items[0].label; },
-              label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(4); }
-            }
-          }
-        },
-        scales: {
-          x: { ticks: { color: '#94a3b8', maxTicksLimit: 20, font:{size:10} }, grid: { color: '#1e293b' } },
-          y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
-        }
-      },
-      plugins: [crosshairPlugin]
-    });
-
-    // Handle mousemove to update crosshair
-    wrap.addEventListener('mousemove', function(evt) {
-      let rect = wrap.getBoundingClientRect();
-      let x = evt.clientX - rect.left;
-      let y = evt.clientY - rect.top;
-      
-      let points = chart.getElementsAtEventForMode(evt, 'index', { intersect: false }, true);
-      if (points.length) {
-        chart.options.plugins.crosshair = {
-          active: true,
-          x: points[0].element.x,
-          y: points[0].element.y
-        };
-      }
-      chart.update('none');
-    });
-    
-    wrap.addEventListener('mouseleave', function() {
-      chart.options.plugins.crosshair.active = false;
-      chart.update('none');
-    });
+fetch('strategies.json?'+Date.now())
+  .then(r=>r.json())
+  .then(d=>{
+    strategies = d.strategies;
+    render();
   });
+
+function render() {
+  document.getElementById('tbody').innerHTML = strategies.map(s=>{
+    return '<tr onclick="showDetail(\''+s.id+'\')">'+
+      '<td class="name">'+s.name+'</td>'+
+      '<td class="'+(s.annual_return>=0?'up':'down')+'">'+(s.annual_return>=0?'+':'')+s.annual_return+'%</td>'+
+      '<td class="'+(s.total_return>=0?'up':'down')+'">'+(s.total_return>=0?'+':'')+s.total_return+'%</td>'+
+      '<td>'+s.sharpe+'</td>'+
+      '<td class="down">-'+s.max_drawdown+'%</td>'+
+      '<td>'+s.calmar+'</td>'+
+      '<td>'+s.annual_vol+'%</td>'+
+      '<td>¥'+s.total_value_10k.toLocaleString()+'</td>'+
+      '<td>'+s.rebalance+'</td>'+
+    '</tr>';
+  }).join('');
+}
+
+function showDetail(id) {
+  let s = strategies.find(x=>x.id===id);
+  if(!s) return;
+  document.getElementById('modalTitle').textContent = s.name;
+  document.getElementById('modalSource').textContent = '来源: '+s.source+' · '+s.start_date+' ~ '+s.end_date;
+  document.getElementById('modalDesc').textContent = s.description;
+  document.getElementById('modalStats').innerHTML =
+    '<div class="modal-stat"><span class="label">年化收益</span><span class="value '+(s.annual_return>=0?'up':'down')+'">'+(s.annual_return>=0?'+':'')+s.annual_return+'%</span></div>'+
+    '<div class="modal-stat"><span class="label">累计收益</span><span class="value '+(s.total_return>=0?'up':'down')+'">'+(s.total_return>=0?'+':'')+s.total_return+'%</span></div>'+
+    '<div class="modal-stat"><span class="label">夏普比率</span><span class="value">'+s.sharpe+'</span></div>'+
+    '<div class="modal-stat"><span class="label">最大回撤</span><span class="value down">-'+s.max_drawdown+'%</span></div>'+
+    '<div class="modal-stat"><span class="label">卡玛比率</span><span class="value">'+s.calmar+'</span></div>'+
+    '<div class="modal-stat"><span class="label">年化波动</span><span class="value">'+s.annual_vol+'%</span></div>'+
+    '<div class="modal-stat"><span class="label">1万→总额</span><span class="value">¥'+s.total_value_10k.toLocaleString()+'</span></div>';
+  
+  document.getElementById('modalOverlay').classList.add('active');
+  
+  if(chart) chart.destroy();
+  let nav = s.nav_history;
+  let ctx = document.getElementById('modalChart').getContext('2d');
+  chart = new Chart(ctx, {
+    type:'line',
+    data:{
+      labels:nav.map(h=>h.date),
+      datasets:[{
+        label:'净值',data:nav.map(h=>h.nav),
+        borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.08)',
+        fill:true,tension:0.1,pointRadius:0,borderWidth:2
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        crosshair:{active:false,x:0,y:0}
+      },
+      scales:{
+        x:{ticks:{color:'#94a3b8',maxTicksLimit:15,font:{size:10}},grid:{color:'#1e293b'}},
+        y:{ticks:{color:'#94a3b8'},grid:{color:'#1e293b'}}
+      }
+    }
+  });
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
 </script>
 </body>
 </html>

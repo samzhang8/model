@@ -45,18 +45,24 @@
   .bar { height: 6px; border-radius: 3px; background: #334155; position: relative; }
   .bar-fill { height: 100%; border-radius: 3px; position: absolute; left: 0; top: 0; }
   .bar-green { background: #22c55e; } .bar-yellow { background: #eab308; } .bar-red { background: #ef4444; }
-  .detail-panel { display: none; background: #1e293b; border: 1px solid #334155; border-radius: 8px;
-    padding: 16px; margin-top: 14px; }
-  .detail-panel.show { display: block; }
-  .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .detail-header h3 { font-size: 16px; }
-  .detail-close { background: none; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; }
-  .detail-stats { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; font-size: 13px; }
-  .detail-stat { background: #0f172a; padding: 8px 14px; border-radius: 6px; }
-  .detail-stat .val { font-size: 18px; font-weight: 600; }
-  .detail-stat .lbl { color: #94a3b8; font-size: 11px; }
-  .chart-wrap { height: 300px; position: relative; }
-  canvas { width: 100% !important; }
+
+  /* Modal overlay */
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto; padding: 20px; }
+  .modal-overlay.show { display: flex; align-items: flex-start; justify-content: center; }
+  .modal-content { background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+    padding: 20px; width: 100%; max-width: 700px; margin-top: 60px; position: relative; }
+  .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none;
+    color: #94a3b8; font-size: 22px; cursor: pointer; }
+  .modal-title { font-size: 17px; font-weight: 600; margin-bottom: 14px; padding-right: 30px; }
+  .modal-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .modal-stat { background: #0f172a; padding: 10px 14px; border-radius: 6px; min-width: 90px; }
+  .modal-stat .val { font-size: 20px; font-weight: 700; }
+  .modal-stat .lbl { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+  .chart-wrap { height: 280px; position: relative; margin-top: 10px; }
+  .chart-wrap canvas { width: 100% !important; }
+  .modal-empty { text-align: center; color: #64748b; padding: 40px 0; font-size: 14px; }
+  .modal-empty span { font-size: 12px; display: block; margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -84,10 +90,6 @@
   <button onclick="filterCat('Alpha101')">Alpha101</button>
   <button onclick="filterCat('Alpha158')">Alpha158</button>
   <button onclick="filterCat('Barra')">Barra</button>
-  <button onclick="filterCat('规模')">规模</button>
-  <button onclick="filterCat('动量')">动量</button>
-  <button onclick="filterCat('低波动')">低波动</button>
-  <button onclick="filterCat('基本面')">基本面</button>
 </div>
 
 <table id="tbl">
@@ -104,13 +106,14 @@
 <tbody></tbody>
 </table>
 
-<div class="detail-panel" id="detailPanel">
-  <div class="detail-header">
-    <h3 id="detailTitle"></h3>
-    <button class="detail-close" onclick="closeDetail()">✕</button>
+<!-- Modal overlay for factor detail -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeDetail()">✕</button>
+    <div class="modal-title" id="detailTitle"></div>
+    <div class="modal-stats" id="detailStats"></div>
+    <div class="chart-wrap" id="chartWrap"><canvas id="icChart"></canvas></div>
   </div>
-  <div class="detail-stats" id="detailStats"></div>
-  <div class="chart-wrap"><canvas id="icChart"></canvas></div>
 </div>
 
 <script>
@@ -131,12 +134,11 @@ fetch('factor_metrics.json?' + Date.now())
 
 function buildHelp() {
   let h = '<dl>';
-  if(descriptions.ic_ir) h += '<dt>IC_IR</dt><dd>'+descriptions.ic_ir+'</dd>';
-  if(descriptions.ic_mean) h += '<dt>IC均值</dt><dd>'+descriptions.ic_mean+'</dd>';
-  if(descriptions.win_rate) h += '<dt>胜率</dt><dd>'+descriptions.win_rate+'</dd>';
-  h += '<dt>方向</dt><dd>正向=因子值越大未来收益越好；负向=越小越好</dd>';
-  h += '<dt>市值相关</dt><dd>与小市值因子的Spearman相关。|corr|&lt;0.15独立，&gt;0.3同质化</dd>';
-  h += '<dt>近期IC</dt><dd>最近3个月IC值。↑=IC上升，↓=IC衰减</dd>';
+  h += '<dt>IC_IR</dt><dd>信息比率 = IC均值/IC标准差。绝对值越大预测越稳定。|IR|≥0.3为强有效。</dd>';
+  h += '<dt>IC均值</dt><dd>Rank IC均值。正值=因子值与未来收益正相关，负值=负相关。</dd>';
+  h += '<dt>胜率</dt><dd>IC为正的月份占比。>50%说明多数时候方向正确。</dd>';
+  h += '<dt>方向</dt><dd>正向=因子值越大收益越好；负向=越小越好。</dd>';
+  h += '<dt>市值相关</dt><dd>与小市值因子的Spearman相关。|corr|&lt;0.15独立，&gt;0.3同质化。</dd>';
   h += '</dl>';
   document.getElementById('helpBox').innerHTML = h;
 }
@@ -191,28 +193,34 @@ function render() {
 function showDetail(name) {
   let f = allFactors.find(x => x.name === name);
   if (!f) return;
+
   document.querySelectorAll('tr.selected').forEach(r => r.classList.remove('selected'));
   let row = document.querySelector('tr[data-factor="'+name+'"]');
   if(row) row.classList.add('selected');
-  
+
   document.getElementById('detailTitle').textContent = f.name + ' — ' + f.category + ' · ' + f.direction;
-  let stats = '<div class="detail-stat"><div class="val">'+(f.ic_ir>=0?'+':'')+f.ic_ir.toFixed(3)+'</div><div class="lbl">IC_IR</div></div>';
-  stats += '<div class="detail-stat"><div class="val">'+(f.ic_mean>=0?'+':'')+f.ic_mean.toFixed(4)+'</div><div class="lbl">IC均值</div></div>';
-  stats += '<div class="detail-stat"><div class="val">'+f.win_rate+'%</div><div class="lbl">胜率</div></div>';
-  stats += '<div class="detail-stat"><div class="val">'+(f.n_months||'?')+'</div><div class="lbl">月数</div></div>';
+  
+  let stats = '<div class="modal-stat"><div class="val">'+(f.ic_ir>=0?'+':'')+f.ic_ir.toFixed(3)+'</div><div class="lbl">IC_IR</div></div>';
+  stats += '<div class="modal-stat"><div class="val">'+(f.ic_mean>=0?'+':'')+f.ic_mean.toFixed(4)+'</div><div class="lbl">IC均值</div></div>';
+  stats += '<div class="modal-stat"><div class="val">'+f.win_rate+'%</div><div class="lbl">胜率</div></div>';
+  stats += '<div class="modal-stat"><div class="val">'+(f.n_months||'?')+'</div><div class="lbl">月数</div></div>';
   if (f.smallcap_corr !== null && f.smallcap_corr !== undefined) {
     let scC = Math.abs(f.smallcap_corr)<0.15?'#22c55e':(Math.abs(f.smallcap_corr)<0.30?'#eab308':'#ef4444');
-    stats += '<div class="detail-stat"><div class="val" style="color:'+scC+'">'+(f.smallcap_corr>=0?'+':'')+f.smallcap_corr.toFixed(3)+'</div><div class="lbl">市值相关</div></div>';
+    stats += '<div class="modal-stat"><div class="val" style="color:'+scC+'">'+(f.smallcap_corr>=0?'+':'')+f.smallcap_corr.toFixed(3)+'</div><div class="lbl">市值相关</div></div>';
   }
   document.getElementById('detailStats').innerHTML = stats;
 
-  if (chart) chart.destroy();
+  // Chart
+  let cw = document.getElementById('chartWrap');
   let hist = f.ic_history || [];
-  let canvas = document.getElementById('icChart');
+  
+  if (chart) { chart.destroy(); chart = null; }
+
   if (hist.length > 0) {
+    cw.innerHTML = '<canvas id="icChart"></canvas>';
     let labels = hist.map(h => h.date.substring(0,7));
     let ics = hist.map(h => h.ic);
-    let ctx = canvas.getContext('2d');
+    let ctx = document.getElementById('icChart').getContext('2d');
     chart = new Chart(ctx, {
       type: 'bar',
       data: { labels: labels, datasets: [{ label: 'Rank IC', data: ics,
@@ -224,28 +232,29 @@ function showDetail(name) {
                   y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' }, title: { display: true, text: 'Rank IC', color: '#94a3b8' } } }
       }
     });
+    cw.style.display = 'block';
   } else {
-    let parent = canvas.parentElement;
-    parent.innerHTML = '<div style=\"text-align:center;color:#64748b;padding:60px 0;font-size:14px\">'
-      +'该因子暂无IC时序数据<br><span style=\"font-size:12px\">仅显示汇总统计（从因子库计算得出）</span></div>';
+    cw.innerHTML = '<div class="modal-empty">暂无IC时序图表<br><span>该因子只有汇总统计（从因子库计算得出）</span></div>';
+    cw.style.display = 'block';
   }
-  document.getElementById('detailPanel').classList.add('show');
-  document.getElementById('detailPanel').scrollIntoView({ behavior: 'smooth' });
+
+  document.getElementById('modalOverlay').classList.add('show');
 }
 
 function closeDetail() {
-  document.getElementById('detailPanel').classList.remove('show');
+  document.getElementById('modalOverlay').classList.remove('show');
   document.querySelectorAll('tr.selected').forEach(r => r.classList.remove('selected'));
   if (chart) { chart.destroy(); chart = null; }
 }
 
-function filter(type) { currentFilter = type; updateButtons('filters', type); closeDetail(); render(); }
+function filter(type) { currentFilter = type; updateButtons(type); closeDetail(); render(); }
 function filterCat(cat) { currentFilter = cat; closeDetail(); render(); }
 
-function updateButtons(cls, active) {
-  document.querySelectorAll('.'+cls+' button').forEach(b => {
+function updateButtons(active) {
+  document.querySelectorAll('.filters button').forEach(b => {
     b.classList.remove('active');
-    if (b.textContent.includes(active) || (active==='all' && b.textContent.includes('全部'))) b.classList.add('active');
+    if (active==='all' && b.textContent.includes('全部')) b.classList.add('active');
+    if (b.textContent === active) b.classList.add('active');
   });
 }
 

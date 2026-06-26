@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""策略面板 v2 — 基准改为000985中证全指"""
+"""策略面板 v3 — 资产面板全字段 + 回撤绿色标记 + 无策略描述"""
 import json, urllib.request, math, time
 from datetime import datetime
 
-# Load existing asset list
 with open("docs/metrics.json") as f:
     metrics = json.load(f)
-
 ASSETS = [{"code": a["code"], "prefix": "sh" if a["code"].startswith("5") else "sz", "name": a["name"]} for a in metrics["assets"]]
 
 def fetch_daily(code, prefix, num=1000):
@@ -27,7 +25,7 @@ def fetch_daily(code, prefix, num=1000):
         return prices if len(prices) > 100 else None
     except: return None
 
-print("Fetching ETF daily prices...")
+print("Fetching ETF prices...")
 all_prices = {}
 for asset in ASSETS:
     prices = fetch_daily(asset["code"], asset["prefix"])
@@ -35,24 +33,15 @@ for asset in ASSETS:
     if len(all_prices) % 15 == 0: print(f"  {len(all_prices)}/{len(ASSETS)}")
     time.sleep(0.08)
 
-print(f"Fetched {len(all_prices)} ETFs")
-
-# Benchmark: 000985 中证全指
-print("Fetching benchmark 000985...")
+print("Fetching benchmark...")
 bm_prices = fetch_daily("000985", "sh")
-if not bm_prices:
-    # fallback: CSI All-Share via 399001 or calculate from ETFs
-    bm_prices = fetch_daily("000001", "sh")  # 上证指数 as fallback
 
-# Date alignment
 date_set = set()
 for p in all_prices.values():
     for d in p: date_set.add(d["date"])
 for d in bm_prices: date_set.add(d["date"])
 dates = sorted(date_set)
-print(f"Dates: {dates[0]} ~ {dates[-1]}, {len(dates)} days")
 
-# Daily returns
 daily_rtn = {}
 for code, prices in all_prices.items():
     p_dict = {p["date"]: p["close"] for p in prices}
@@ -60,7 +49,7 @@ for code, prices in all_prices.items():
     prev = None
     for d in dates:
         if d in p_dict:
-            curr = p_dict[d]
+            curr = p_dict[d]; 
             if prev and prev > 0: rtn[d] = curr / prev - 1
             prev = curr
     daily_rtn[code] = rtn
@@ -74,96 +63,123 @@ for d in dates:
         if prev and prev > 0: bm_rtn[d] = curr / prev - 1
         prev = curr
 
-# Find year-ends
-year_ends = []
-for d in dates:
-    if d[5:10] == "12-31": year_ends.append(d)
+year_ends = [dates[0]] + [d for d in dates if d[5:10] == "12-31"]
 if dates[-1] not in year_ends: year_ends.append(dates[-1])
-# Add first date as start
-year_ends = [dates[0]] + year_ends
 
-print(f"Year-ends: {len(year_ends)} points")
-
-# Strategy: top 10 trailing return, equal weight, annual rebalance
 nav = 1.0; bm_nav = 1.0
-nav_history = []
-bm_history = []
+nav_history = []; bm_history = []; all_dates = []
 
 for i in range(1, len(year_ends)):
     s, e = year_ends[i-1], year_ends[i]
     si, ei = dates.index(s), dates.index(e)
-    
-    # Compute trailing 1-year returns
     trails = {}
     for code, rtn in daily_rtn.items():
         cum = 1.0
-        for j in range(max(0, si-240), si+1):  # ~1yr lookback
+        for j in range(max(0, si-240), si+1):
             d = dates[j]
             if d in rtn: cum *= (1 + rtn[d])
         if cum > 0: trails[code] = cum
-    ranked = sorted(trails.items(), key=lambda x: x[1], reverse=True)
-    top10 = [c for c, _ in ranked[:10]]
+    top10 = [c for c, _ in sorted(trails.items(), key=lambda x: x[1], reverse=True)[:10]]
     
-    # Simulate period
     seg_nav = 1.0; seg_bm = 1.0
     for j in range(si+1, ei+1):
         d = dates[j]
         day_rets = [daily_rtn.get(c, {}).get(d, 0) for c in top10]
         dr = sum(day_rets) / len(day_rets) if day_rets else 0
         seg_nav *= (1 + dr); nav_history.append(nav * seg_nav)
-        
-        br = bm_rtn.get(d, 0)
-        seg_bm *= (1 + br); bm_history.append(bm_nav * seg_bm)
-    
+        br = bm_rtn.get(d, 0); seg_bm *= (1 + br); bm_history.append(bm_nav * seg_bm)
+        all_dates.append(d)
     nav *= seg_nav; bm_nav *= seg_bm
-    print(f"  {s[:4]}→{e[:4]}: strategy +{((seg_nav-1)*100):.1f}%  benchmark +{((seg_bm-1)*100):.1f}%")
+    print(f"  {s[:4]}→{e[:4]}: +{((seg_nav-1)*100):.1f}%")
 
-# Stats
-total_ret = round((nav-1)*100, 1); bm_ret = round((bm_nav-1)*100, 1)
+# ===== All metrics =====
+total_ret = round((nav-1)*100, 1)
 yrs = (len(dates)-1)/252
 ann_ret = round((nav**(1/max(yrs,0.5))-1)*100, 1)
+bm_ret = round((bm_nav-1)*100, 1)
 bm_ann = round((bm_nav**(1/max(yrs,0.5))-1)*100, 1)
 
 daily_rets = [nav_history[i]/nav_history[i-1]-1 for i in range(1,len(nav_history))]
 avg = sum(daily_rets)/len(daily_rets)
 std = math.sqrt(sum((r-avg)**2 for r in daily_rets)/len(daily_rets))
 sharpe = round(avg/std*math.sqrt(252), 2) if std>0 else 0
+ann_vol = round(std*math.sqrt(252)*100, 1)  # percentage
 
-peak = 1.0; mdd = 0
-for n in nav_history:
-    if n>peak: peak=n
-    dd = (peak-n)/peak*100
-    if dd>mdd: mdd=dd
+# Max drawdown + period
+peak = 1.0; mdd = 0; mdd_start = 0; mdd_end = 0; peak_idx = 0
+current_dd_start = 0
+for j, n in enumerate(nav_history):
+    if n > peak: peak = n; peak_idx = j; current_dd_start = j
+    dd = (peak - n) / peak
+    if dd > mdd: mdd = dd; mdd_start = current_dd_start; mdd_end = j
 
-# Output every 3rd day for compact JSON
-first_date = dates[0]
-nav_out = [{"date": first_date, "nav": 1.0}]
-bm_out = [{"date": first_date, "nav": 1.0}]
+mdd = round(mdd*100, 1)
+calmar = round(ann_ret/mdd, 2) if mdd > 0 else 0
+total_value_10k = round(10000 * nav, 0)
+
+# 最长无新高
+max_no_high = 0; no_high_start = 0; no_high_end = 0
+peak2 = nav_history[0]; current_start = 0
+for j, n in enumerate(nav_history):
+    if n >= peak2: peak2 = n; current_start = j
+    gap = j - current_start
+    if gap > max_no_high: max_no_high = gap; no_high_start = current_start; no_high_end = j
+
+# 已回撤天数 + 近期高点
+last_peak_idx = peak_idx
+days_since_peak = len(nav_history) - 1 - last_peak_idx
+
+# Daily change (涨跌幅)
+latest_rtn = daily_rets[-1]*100 if daily_rets else 0
+
+# Chart data with MDD green highlight
+nav_out = []
 for j in range(0, len(nav_history), 3):
-    d_idx = min(len(dates)-1, 1 + j)
-    nav_out.append({"date": dates[d_idx], "nav": round(nav_history[j], 4)})
-    bm_out.append({"date": dates[d_idx], "nav": round(bm_history[j], 4)})
+    nav_out.append({
+        "date": all_dates[j] if j < len(all_dates) else dates[-1],
+        "nav": round(nav_history[j], 4),
+        "in_drawdown": j >= mdd_start and j <= mdd_end
+    })
+
+bm_out = [{"date": all_dates[j], "nav": round(bm_history[j], 4)}
+          for j in range(0, len(bm_history), 3) if j < len(all_dates)]
 
 result = {
     "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
     "strategy": {
-        "name": "年化TOP10等权轮动",
-        "description": "每年末选取过去一年收益率最高的10只ETF，等权配置，满仓持有，年度调仓",
-        "n_assets": 10, "rebalance": "annual",
-        "start_date": dates[0], "end_date": dates[-1],
-        "total_return": total_ret, "annual_return": ann_ret,
-        "max_drawdown": round(mdd, 1), "sharpe": sharpe, "n_years": round(yrs, 1),
+        "total_return": total_ret,
+        "annual_return": ann_ret,
+        "max_drawdown": mdd,
+        "sharpe": sharpe,
+        "calmar": calmar,
+        "annual_vol": ann_vol,
+        "total_value_10k": total_value_10k,
+        "max_high_gap_days": max_no_high,
+        "no_high_start": all_dates[no_high_start] if no_high_start < len(all_dates) else "",
+        "no_high_end": all_dates[no_high_end] if no_high_end < len(all_dates) else "",
+        "days_since_last_peak": days_since_peak,
+        "last_peak_date": all_dates[last_peak_idx] if last_peak_idx < len(all_dates) else "",
+        "latest_change": round(latest_rtn, 2),
+        "n_assets": 10,
+        "rebalance": "annual",
+        "start_date": all_dates[0],
+        "end_date": all_dates[-1],
     },
     "benchmark": {
-        "name": "中证全指(000985)", "code": "000985",
-        "total_return": bm_ret, "annual_return": bm_ann,
+        "name": "中证全指(000985)",
+        "total_return": bm_ret,
+        "annual_return": bm_ann,
     },
     "nav_history": nav_out,
     "benchmark_nav": bm_out,
+    "mdd_period": {
+        "start": all_dates[mdd_start] if mdd_start < len(all_dates) else "",
+        "end": all_dates[mdd_end] if mdd_end < len(all_dates) else "",
+    }
 }
 
 with open("docs/strategy.json", "w") as f:
     json.dump(result, f, ensure_ascii=False, indent=2)
 
-print(f"\nStrategy: {total_ret}% tot, {ann_ret}% ann, {sharpe} Sharpe, -{mdd:.1f}% MDD")
-print(f"Benchmark: {bm_ret}% tot, {bm_ann}% ann")
+print(f"\n{total_ret}% tot, {ann_ret}% ann, {sharpe} Sharpe, -{mdd}% MDD, {calmar} Calmar")
+print(f"MDD period: {result['mdd_period']['start']} → {result['mdd_period']['end']}")

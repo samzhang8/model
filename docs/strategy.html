@@ -15,18 +15,14 @@
   .nav { margin-bottom: 14px; display: flex; gap: 14px; }
   .nav a { color: var(--blue); text-decoration: none; font-size: 14px; }
   .nav a.active { color: var(--text); font-weight: 600; }
-  .header { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; }
-  .header .meta { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
-  .header .meta span { font-size: 13px; color: var(--dim); }
   .chart-stats { display: flex; gap: 24px; margin-bottom: 14px; font-size: 13px; flex-wrap: wrap; }
   .chart-stat { display: flex; flex-direction: column; }
   .chart-stat .label { color: var(--dim); font-size: 11px; }
   .chart-stat .value { font-weight: 600; font-size: 15px; }
-  .chart-stat .value.up { color: var(--green); }
-  .chart-stat .value.down { color: var(--red); }
-  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; height: 420px; position: relative; }
+  .chart-stat .up { color: var(--green); } .chart-stat .down { color: var(--red); }
+  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; height: 420px; position: relative; margin-bottom: 12px; }
   canvas { width: 100% !important; }
-  .footer { text-align: center; margin-top: 16px; font-size: 12px; color: var(--dim); }
+  .footer { text-align: center; font-size: 12px; color: var(--dim); }
   .footer a { color: var(--blue); text-decoration: none; }
 </style>
 </head>
@@ -42,7 +38,7 @@
 <div class="chart-stats" id="stats"></div>
 <div class="chart-wrap"><canvas id="navChart"></canvas></div>
 <div class="footer">
-  <span id="strategyDesc"></span> · 基准: <span id="bmName"></span> · <a href="strategy.json">原始数据</a>
+  基准: 中证全指(000985) · <a href="strategy.json">原始数据</a>
 </div>
 
 <script>
@@ -50,40 +46,62 @@ fetch('strategy.json?' + Date.now())
   .then(r => r.json())
   .then(d => {
     document.getElementById('gentime').textContent = d.generated_at;
-    let s = d.strategy, b = d.benchmark;
+    let s = d.strategy;
     
-    // Stats like asset panel
-    document.getElementById('stats').innerHTML = 
-      '<div class="chart-stat"><span class="label">净值</span><span class="value">' + (d.nav_history[d.nav_history.length-1].nav).toFixed(4) + '</span></div>' +
+    // Stats — same fields as asset panel
+    document.getElementById('stats').innerHTML =
+      '<div class="chart-stat"><span class="label">涨跌幅</span><span class="value ' + (s.latest_change>=0?'up':'down') + '">' + (s.latest_change>=0?'+':'') + s.latest_change + '%</span></div>' +
       '<div class="chart-stat"><span class="label">累计收益</span><span class="value ' + (s.total_return>=0?'up':'down') + '">' + (s.total_return>=0?'+':'') + s.total_return + '%</span></div>' +
       '<div class="chart-stat"><span class="label">年化收益</span><span class="value ' + (s.annual_return>=0?'up':'down') + '">' + (s.annual_return>=0?'+':'') + s.annual_return + '%</span></div>' +
       '<div class="chart-stat"><span class="label">最大回撤</span><span class="value down">-' + s.max_drawdown + '%</span></div>' +
       '<div class="chart-stat"><span class="label">夏普比率</span><span class="value">' + s.sharpe + '</span></div>' +
-      '<div class="chart-stat"><span class="label">持仓数</span><span class="value">' + s.n_assets + '</span></div>' +
-      '<div class="chart-stat"><span class="label">调仓</span><span class="value">' + s.rebalance + '</span></div>';
-    
-    document.getElementById('strategyDesc').textContent = s.description;
-    document.getElementById('bmName').textContent = b.name;
+      '<div class="chart-stat"><span class="label">卡玛比率</span><span class="value">' + s.calmar + '</span></div>' +
+      '<div class="chart-stat"><span class="label">年化波动</span><span class="value">' + s.annual_vol + '%</span></div>' +
+      '<div class="chart-stat"><span class="label">1万→总额</span><span class="value">¥' + s.total_value_10k.toLocaleString() + '</span></div>' +
+      '<div class="chart-stat"><span class="label">最长无新高</span><span class="value">' + s.max_high_gap_days + '天</span></div>' +
+      '<div class="chart-stat"><span class="label">无新高区间</span><span class="value">' + s.no_high_start + '~' + s.no_high_end + '</span></div>' +
+      '<div class="chart-stat"><span class="label">已回撤天数</span><span class="value">' + s.days_since_last_peak + '天</span></div>' +
+      '<div class="chart-stat"><span class="label">近期高点</span><span class="value">' + s.last_peak_date + '</span></div>';
 
     let nav = d.nav_history, bnav = d.benchmark_nav;
     let labels = nav.map(h => h.date);
     let ctx = document.getElementById('navChart').getContext('2d');
+    
+    // Red line for normal, green for drawdown period
+    let navData = nav.map(h => h.nav);
+    let pointColors = nav.map(h => h.in_drawdown ? '#22c55e' : '#ef4444');
+    
     new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
         datasets: [
-          { label: '策略净值', data: nav.map(h=>h.nav),
-            borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.08)',
-            fill: true, tension: 0.1, pointRadius: 0, borderWidth: 2 },
-          { label: b.name, data: bnav.map(h=>h.nav),
+          {
+            label: '策略净值',
+            data: navData,
+            borderColor: '#ef4444',
+            backgroundColor: 'rgba(239,68,68,0.08)',
+            fill: true, tension: 0.1, pointRadius: 0, borderWidth: 2,
+            segment: {
+              borderColor: function(ctx) {
+                return nav[ctx.p0DataIndex] && nav[ctx.p0DataIndex].in_drawdown ? '#22c55e' : '#ef4444';
+              }
+            }
+          },
+          {
+            label: '中证全指(000985)',
+            data: bnav.map(h => h.nav),
             borderColor: '#64748b', backgroundColor: 'transparent',
-            borderDash: [4,4], tension: 0.1, pointRadius: 0, borderWidth: 1 }
+            borderDash: [4,4], tension: 0.1, pointRadius: 0, borderWidth: 1
+          }
         ]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: '#94a3b8', usePointStyle: true } } },
+        plugins: {
+          legend: { labels: { color: '#94a3b8', usePointStyle: true } },
+          tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(4); } } }
+        },
         scales: {
           x: { ticks: { color: '#94a3b8', maxTicksLimit: 20, font:{size:10} }, grid: { color: '#1e293b' } },
           y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }

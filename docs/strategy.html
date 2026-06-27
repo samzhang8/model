@@ -122,6 +122,7 @@ function showDetail(id) {
   
   if(chart) chart.destroy();
   let nav = s.nav_history;
+  let hasDD = nav.length > 0 && nav[0].in_drawdown !== undefined;
   let ctx = document.getElementById('modalChart').getContext('2d');
   chart = new Chart(ctx, {
     type:'line',
@@ -130,7 +131,12 @@ function showDetail(id) {
       datasets:[{
         label:'净值',data:nav.map(h=>h.nav),
         borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.08)',
-        fill:true,tension:0.4,pointRadius:0,borderWidth:2
+        fill:true,tension:0.4,pointRadius:0,borderWidth:2,
+        segment: hasDD ? {
+          borderColor: function(ctx) {
+            return nav[ctx.p0DataIndex] && nav[ctx.p0DataIndex].in_drawdown ? '#22c55e' : '#ef4444';
+          }
+        } : undefined
       }]
     },
     options:{

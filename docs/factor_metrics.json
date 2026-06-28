@@ -286,8 +286,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 82.9,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.246)但低胜率(11.1%)，可能过拟合"
     },
     {
       "name": "Alpha101_005",
@@ -451,8 +452,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 82.9,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.246)但低胜率(11.1%)，可能过拟合"
     },
     {
       "name": "GTJA_010",
@@ -616,8 +618,9 @@
       ],
       "trend": "down",
       "smallcap_corr": null,
-      "validation_score": 88.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.233)但低胜率(11.1%)，可能过拟合"
     },
     {
       "name": "Alpha101_010",
@@ -781,8 +784,9 @@
       ],
       "trend": "down",
       "smallcap_corr": null,
-      "validation_score": 90.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.218)但低胜率(11.1%)，可能过拟合"
     },
     {
       "name": "A033",
@@ -1002,8 +1006,9 @@
       ],
       "trend": "down",
       "smallcap_corr": null,
-      "validation_score": 91.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.211)但低胜率(11.1%)，可能过拟合"
     },
     {
       "name": "SUMP20",
@@ -1195,8 +1200,9 @@
       ],
       "trend": "down",
       "smallcap_corr": null,
-      "validation_score": 95.3,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.175)但低胜率(16.7%)，可能过拟合"
     },
     {
       "name": "A024",
@@ -1512,8 +1518,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 74.6,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.146)但低胜率(11.7%)，可能过拟合"
     },
     {
       "name": "ROC20",
@@ -1803,8 +1810,9 @@
       ],
       "trend": "down",
       "smallcap_corr": null,
-      "validation_score": 92.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.107)但低胜率(13.9%)，可能过拟合"
     },
     {
       "name": "A022",
@@ -2056,8 +2064,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 76.9,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.55)但低胜率(22.2%)，可能过拟合"
     },
     {
       "name": "log_amount_1m",
@@ -2377,8 +2386,9 @@
       ],
       "trend": "down",
       "status": "green",
-      "validation_score": 100,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.015)但低胜率(14.7%)，可能过拟合"
     },
     {
       "name": "avg_amount_1m",
@@ -2698,8 +2708,9 @@
       ],
       "trend": "down",
       "status": "green",
-      "validation_score": 100,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.015)但低胜率(14.7%)，可能过拟合"
     },
     {
       "name": "SUMP10",
@@ -2877,8 +2888,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 87.4,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.012)但低胜率(11.1%)，可能过拟合"
     },
     {
       "name": "Alpha101_020",
@@ -3042,8 +3054,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 87.4,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(1.012)但低胜率(11.1%)，可能过拟合"
     },
     {
       "name": "GTJA044",
@@ -3335,8 +3348,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 74.4,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.979)但低胜率(13.3%)，可能过拟合"
     },
     {
       "name": "LOW2",
@@ -3610,8 +3624,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 77.1,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.97)但低胜率(11.7%)，可能过拟合"
     },
     {
       "name": "A010",
@@ -4624,8 +4639,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 85.1,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.952)但低胜率(13.9%)，可能过拟合"
     },
     {
       "name": "ROC10",
@@ -6359,8 +6375,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 74.7,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.836)但低胜率(18.3%)，可能过拟合"
     },
     {
       "name": "RSV5",
@@ -7437,8 +7454,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 75.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.793)但低胜率(20.0%)，可能过拟合"
     },
     {
       "name": "CORR30",
@@ -9112,8 +9130,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 70.0,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.687)但低胜率(18.3%)，可能过拟合"
     },
     {
       "name": "Barra_Quality",
@@ -9273,8 +9292,9 @@
       ],
       "trend": "down",
       "smallcap_corr": null,
-      "validation_score": 79.4,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.639)但低胜率(25.7%)，可能过拟合"
     },
     {
       "name": "Alpha158_ROC20",
@@ -9695,8 +9715,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 80.2,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.674)但低胜率(18.6%)，可能过拟合"
     },
     {
       "name": "GTJA_mom060",
@@ -9952,8 +9973,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 80.2,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.674)但低胜率(18.6%)，可能过拟合"
     },
     {
       "name": "GTJA_rev060",
@@ -11277,8 +11299,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 79.9,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.659)但低胜率(22.0%)，可能过拟合"
     },
     {
       "name": "GTJA_rev055",
@@ -12792,8 +12815,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 77.6,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.638)但低胜率(20.3%)，可能过拟合"
     },
     {
       "name": "GTJA_rev050",
@@ -13320,8 +13344,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 76.6,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.633)但低胜率(27.1%)，可能过拟合"
     },
     {
       "name": "A101_p060",
@@ -13577,8 +13602,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 76.6,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.633)但低胜率(27.1%)，可能过拟合"
     },
     {
       "name": "KSFT2",
@@ -14019,8 +14045,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 75.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.617)但低胜率(19.3%)，可能过拟合"
     },
     {
       "name": "Barra_m060",
@@ -14268,8 +14295,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 75.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.617)但低胜率(19.3%)，可能过拟合"
     },
     {
       "name": "GTJA055",
@@ -14683,8 +14711,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 73.7,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.606)但低胜率(25.4%)，可能过拟合"
     },
     {
       "name": "A101_p055",
@@ -14940,8 +14969,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 73.7,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.606)但低胜率(25.4%)，可能过拟合"
     },
     {
       "name": "GTJA070",
@@ -15303,8 +15333,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 74.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.596)但低胜率(23.7%)，可能过拟合"
     },
     {
       "name": "GTJA_rev045",
@@ -17413,8 +17444,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 73.9,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.576)但低胜率(24.1%)，可能过拟合"
     },
     {
       "name": "GTJA046",
@@ -17688,8 +17720,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 71.6,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.575)但低胜率(27.1%)，可能过拟合"
     },
     {
       "name": "A101_p050",
@@ -17945,8 +17978,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 71.6,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.575)但低胜率(27.1%)，可能过拟合"
     },
     {
       "name": "GTJA_mom015",
@@ -18206,8 +18240,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 64.5,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.573)但低胜率(25.0%)，可能过拟合"
     },
     {
       "name": "GTJA_rev015",
@@ -19260,8 +19295,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 63.3,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.567)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "GTJA_w14_rev",
@@ -19782,8 +19818,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 63.3,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.567)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "GTJA_rev014",
@@ -20304,8 +20341,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.2,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.567)但低胜率(25.0%)，可能过拟合"
     },
     {
       "name": "GTJA_rev016",
@@ -20900,8 +20938,9 @@
       ],
       "trend": "down",
       "status": "green",
-      "validation_score": 91.9,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.56)但低胜率(25.3%)，可能过拟合"
     },
     {
       "name": "GTJA089",
@@ -21217,8 +21256,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.8,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.561)但低胜率(25.0%)，可能过拟合"
     },
     {
       "name": "GTJA_w17_rev",
@@ -21739,8 +21779,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.8,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.561)但低胜率(25.0%)，可能过拟合"
     },
     {
       "name": "GTJA_rev017",
@@ -22261,8 +22302,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.3,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.56)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA_rev019",
@@ -23044,8 +23086,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.2,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.558)但低胜率(25.0%)，可能过拟合"
     },
     {
       "name": "GTJA_rev018",
@@ -23678,8 +23721,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.6,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.557)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA_w20_rev",
@@ -24200,8 +24244,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.6,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.557)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA_mom020",
@@ -24461,8 +24506,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.6,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.557)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA_rev020",
@@ -24975,8 +25021,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 72.2,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.557)但低胜率(24.1%)，可能过拟合"
     },
     {
       "name": "GTJA029",
@@ -25310,8 +25357,9 @@
       ],
       "trend": "down",
       "status": "green",
-      "validation_score": 90.6,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.551)但低胜率(29.7%)，可能过拟合"
     },
     {
       "name": "A158_m055",
@@ -25828,8 +25876,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.1,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.551)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA038",
@@ -26167,8 +26216,9 @@
       ],
       "trend": "down",
       "status": "green",
-      "validation_score": 89.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.543)但低胜率(29.3%)，可能过拟合"
     },
     {
       "name": "GTJA_mom013",
@@ -26428,8 +26478,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 60.8,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.547)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "GTJA_rev013",
@@ -26950,8 +27001,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 64.5,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.547)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "GTJA_ret045",
@@ -27207,8 +27259,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 68.7,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.547)但低胜率(25.4%)，可能过拟合"
     },
     {
       "name": "A101_p045",
@@ -27464,8 +27517,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 68.7,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.547)但低胜率(25.4%)，可能过拟合"
     },
     {
       "name": "Barra_m015",
@@ -27725,8 +27779,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 63.8,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.546)但低胜率(28.3%)，可能过拟合"
     },
     {
       "name": "HIGH1",
@@ -27996,8 +28051,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 70.8,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.545)但低胜率(23.7%)，可能过拟合"
     },
     {
       "name": "GTJA_rev040",
@@ -28853,8 +28909,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.2,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.542)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "Barra_m018",
@@ -29114,8 +29171,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.4,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.542)但低胜率(25.0%)，可能过拟合"
     },
     {
       "name": "Barra_Mom20",
@@ -29371,8 +29429,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.7,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.541)但低胜率(25.4%)，可能过拟合"
     },
     {
       "name": "Barra_m020",
@@ -29628,8 +29687,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.7,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.541)但低胜率(25.4%)，可能过拟合"
     },
     {
       "name": "Barra_m014",
@@ -29889,8 +29949,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 62.2,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.54)但低胜率(28.3%)，可能过拟合"
     },
     {
       "name": "GTJA022",
@@ -30186,8 +30247,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 63.5,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.535)但低胜率(28.3%)，可能过拟合"
     },
     {
       "name": "GTJA_ret022",
@@ -32270,8 +32332,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 63.6,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.53)但低胜率(28.3%)，可能过拟合"
     },
     {
       "name": "A101_p024",
@@ -32531,8 +32594,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 63.6,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.53)但低胜率(28.3%)，可能过拟合"
     },
     {
       "name": "GTJA009",
@@ -32810,8 +32874,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 64.3,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.527)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "A101_p028",
@@ -33071,8 +33136,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 64.3,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.527)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "GTJA_ret019",
@@ -33846,8 +33912,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 70.2,
-      "validation_verdict": "SAFE"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.526)但低胜率(27.6%)，可能过拟合"
     },
     {
       "name": "GTJA_w26_ret",
@@ -34890,8 +34957,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 63.9,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.525)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "A101_p030",
@@ -35151,8 +35219,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 63.9,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.525)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA064",
@@ -35468,8 +35537,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.8,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.524)但低胜率(25.0%)，可能过拟合"
     },
     {
       "name": "GTJA_rev022",
@@ -36004,8 +36074,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 67.8,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.522)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA_rev035",
@@ -36526,8 +36597,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.5,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.522)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "A101_p040",
@@ -36787,8 +36859,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.5,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.522)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "GTJA_mom028",
@@ -37048,8 +37121,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.7,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.521)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA_rev028",
@@ -37570,8 +37644,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 64.7,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.521)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "A101_p035",
@@ -37831,8 +37906,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 64.7,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.521)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA_w26_mom",
@@ -38092,8 +38168,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.0,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.519)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA_w26_rev",
@@ -39136,8 +39213,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 66.0,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.519)但低胜率(23.3%)，可能过拟合"
     },
     {
       "name": "GTJA_rev026",
@@ -39658,8 +39736,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 58.4,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.518)但低胜率(28.3%)，可能过拟合"
     },
     {
       "name": "GTJA_rev012",
@@ -40180,8 +40259,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 59.0,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.517)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "A158_m045",
@@ -40712,8 +40792,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.9,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.515)但低胜率(26.7%)，可能过拟合"
     },
     {
       "name": "GTJA_w23_rev",
@@ -41234,8 +41315,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.9,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.514)但低胜率(21.7%)，可能过拟合"
     },
     {
       "name": "GTJA_rev030",
@@ -44047,8 +44129,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.4,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.508)但低胜率(25.4%)，可能过拟合"
     },
     {
       "name": "MAX10",
@@ -44322,8 +44405,9 @@
       ],
       "trend": "up",
       "smallcap_corr": null,
-      "validation_score": 65.1,
-      "validation_verdict": "REVIEW"
+      "validation_score": 55,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "高IR(0.507)但低胜率(25.0%)，可能过拟合"
     },
     {
       "name": "GTJA_rev024",

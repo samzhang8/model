@@ -98,12 +98,14 @@ canvas{width:100%!important}
     <div class="src" id="modalSource"></div>
     <div class="desc" id="modalDesc"></div>
     <div class="modal-stats" id="modalStats"></div>
-    <div class="chart-wrap"><canvas id="modalChart"></canvas></div>
+    <div class="chart-wrap"><canvas id="modalChart"></canvas></div><div class="chart-wrap" style="height:250px;margin-top:12px"><canvas id="monthlyChart"></canvas></div>
   </div>
 </div>
 
 <script>
-let chart, strategies, currentGroup='all';
+let chart, strategies, currentGroup, monthlyData;
+let monthlyReturns = {"conv": [{"date": "2010-02", "ret": 9.31}, {"date": "2010-03", "ret": -7.71}, {"date": "2010-04", "ret": -6.88}, {"date": "2010-05", "ret": -6.86}, {"date": "2010-06", "ret": 15.02}, {"date": "2010-07", "ret": 3.1}, {"date": "2010-08", "ret": 1.74}, {"date": "2010-09", "ret": 7.59}, {"date": "2010-10", "ret": 0.13}, {"date": "2010-11", "ret": -5.98}, {"date": "2010-12", "ret": -0.49}, {"date": "2011-01", "ret": 9.08}, {"date": "2011-02", "ret": 2.44}, {"date": "2011-03", "ret": 2.07}, {"date": "2011-04", "ret": -5.96}, {"date": "2011-05", "ret": -0.64}, {"date": "2011-06", "ret": -0.09}, {"date": "2011-07", "ret": 3.14}, {"date": "2011-08", "ret": -8.01}, {"date": "2011-09", "ret": 3.29}, {"date": "2011-10", "ret": -1.69}, {"date": "2011-11", "ret": -10.41}, {"date": "2011-12", "ret": 0.19}, {"date": "2012-01", "ret": 6.13}, {"date": "2012-02", "ret": -4.65}, {"date": "2012-03", "ret": 7.0}, {"date": "2012-04", "ret": -0.25}, {"date": "2012-05", "ret": -5.24}, {"date": "2012-06", "ret": -4.94}, {"date": "2012-07", "ret": -2.51}, {"date": "2012-08", "ret": 0.94}, {"date": "2012-09", "ret": 46.24}, {"date": "2012-10", "ret": -7.3}, {"date": "2012-11", "ret": 13.06}, {"date": "2012-12", "ret": 7.84}, {"date": "2013-01", "ret": 21.92}, {"date": "2013-02", "ret": -5.38}, {"date": "2013-03", "ret": -1.03}, {"date": "2013-04", "ret": 8.94}, {"date": "2013-05", "ret": -15.19}, {"date": "2013-06", "ret": 3.86}, {"date": "2013-07", "ret": 10.87}, {"date": "2013-08", "ret": 2.58}, {"date": "2013-09", "ret": -1.27}, {"date": "2013-10", "ret": 3.4}, {"date": "2013-11", "ret": -3.7}, {"date": "2013-12", "ret": -0.06}, {"date": "2014-01", "ret": 4.43}, {"date": "2014-02", "ret": 3.83}, {"date": "2014-03", "ret": -2.51}, {"date": "2014-04", "ret": 1.82}, {"date": "2014-05", "ret": 1.07}, {"date": "2014-06", "ret": 9.47}, {"date": "2014-07", "ret": 4.96}, {"date": "2014-08", "ret": 15.84}, {"date": "2014-09", "ret": 7.33}, {"date": "2014-10", "ret": 11.58}, {"date": "2014-11", "ret": 9.85}, {"date": "2014-12", "ret": 6.32}], "turn": [{"date": "2010-02", "ret": 10.39}, {"date": "2010-03", "ret": -1.5}, {"date": "2010-04", "ret": -6.81}, {"date": "2010-05", "ret": -7.72}, {"date": "2010-06", "ret": 11.6}, {"date": "2010-07", "ret": 6.99}, {"date": "2010-08", "ret": 2.36}, {"date": "2010-09", "ret": 5.61}, {"date": "2010-10", "ret": 2.9}, {"date": "2010-11", "ret": -4.63}, {"date": "2010-12", "ret": -2.82}, {"date": "2011-01", "ret": 9.36}, {"date": "2011-02", "ret": 1.32}, {"date": "2011-03", "ret": -0.76}, {"date": "2011-04", "ret": -4.03}, {"date": "2011-05", "ret": 0.16}, {"date": "2011-06", "ret": 0.18}, {"date": "2011-07", "ret": 1.05}, {"date": "2011-08", "ret": -8.09}, {"date": "2011-09", "ret": 3.29}, {"date": "2011-10", "ret": -2.17}, {"date": "2011-11", "ret": -12.76}, {"date": "2011-12", "ret": 4.89}, {"date": "2012-01", "ret": 11.47}, {"date": "2012-02", "ret": -3.92}, {"date": "2012-03", "ret": 8.01}, {"date": "2012-04", "ret": 1.46}, {"date": "2012-05", "ret": -5.12}, {"date": "2012-06", "ret": -3.52}, {"date": "2012-07", "ret": 1.15}, {"date": "2012-08", "ret": 0.7}, {"date": "2012-09", "ret": 48.06}, {"date": "2012-10", "ret": -8.21}, {"date": "2012-11", "ret": 12.15}, {"date": "2012-12", "ret": 9.29}, {"date": "2013-01", "ret": 21.46}, {"date": "2013-02", "ret": -1.49}, {"date": "2013-03", "ret": 0.1}, {"date": "2013-04", "ret": 10.06}, {"date": "2013-05", "ret": -15.01}, {"date": "2013-06", "ret": 8.47}, {"date": "2013-07", "ret": 10.05}, {"date": "2013-08", "ret": 3.17}, {"date": "2013-09", "ret": -2.23}, {"date": "2013-10", "ret": 2.45}, {"date": "2013-11", "ret": -2.73}, {"date": "2013-12", "ret": 1.42}, {"date": "2014-01", "ret": 2.99}, {"date": "2014-02", "ret": 2.08}, {"date": "2014-03", "ret": -3.65}, {"date": "2014-04", "ret": 1.63}, {"date": "2014-05", "ret": -1.49}, {"date": "2014-06", "ret": 6.73}, {"date": "2014-07", "ret": 3.27}, {"date": "2014-08", "ret": 15.7}, {"date": "2014-09", "ret": 7.27}, {"date": "2014-10", "ret": 7.6}, {"date": "2014-11", "ret": 0.77}, {"date": "2014-12", "ret": -0.17}], "conv_turn": [{"date": "2010-02", "ret": 9.25}, {"date": "2010-03", "ret": -4.44}, {"date": "2010-04", "ret": -6.82}, {"date": "2010-05", "ret": -5.44}, {"date": "2010-06", "ret": 12.63}, {"date": "2010-07", "ret": 4.56}, {"date": "2010-08", "ret": 2.73}, {"date": "2010-09", "ret": 6.77}, {"date": "2010-10", "ret": 0.35}, {"date": "2010-11", "ret": -5.24}, {"date": "2010-12", "ret": -1.2}, {"date": "2011-01", "ret": 9.3}, {"date": "2011-02", "ret": 1.58}, {"date": "2011-03", "ret": 2.63}, {"date": "2011-04", "ret": -5.11}, {"date": "2011-05", "ret": -1.18}, {"date": "2011-06", "ret": 1.13}, {"date": "2011-07", "ret": 2.64}, {"date": "2011-08", "ret": -7.15}, {"date": "2011-09", "ret": 3.31}, {"date": "2011-10", "ret": -1.22}, {"date": "2011-11", "ret": -12.37}, {"date": "2011-12", "ret": 1.07}, {"date": "2012-01", "ret": 9.01}, {"date": "2012-02", "ret": -4.54}, {"date": "2012-03", "ret": 6.13}, {"date": "2012-04", "ret": 0.05}, {"date": "2012-05", "ret": -5.68}, {"date": "2012-06", "ret": -3.96}, {"date": "2012-07", "ret": 1.45}, {"date": "2012-08", "ret": 0.4}, {"date": "2012-09", "ret": 46.46}, {"date": "2012-10", "ret": -8.13}, {"date": "2012-11", "ret": 13.09}, {"date": "2012-12", "ret": 9.19}, {"date": "2013-01", "ret": 21.76}, {"date": "2013-02", "ret": -2.65}, {"date": "2013-03", "ret": -1.56}, {"date": "2013-04", "ret": 8.81}, {"date": "2013-05", "ret": -14.74}, {"date": "2013-06", "ret": 5.45}, {"date": "2013-07", "ret": 11.82}, {"date": "2013-08", "ret": 3.7}, {"date": "2013-09", "ret": -0.87}, {"date": "2013-10", "ret": 2.51}, {"date": "2013-11", "ret": -2.22}, {"date": "2013-12", "ret": 0.97}, {"date": "2014-01", "ret": 2.33}, {"date": "2014-02", "ret": 4.87}, {"date": "2014-03", "ret": -1.98}, {"date": "2014-04", "ret": 1.79}, {"date": "2014-05", "ret": 1.02}, {"date": "2014-06", "ret": 9.51}, {"date": "2014-07", "ret": 5.98}, {"date": "2014-08", "ret": 15.36}, {"date": "2014-09", "ret": 6.47}, {"date": "2014-10", "ret": 7.9}, {"date": "2014-11", "ret": 4.27}, {"date": "2014-12", "ret": 1.5}], "conv_bb": [{"date": "2010-02", "ret": 7.5}, {"date": "2010-03", "ret": -7.51}, {"date": "2010-04", "ret": -5.38}, {"date": "2010-05", "ret": -8.43}, {"date": "2010-06", "ret": 15.14}, {"date": "2010-07", "ret": 2.43}, {"date": "2010-08", "ret": 6.65}, {"date": "2010-09", "ret": 11.15}, {"date": "2010-10", "ret": 2.14}, {"date": "2010-11", "ret": -6.08}, {"date": "2010-12", "ret": -4.4}, {"date": "2011-01", "ret": 10.23}, {"date": "2011-02", "ret": -0.34}, {"date": "2011-03", "ret": 2.96}, {"date": "2011-04", "ret": -5.49}, {"date": "2011-05", "ret": 0.45}, {"date": "2011-06", "ret": -1.07}, {"date": "2011-07", "ret": 3.36}, {"date": "2011-08", "ret": -8.24}, {"date": "2011-09", "ret": 4.33}, {"date": "2011-10", "ret": -3.23}, {"date": "2011-11", "ret": -11.19}, {"date": "2011-12", "ret": 2.63}, {"date": "2012-01", "ret": 7.56}, {"date": "2012-02", "ret": -4.79}, {"date": "2012-03", "ret": 6.77}, {"date": "2012-04", "ret": 2.19}, {"date": "2012-05", "ret": -4.86}, {"date": "2012-06", "ret": -3.45}, {"date": "2012-07", "ret": 0.04}, {"date": "2012-08", "ret": 0.81}, {"date": "2012-09", "ret": 48.7}, {"date": "2012-10", "ret": -7.14}, {"date": "2012-11", "ret": 13.61}, {"date": "2012-12", "ret": 6.06}, {"date": "2013-01", "ret": -2.31}, {"date": "2013-02", "ret": -5.52}, {"date": "2013-03", "ret": -0.79}, {"date": "2013-04", "ret": 12.28}, {"date": "2013-05", "ret": -12.24}, {"date": "2013-06", "ret": 5.68}, {"date": "2013-07", "ret": 10.26}, {"date": "2013-08", "ret": 3.5}, {"date": "2013-09", "ret": -0.73}, {"date": "2013-10", "ret": 2.4}, {"date": "2013-11", "ret": -5.61}, {"date": "2013-12", "ret": -1.87}, {"date": "2014-01", "ret": 2.31}, {"date": "2014-02", "ret": 2.9}, {"date": "2014-03", "ret": -0.42}, {"date": "2014-04", "ret": 0.41}, {"date": "2014-05", "ret": -1.67}, {"date": "2014-06", "ret": 7.36}, {"date": "2014-07", "ret": 2.42}, {"date": "2014-08", "ret": 14.26}, {"date": "2014-09", "ret": 6.49}, {"date": "2014-10", "ret": 8.69}, {"date": "2014-11", "ret": 8.77}, {"date": "2014-12", "ret": 6.4}], "turn_r5d": [{"date": "2010-02", "ret": 9.58}, {"date": "2010-03", "ret": -6.14}, {"date": "2010-04", "ret": -5.04}, {"date": "2010-05", "ret": -5.91}, {"date": "2010-06", "ret": 11.06}, {"date": "2010-07", "ret": 4.59}, {"date": "2010-08", "ret": 2.04}, {"date": "2010-09", "ret": 6.74}, {"date": "2010-10", "ret": 2.32}, {"date": "2010-11", "ret": -6.62}, {"date": "2010-12", "ret": -2.38}, {"date": "2011-01", "ret": 8.41}, {"date": "2011-02", "ret": 1.55}, {"date": "2011-03", "ret": -0.15}, {"date": "2011-04", "ret": -6.44}, {"date": "2011-05", "ret": 1.45}, {"date": "2011-06", "ret": 0.08}, {"date": "2011-07", "ret": -3.06}, {"date": "2011-08", "ret": -7.83}, {"date": "2011-09", "ret": 6.06}, {"date": "2011-10", "ret": -1.59}, {"date": "2011-11", "ret": -15.65}, {"date": "2011-12", "ret": 3.68}, {"date": "2012-01", "ret": 11.44}, {"date": "2012-02", "ret": -3.95}, {"date": "2012-03", "ret": 13.15}, {"date": "2012-04", "ret": 2.64}, {"date": "2012-05", "ret": -5.72}, {"date": "2012-06", "ret": -4.8}, {"date": "2012-07", "ret": 2.72}, {"date": "2012-08", "ret": 0.25}, {"date": "2012-09", "ret": 48.13}, {"date": "2012-10", "ret": -7.58}, {"date": "2012-11", "ret": 15.72}, {"date": "2012-12", "ret": 7.43}, {"date": "2013-01", "ret": -3.0}, {"date": "2013-02", "ret": -4.11}, {"date": "2013-03", "ret": -0.78}, {"date": "2013-04", "ret": 15.64}, {"date": "2013-05", "ret": -11.83}, {"date": "2013-06", "ret": 6.98}, {"date": "2013-07", "ret": 13.5}, {"date": "2013-08", "ret": 2.83}, {"date": "2013-09", "ret": -1.39}, {"date": "2013-10", "ret": 2.26}, {"date": "2013-11", "ret": -2.94}, {"date": "2013-12", "ret": 1.15}, {"date": "2014-01", "ret": 2.49}, {"date": "2014-02", "ret": 2.4}, {"date": "2014-03", "ret": -0.31}, {"date": "2014-04", "ret": 0.16}, {"date": "2014-05", "ret": -1.1}, {"date": "2014-06", "ret": 7.67}, {"date": "2014-07", "ret": 3.07}, {"date": "2014-08", "ret": 9.13}, {"date": "2014-09", "ret": 6.85}, {"date": "2014-10", "ret": 7.62}, {"date": "2014-11", "ret": 5.72}, {"date": "2014-12", "ret": 5.12}], "r1d_conv_bb": [{"date": "2010-02", "ret": 7.62}, {"date": "2010-03", "ret": -7.3}, {"date": "2010-04", "ret": -5.49}, {"date": "2010-05", "ret": -6.81}, {"date": "2010-06", "ret": 14.0}, {"date": "2010-07", "ret": 4.03}, {"date": "2010-08", "ret": 4.66}, {"date": "2010-09", "ret": 11.37}, {"date": "2010-10", "ret": -0.38}, {"date": "2010-11", "ret": -4.88}, {"date": "2010-12", "ret": -2.64}, {"date": "2011-01", "ret": 9.43}, {"date": "2011-02", "ret": 0.72}, {"date": "2011-03", "ret": 1.52}, {"date": "2011-04", "ret": -5.36}, {"date": "2011-05", "ret": 2.59}, {"date": "2011-06", "ret": -1.03}, {"date": "2011-07", "ret": 0.75}, {"date": "2011-08", "ret": -7.1}, {"date": "2011-09", "ret": 4.49}, {"date": "2011-10", "ret": -1.13}, {"date": "2011-11", "ret": -13.68}, {"date": "2011-12", "ret": 2.08}, {"date": "2012-01", "ret": 7.73}, {"date": "2012-02", "ret": -4.18}, {"date": "2012-03", "ret": 6.15}, {"date": "2012-04", "ret": 2.54}, {"date": "2012-05", "ret": -4.1}, {"date": "2012-06", "ret": -3.08}, {"date": "2012-07", "ret": 0.57}, {"date": "2012-08", "ret": 0.88}, {"date": "2012-09", "ret": 48.32}, {"date": "2012-10", "ret": -6.2}, {"date": "2012-11", "ret": 17.1}, {"date": "2012-12", "ret": 5.14}, {"date": "2013-01", "ret": -2.76}, {"date": "2013-02", "ret": -6.77}, {"date": "2013-03", "ret": -0.67}, {"date": "2013-04", "ret": 14.94}, {"date": "2013-05", "ret": -15.05}, {"date": "2013-06", "ret": 7.35}, {"date": "2013-07", "ret": 9.06}, {"date": "2013-08", "ret": 3.24}, {"date": "2013-09", "ret": -0.67}, {"date": "2013-10", "ret": 2.79}, {"date": "2013-11", "ret": -4.52}, {"date": "2013-12", "ret": 1.71}, {"date": "2014-01", "ret": 1.77}, {"date": "2014-02", "ret": 0.78}, {"date": "2014-03", "ret": -2.85}, {"date": "2014-04", "ret": 0.82}, {"date": "2014-05", "ret": 0.26}, {"date": "2014-06", "ret": 8.16}, {"date": "2014-07", "ret": 4.03}, {"date": "2014-08", "ret": 13.03}, {"date": "2014-09", "ret": 2.15}, {"date": "2014-10", "ret": 7.86}, {"date": "2014-11", "ret": 8.78}, {"date": "2014-12", "ret": 8.63}]};
+='all';
 
 const GROUPS = {
   '趋势跟踪': ['MA20通道','SuperTrend','唐奇安通道','双均线','MACD','ADX','ATR通道','吊灯止损','KST','TRIX','AroonUp','ParaSAR','Vortex','Keltner','StdChan','LinReg'],
@@ -198,7 +200,63 @@ function showDetail(id) {
   let nav = s.nav_history || [];
   let ctx = document.getElementById('modalChart').getContext('2d');
   if (nav.length > 0) {
-    chart = new Chart(ctx, {
+    
+  // Monthly returns heatmap
+  let monCtx = document.getElementById('monthlyChart').getContext('2d');
+  let mappedName = s.name.replace(/[-: ]/g,'_').toLowerCase();
+  // Map strategy names to compute keys
+  let nameMap = {
+    'top3_adaptive': 'conv_turn', 'top3_stop3': 'conv_turn', 'top3_stop8': 'conv_turn',
+    'conv_r1d': 'r1d_conv_bb', 'triple_r1d_bb_conv': 'r1d_conv_bb',
+    'single_turn': 'turn', 'nm1': 'turn_r5d', 'nm2': 'conv_turn', 'nm3': 'conv_bb'
+  };
+  let mkey = nameMap[s.id] || null;
+  let monData = mkey && window.monthlyReturns && window.monthlyReturns[mkey] ? window.monthlyReturns[mkey] : null;
+
+  if (monData && monData.length > 3) {
+    // Build year x month matrix for heatmap
+    let years = [...new Set(monData.map(d=>d.date.substring(0,4)))].sort();
+    let months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+    let matrix = years.map(y => months.map(m => {
+      let d = monData.find(d2 => d2.date === y+'-'+m);
+      return d ? d.ret : null;
+    }));
+    
+    let colors = matrix.flat().filter(v=>v!==null);
+    let maxVal = Math.max(...colors.map(Math.abs));
+    
+    new Chart(monCtx, {
+      type: 'matrix',
+      data: {
+        datasets: [{
+          label: '月收益%',
+          data: years.flatMap((y,yi) => months.map((m,mi) => {
+            let v = matrix[yi][mi];
+            if (v===null) return null;
+            return {x:m, y:y, v:v};
+          })).filter(d=>d!==null),
+          backgroundColor(ctx) {
+            let v = ctx.raw.v;
+            let r = v>0 ? 34 : 239, g = v>0 ? 197 : 68, b = v>0 ? 94 : 68;
+            return 'rgba('+r+','+g+','+b+','+Math.min(Math.abs(v)/maxVal,1)*0.8+')';
+          },
+          borderColor: '#1e293b', borderWidth: 1,
+          width: ({chart}) => (chart.chartArea?.width || 600) / 12 - 1,
+          height: ({chart}) => (chart.chartArea?.height || 250) / years.length - 1,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw.y+'-'+ctx.raw.x+': '+ctx.raw.v.toFixed(1)+'%' } } },
+        scales: {
+          x: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' }, title: { display: true, text: '月份', color: '#94a3b8' } },
+          y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' }, title: { display: true, text: '年份', color: '#94a3b8' } }
+        }
+      }
+    });
+  }
+
+  chart = new Chart(ctx, {
       type:'line',
       data:{
         labels:nav.map(h=>h.date),

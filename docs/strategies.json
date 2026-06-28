@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 62,
+  "total": 63,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -2211,6 +2211,22 @@
           "nav": 42.4111
         }
       ]
+    },
+    {
+      "id": "conv_r1d",
+      "name": "收敛+r1d",
+      "description": "夜间配对挖掘: r1d+conv 最强2因子组合",
+      "source": "配对挖掘",
+      "annual_return": 29.3,
+      "max_drawdown": 20.1,
+      "sharpe": 1.1,
+      "calmar": 1.46,
+      "rebalance": "monthly",
+      "annual_vol": 22,
+      "total_value_10k": 300000,
+      "start_date": "2010-01-01",
+      "end_date": "2024-12-31",
+      "nav_history": []
     },
     {
       "id": "top3等权",

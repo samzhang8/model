@@ -26,7 +26,7 @@ ORIGINAL_33 = {
 
 print("Updating original 33 factors from ClickHouse...")
 sql = """
-SELECT factor, avg(IC) as ic_mean, avg(IC)/stddevPop(IC) as ic_ir,
+SELECT factor, avg(IC) as ic_mean, avg(IC)/stddevSamp(IC) as ic_ir,
        countIf(IC>0)*100.0/count() as win_rate, count() as n
 FROM amazingdata.factor_ic GROUP BY factor
 """
@@ -77,6 +77,40 @@ for f in data['factors']:
 # 5. 更新时间戳
 data['generated_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 data['total_factors'] = len(data['factors'])
+
+# 6. 去重检测：IC_IR完全相同(差距<0.001)的因子标记为疑似重复
+from collections import defaultdict
+ic_ir_groups = defaultdict(list)
+for f in data['factors']:
+    ir_key = round(f.get('ic_ir', 0), 3)
+    ic_ir_groups[ir_key].append(f['name'])
+
+duplicates = []
+for ir_key, names in ic_ir_groups.items():
+    if len(names) >= 2:
+        duplicates.append({'ir_value': ir_key, 'factors': names, 'count': len(names)})
+duplicates.sort(key=lambda x: -x['count'])
+data['duplicates_detected'] = len(duplicates)
+if duplicates:
+    data['duplicate_groups'] = duplicates[:30]  # top 30 groups
+    print(f"⚠️  Duplicate detection: {len(duplicates)} groups share identical IC_IR")
+    for d in duplicates[:5]:
+        print(f"  IR={d['ir_value']}: {d['count']} factors — {', '.join(d['factors'][:5])}")
+
+# 7. 高smallcap_corr因子强制降级：|corr|>0.5 无论IC_IR多高都降为REVIEW/yellow
+downgraded = 0
+for f in data['factors']:
+    sc = f.get('smallcap_corr')
+    if sc is not None and abs(sc) > 0.5:
+        if f.get('validation_verdict') in ('SAFE', None):
+            f['validation_verdict'] = 'REVIEW'
+            f['validation_score'] = min(f.get('validation_score', 70), 45)
+            f['validation_warning'] = f'⚠️ 高市值相关性(|corr|={abs(sc):.2f}), IC主要由规模效应驱动'
+        f['status'] = 'yellow'  # force yellow regardless of IC_IR
+        downgraded += 1
+if downgraded > 0:
+    print(f"⚠️  Downgraded {downgraded} high-|smallcap_corr| factors to yellow/REVIEW")
+
 data['factors'].sort(key=lambda x: abs(x['ic_ir']), reverse=True)
 
 with open('/opt/quant/docs/factor_metrics.json', 'w') as f:

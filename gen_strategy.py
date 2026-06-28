@@ -156,7 +156,7 @@ for i in range(1, len(rebal_dates)):
         dr = sum(day_rets) / len(day_rets) if day_rets else 0
         # First day of rebalance: deduct transaction costs for switching
         if j == si+1:
-            dr -= TRADE_COST * 2  # sell old + buy new
+            dr -= (TRADE_COST + SELL_COST)  # sell old(含印花税) + buy new(不含印花税)
         seg_nav *= (1 + dr); nav_history.append(nav * seg_nav)
         
         br = bm_rtn.get(d, 0)
@@ -211,7 +211,7 @@ for j in range(0, len(nav_history), 5):
     })
 
 bm_out = [{"date": all_dates[j], "nav": round(bm_history[j], 4)}
-          for j in range(0, len(bm_history), 3) if j < len(all_dates)]
+          for j in range(0, len(bm_history), 5) if j < len(all_dates)]
 
 result = {
     "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),

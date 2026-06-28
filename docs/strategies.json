@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 63,
+  "total": 64,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -3679,6 +3679,22 @@
           "nav": 39.8713
         }
       ]
+    },
+    {
+      "id": "single_turn",
+      "name": "单因子-低换手率",
+      "description": "夜间单因子遍历: turn最强 26.8%",
+      "source": "单因子遍历",
+      "annual_return": 26.8,
+      "max_drawdown": 21.7,
+      "sharpe": 1.0,
+      "calmar": 1.24,
+      "rebalance": "monthly",
+      "annual_vol": 24,
+      "total_value_10k": 200000,
+      "start_date": "2010-01-01",
+      "end_date": "2024-12-31",
+      "nav_history": []
     },
     {
       "id": "blend50",

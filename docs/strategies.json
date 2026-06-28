@@ -14,7 +14,7 @@
       "calmar": 0.94,
       "annual_vol": 27.9,
       "total_value_10k": 556900.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-12-31",
       "nav_history": [
@@ -728,7 +728,7 @@
       "calmar": 0.83,
       "annual_vol": 29.2,
       "total_value_10k": 379134.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-12-31",
       "nav_history": [
@@ -1442,7 +1442,7 @@
       "calmar": 0.65,
       "annual_vol": 55.9,
       "total_value_10k": 274366.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -1520,7 +1520,7 @@
       "calmar": 0.71,
       "annual_vol": 62.3,
       "total_value_10k": 255735.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -1833,7 +1833,7 @@
       "calmar": 0.59,
       "annual_vol": 58.9,
       "total_value_10k": 280869.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -2151,7 +2151,7 @@
       "calmar": 0.57,
       "annual_vol": 59.9,
       "total_value_10k": 238449.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -2409,7 +2409,7 @@
       "calmar": 0.63,
       "annual_vol": 53.9,
       "total_value_10k": 210210.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-11-30",
       "nav_history": [
@@ -2667,7 +2667,7 @@
       "calmar": 0.55,
       "annual_vol": 62.1,
       "total_value_10k": 223337.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -2925,7 +2925,7 @@
       "calmar": 0.58,
       "annual_vol": 54.5,
       "total_value_10k": 187025.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -3238,7 +3238,7 @@
       "calmar": 0.64,
       "annual_vol": 62.5,
       "total_value_10k": 210450.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-11-30",
       "nav_history": [
@@ -3496,7 +3496,7 @@
       "calmar": 0.66,
       "annual_vol": 58.6,
       "total_value_10k": 197973.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -3814,7 +3814,7 @@
       "calmar": 0.71,
       "annual_vol": 23.9,
       "total_value_10k": 162535.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-12-31",
       "nav_history": [
@@ -4528,7 +4528,7 @@
       "calmar": 0.49,
       "annual_vol": 56.4,
       "total_value_10k": 188004.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -4846,7 +4846,7 @@
       "calmar": 0.46,
       "annual_vol": 58.4,
       "total_value_10k": 164287.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -5164,7 +5164,7 @@
       "calmar": 0,
       "annual_vol": 0,
       "total_value_10k": 0,
-      "rebalance": "semi-annual",
+      "rebalance": "weekly",
       "start_date": "2022-05-12",
       "end_date": "2026-06-26",
       "nav_history": [
@@ -5517,7 +5517,7 @@
       "calmar": 0.45,
       "annual_vol": 66.3,
       "total_value_10k": 121229.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -5815,7 +5815,7 @@
       "calmar": 0.49,
       "annual_vol": 50.9,
       "total_value_10k": 123321.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-12-31",
       "nav_history": [
@@ -6073,7 +6073,7 @@
       "calmar": 0.45,
       "annual_vol": 69.2,
       "total_value_10k": 106968.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -6331,7 +6331,7 @@
       "calmar": 0.4,
       "annual_vol": 48.1,
       "total_value_10k": 82413.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-12-31",
       "nav_history": [
@@ -6589,7 +6589,7 @@
       "calmar": 0.41,
       "annual_vol": 59.5,
       "total_value_10k": 85572.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -6907,7 +6907,7 @@
       "calmar": 0.35,
       "annual_vol": 48.3,
       "total_value_10k": 70046.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -7220,7 +7220,7 @@
       "calmar": 0.29,
       "annual_vol": 52.7,
       "total_value_10k": 66190.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-11-30",
       "nav_history": [
@@ -7538,7 +7538,7 @@
       "calmar": 0.35,
       "annual_vol": 50.8,
       "total_value_10k": 64172.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-02-28",
       "end_date": "2024-11-30",
       "nav_history": [
@@ -7616,7 +7616,7 @@
       "calmar": 0.36,
       "annual_vol": 62.5,
       "total_value_10k": 59355.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -7914,7 +7914,7 @@
       "calmar": 0.49,
       "annual_vol": 20.5,
       "total_value_10k": 57097.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-12-31",
       "nav_history": [
@@ -8628,7 +8628,7 @@
       "calmar": 0.35,
       "annual_vol": 63.0,
       "total_value_10k": 60902.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -8926,7 +8926,7 @@
       "calmar": 0.33,
       "annual_vol": 49.3,
       "total_value_10k": 60936.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -9244,7 +9244,7 @@
       "calmar": 0.27,
       "annual_vol": 48.9,
       "total_value_10k": 57112.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -9562,7 +9562,7 @@
       "calmar": 0.27,
       "annual_vol": 48.6,
       "total_value_10k": 58322.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -9820,7 +9820,7 @@
       "calmar": 0.25,
       "annual_vol": 63.1,
       "total_value_10k": 47027.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -10118,7 +10118,7 @@
       "calmar": 0.23,
       "annual_vol": 49.5,
       "total_value_10k": 53116.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -10431,7 +10431,7 @@
       "calmar": 0.36,
       "annual_vol": 21.6,
       "total_value_10k": 44610.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-12-31",
       "nav_history": [
@@ -11145,7 +11145,7 @@
       "calmar": 0.27,
       "annual_vol": 49.3,
       "total_value_10k": 49506.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -11463,7 +11463,7 @@
       "calmar": 0.21,
       "annual_vol": 47.8,
       "total_value_10k": 44357.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -11771,7 +11771,7 @@
       "calmar": 0.19,
       "annual_vol": 52.5,
       "total_value_10k": 40909.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -12029,7 +12029,7 @@
       "calmar": 0.16,
       "annual_vol": 57.8,
       "total_value_10k": 42758.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -12287,7 +12287,7 @@
       "calmar": 0.15,
       "annual_vol": 53.7,
       "total_value_10k": 33621.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -12605,7 +12605,7 @@
       "calmar": 0.11,
       "annual_vol": 50.2,
       "total_value_10k": 31422.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -12863,7 +12863,7 @@
       "calmar": 0.13,
       "annual_vol": 53.8,
       "total_value_10k": 27814.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -13181,7 +13181,7 @@
       "calmar": 0.12,
       "annual_vol": 49.1,
       "total_value_10k": 29317.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -13439,7 +13439,7 @@
       "calmar": 0.14,
       "annual_vol": 54.1,
       "total_value_10k": 30129.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -13757,7 +13757,7 @@
       "calmar": 0.14,
       "annual_vol": 54.1,
       "total_value_10k": 30129.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -14015,7 +14015,7 @@
       "calmar": 0.11,
       "annual_vol": 51.6,
       "total_value_10k": 28294.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -14333,7 +14333,7 @@
       "calmar": 0.13,
       "annual_vol": 47.1,
       "total_value_10k": 26766.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-11-30",
       "nav_history": [
@@ -14591,7 +14591,7 @@
       "calmar": 0.12,
       "annual_vol": 52.8,
       "total_value_10k": 26949.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -14849,7 +14849,7 @@
       "calmar": 0.1,
       "annual_vol": 52.6,
       "total_value_10k": 29572.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -15103,7 +15103,7 @@
       "calmar": 0.11,
       "annual_vol": 50.8,
       "total_value_10k": 25281.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -15421,7 +15421,7 @@
       "calmar": 0.1,
       "annual_vol": 48.1,
       "total_value_10k": 25682.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-11-30",
       "nav_history": [
@@ -15739,7 +15739,7 @@
       "calmar": 0.09,
       "annual_vol": 17.2,
       "total_value_10k": 21860,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": []
@@ -15756,7 +15756,7 @@
       "calmar": 0.09,
       "annual_vol": 53.7,
       "total_value_10k": 25645.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -16014,7 +16014,7 @@
       "calmar": 0.08,
       "annual_vol": 50.0,
       "total_value_10k": 23321.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -16332,7 +16332,7 @@
       "calmar": 0.08,
       "annual_vol": 50.7,
       "total_value_10k": 23568.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [
@@ -16650,7 +16650,7 @@
       "calmar": 0.04,
       "annual_vol": 48.2,
       "total_value_10k": 15864.0,
-      "rebalance": "monthly",
+      "rebalance": "weekly",
       "start_date": "2010-01-31",
       "end_date": "2024-10-31",
       "nav_history": [

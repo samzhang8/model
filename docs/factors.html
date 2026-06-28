@@ -9,6 +9,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
          background: #0f172a; color: #e2e8f0; padding: 20px; }
+  .meta{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:14px 18px;margin-bottom:14px;font-size:12px;color:#94a3b8;display:flex;flex-wrap:wrap;gap:10px 24px;line-height:1.6}.meta strong{color:#e2e8f0}
   h1 { font-size: 22px; margin-bottom: 4px; }
   .sub { color: #94a3b8; font-size: 13px; margin-bottom: 8px; }
   .nav { margin-bottom: 10px; }
@@ -34,7 +35,11 @@
   td { padding: 7px 10px; border-bottom: 1px solid #1e293b; white-space: nowrap; }
   tr.clickable { cursor: pointer; }
   tr.clickable:hover { background: #1e3a5f; }
+  tr.clickable:nth-child(even) { background: rgba(30,41,59,0.4); }
   tr.selected { background: #1e3a5f; outline: 1px solid #2563eb; }
+  .ir-strong { font-weight: 700; font-size: 15px; }
+  .ir-mid { font-weight: 500; font-size: 13px; }
+  .ir-weak { color: #64748b; font-size: 12px; }
   .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
   .status-green { background: #22c55e; } .status-yellow { background: #eab308; } .status-red { background: #ef4444; }
   .trend-up { color: #22c55e; } .trend-down { color: #ef4444; } .trend-flat { color: #94a3b8; }
@@ -63,12 +68,27 @@
   .chart-wrap canvas { width: 100% !important; }
   .modal-empty { text-align: center; color: #64748b; padding: 40px 0; font-size: 14px; }
   .modal-empty span { font-size: 12px; display: block; margin-top: 4px; }
+.disclaimer{color:#64748b;font-size:11px;text-align:center;margin-top:20px;padding:12px;border-top:1px solid #334155;line-height:1.8}
 </style>
 </head>
 <body>
 <h1>📐 因子监控面板</h1>
-<div class="sub">数据更新: <span id="gentime"></span> · <span id="factorCount"></span></div>
+<div class="sub">数据更新: <span id="gentime"></span> · <span id="factorCount"></span> · <span id="dedupNote"></span></div>
 <div class="nav"><a href="./">← 资产排名看板</a></div>
+
+<div class="meta">
+<div><strong>IC类型</strong> Spearman Rank-IC · 预测期20日 · 滚动窗口36月</div>
+<div><strong>股票池</strong> 全A股(剔除ST/退市/上市不满60日/停牌)</div>
+<div><strong>截面预处理</strong> Winsorize 1%-99% + Z-Score标准化</div>
+<div><strong>中性化</strong> 未扣除行业/市值暴露(计划中)</div>
+<div><strong>验证等级</strong> SAFE≥70 / REVIEW 40-69 / REJECT<40</div>
+<div><strong>说明</strong> GP因子已降级为REVIEW(模拟数据,无真实IC时序)。镜像因子已标注🔗。市值相关性覆盖不完整。</div>
+</div>
+
+<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+<input id="searchBox" placeholder="搜索因子名..." oninput="searchFilter()" style="background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:6px 12px;border-radius:6px;font-size:13px;width:200px">
+<button id="hideMirrorBtn" onclick="toggleMirrors()" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">🔗 隐藏镜像</button>
+</div>
 
 <button class="help-toggle" onclick="toggleHelp()">📖 字段说明</button>
 <div class="help-box" id="helpBox"></div>
@@ -106,6 +126,8 @@
 </tr></thead>
 <tbody></tbody>
 </table>
+<div class="disclaimer">⚠️ <strong>免责声明：</strong>因子展示仅供学术研究与策略开发参考，历史IC不代表未来表现。GP-Discovered因子数据为模拟值，已降级处理。部分因子存在镜像/重复(已标注🔗)。IC计算未经行业/市值中性化。本面板仅供研究参考。</div>
+
 
 <!-- Modal overlay for factor detail -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeDetail()">
@@ -120,7 +142,7 @@
 <script>
 let allFactors = [], descriptions = {};
 let currentFilter = 'all', sortKey = 'ic_ir', sortDesc = true;
-let chart = null;
+let chart = null, hideMirrors = false, searchQuery = '';
 
 fetch('factor_metrics.json?' + Date.now())
   .then(r => r.json())
@@ -129,9 +151,22 @@ fetch('factor_metrics.json?' + Date.now())
     descriptions = d.descriptions || {};
     document.getElementById('gentime').textContent = d.generated_at || '';
     document.getElementById('factorCount').textContent = d.total_factors + ' 个因子';
+    document.getElementById('dedupNote').textContent = d.dedup_note ? '· ' + d.dedup_note : '';
     buildHelp();
     render();
   });
+
+function toggleMirrors() {
+  hideMirrors = !hideMirrors;
+  document.getElementById('hideMirrorBtn').textContent = hideMirrors ? '🔗 显示全部' : '🔗 隐藏镜像';
+  document.getElementById('hideMirrorBtn').style.background = hideMirrors ? '#2563eb' : '#1e293b';
+  render();
+}
+
+function searchFilter() {
+  searchQuery = document.getElementById('searchBox').value.toLowerCase();
+  render();
+}
 
 function valBadge(f) {
   let vs = f.validation_score, vv = f.validation_verdict;
@@ -161,6 +196,14 @@ function render() {
   if (!['all','green','yellow','red'].includes(currentFilter)) {
     list = list.filter(f => f.category === currentFilter);
   }
+  // Search filter
+  if (searchQuery) {
+    list = list.filter(f => f.name.toLowerCase().includes(searchQuery));
+  }
+  // Mirror filter
+  if (hideMirrors) {
+    list = list.filter(f => !(f.description || '').includes('[🔗 重复/镜像]'));
+  }
 
   list.sort((a,b) => {
     let va = a[sortKey] ?? 0, vb = b[sortKey] ?? 0;
@@ -187,7 +230,7 @@ function render() {
     html += '<tr class="clickable" data-factor="'+f.name+'" onclick="showDetail(\''+f.name+'\')">'
       +'<td><span class="status-dot status-'+f.status+'"></span></td>'
       +'<td><strong>'+f.name+'</strong></td><td>'+f.category+'</td>'
-      +'<td>'+(f.ic_ir>=0?'+':'')+f.ic_ir.toFixed(3)+'</td>'
+      +'<td class="'+(Math.abs(f.ic_ir)>=1?'ir-strong':(Math.abs(f.ic_ir)>=0.5?'ir-mid':'ir-weak'))+'">'+(f.ic_ir>=0?'+':'')+f.ic_ir.toFixed(3)+'</td>'
       +'<td>'+(f.ic_mean>=0?'+':'')+f.ic_mean.toFixed(4)+'</td>'
       +'<td>'+f.win_rate+'%</td>'
       +'<td>'+trendIcon+' '+recentStr+'</td>'

@@ -1,0 +1,11 @@
+{
+  "strategy": "TOP3 (conv+turn+qual, no stop)",
+  "cost_0bp": 28.7,
+  "cost_10bp": 27.2,
+  "cost_30bp": 24.2,
+  "cost_50bp": 21.3,
+  "cost_80bp": 17.1,
+  "oos_30bp": 18.4,
+  "note": "面板49.7%来自自适应止损优化(无成本), 扣成本后OOS预期18.4%",
+  "generated_at": "2026-06-29"
+}

@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-06-26 IC时序已补齐",
   "data_source": "ClickHouse amazingdata.factor_ic",
-  "total_factors": 891,
+  "total_factors": 897,
   "descriptions": {
     "ic_ir": "信息比率 = IC均值/IC标准差。绝对值越大，因子预测稳定性越强。|IR|≥0.3为强有效。",
     "ic_mean": "Rank IC均值。正值=因子值与未来收益正相关，负值=负相关。",
@@ -28967,10 +28967,10 @@
       "name": "volatility_3m",
       "category": "低波动",
       "direction": "负向",
-      "ic_mean": -0.1053,
-      "ic_ir": -0.543,
-      "win_rate": 30.7,
-      "n_months": 75,
+      "ic_mean": -0.0519,
+      "ic_ir": -0.235,
+      "win_rate": 40.4,
+      "n_months": 57,
       "smallcap_corr": 0.176,
       "ic_history": [
         {
@@ -29275,12 +29275,12 @@
         }
       ],
       "recent_3m": [
-        0.0276,
-        -0.3582,
-        -0.2532
+        -0.1434966815945709,
+        -0.31765235409024795,
+        0.1903767450194951
       ],
-      "trend": "down",
-      "status": "green",
+      "trend": "up",
+      "status": "yellow",
       "validation_score": 93.4,
       "validation_verdict": "SAFE",
       "description": "[🔗 镜像]"
@@ -46470,10 +46470,10 @@
       "name": "volatility_6m",
       "category": "低波动",
       "direction": "负向",
-      "ic_mean": -0.0991,
-      "ic_ir": -0.499,
-      "win_rate": 30.7,
-      "n_months": 75,
+      "ic_mean": -0.0645,
+      "ic_ir": -0.307,
+      "win_rate": 37.0,
+      "n_months": 54,
       "smallcap_corr": 0.148,
       "ic_history": [
         {
@@ -46778,11 +46778,11 @@
         }
       ],
       "recent_3m": [
-        -0.0357,
-        -0.3403,
-        -0.2385
+        -0.14563130127038154,
+        -0.31012962129773025,
+        -0.039426308280303565
       ],
-      "trend": "down",
+      "trend": "up",
       "status": "green",
       "validation_score": 88.6,
       "validation_verdict": "SAFE",
@@ -51182,10 +51182,10 @@
       "name": "log_price",
       "category": "规模",
       "direction": "负向",
-      "ic_mean": -0.063,
-      "ic_ir": -0.486,
-      "win_rate": 32.0,
-      "n_months": 75,
+      "ic_mean": -0.0781,
+      "ic_ir": -0.519,
+      "win_rate": 35.0,
+      "n_months": 60,
       "smallcap_corr": null,
       "ic_history": [
         {
@@ -51490,11 +51490,11 @@
         }
       ],
       "recent_3m": [
-        -0.0362,
-        -0.1956,
-        -0.0828
+        -0.2863538171262595,
+        -0.3172947677340594,
+        -0.05008401353233083
       ],
-      "trend": "down",
+      "trend": "up",
       "status": "green",
       "validation_score": 70.4,
       "validation_verdict": "SAFE",
@@ -116117,11 +116117,11 @@
     {
       "name": "rsi_14",
       "category": "技术",
-      "direction": "正向",
-      "ic_mean": 0.0278,
-      "ic_ir": 0.239,
-      "win_rate": 61.3,
-      "n_months": 75,
+      "direction": "负向",
+      "ic_mean": -0.026,
+      "ic_ir": -0.148,
+      "win_rate": 36.7,
+      "n_months": 60,
       "smallcap_corr": 0.046,
       "ic_history": [
         {
@@ -116426,9 +116426,9 @@
         }
       ],
       "recent_3m": [
-        0.268,
-        -0.1044,
-        0.4131
+        0.19525117673720851,
+        0.17115121483592632,
+        0.7301429712998958
       ],
       "trend": "up",
       "status": "yellow",
@@ -116439,11 +116439,11 @@
     {
       "name": "ma_signal",
       "category": "技术",
-      "direction": "正向",
-      "ic_mean": 0.0447,
-      "ic_ir": 0.239,
-      "win_rate": 57.3,
-      "n_months": 75,
+      "direction": "负向",
+      "ic_mean": -0.0462,
+      "ic_ir": -0.253,
+      "win_rate": 38.3,
+      "n_months": 60,
       "smallcap_corr": 0.074,
       "ic_history": [
         {
@@ -116748,9 +116748,9 @@
         }
       ],
       "recent_3m": [
-        0.5,
-        -0.11,
-        0.7563
+        0.2902575587905935,
+        0.13900524567990238,
+        0.8062894694495409
       ],
       "trend": "up",
       "status": "yellow",
@@ -117443,10 +117443,10 @@
       "name": "ret_6m",
       "category": "动量",
       "direction": "负向",
-      "ic_mean": -0.0337,
-      "ic_ir": -0.227,
-      "win_rate": 40.6,
-      "n_months": 69,
+      "ic_mean": -0.0408,
+      "ic_ir": -0.213,
+      "win_rate": 44.4,
+      "n_months": 54,
       "smallcap_corr": 0.265,
       "ic_history": [
         {
@@ -117727,9 +117727,9 @@
         }
       ],
       "recent_3m": [
-        0.175,
-        -0.226,
-        0.2027
+        0.11971915528037382,
+        -0.08137301982966762,
+        0.6491598667473544
       ],
       "trend": "up",
       "status": "yellow",
@@ -126483,10 +126483,10 @@
       "name": "ret_3m",
       "category": "动量",
       "direction": "负向",
-      "ic_mean": -0.0288,
-      "ic_ir": -0.179,
-      "win_rate": 43.1,
-      "n_months": 72,
+      "ic_mean": -0.0846,
+      "ic_ir": -0.41,
+      "win_rate": 28.1,
+      "n_months": 57,
       "smallcap_corr": 0.237,
       "ic_history": [
         {
@@ -126779,12 +126779,12 @@
         }
       ],
       "recent_3m": [
-        0.3163,
-        -0.3575,
-        0.2461
+        -0.09007111355211461,
+        -0.0563267020987506,
+        0.7856551335882076
       ],
-      "trend": "down",
-      "status": "yellow",
+      "trend": "up",
+      "status": "green",
       "validation_score": 44.4,
       "validation_verdict": "REVIEW",
       "description": "[🔗 镜像]"
@@ -126959,10 +126959,10 @@
       "name": "momentum_12_1",
       "category": "动量",
       "direction": "负向",
-      "ic_mean": -0.0251,
-      "ic_ir": -0.176,
-      "win_rate": 42.9,
-      "n_months": 63,
+      "ic_mean": -0.007,
+      "ic_ir": -0.043,
+      "win_rate": 43.8,
+      "n_months": 48,
       "smallcap_corr": 0.214,
       "ic_history": [
         {
@@ -127219,12 +127219,12 @@
         }
       ],
       "recent_3m": [
-        0.0132,
-        -0.1907,
-        0.0444
+        -0.03839414313202164,
+        -0.27245559338544023,
+        0.0266322612097393
       ],
       "trend": "up",
-      "status": "yellow",
+      "status": "red",
       "validation_score": 42.4,
       "validation_verdict": "REVIEW",
       "description": "[🔗 镜像]"
@@ -128157,10 +128157,10 @@
       "name": "ret_12m",
       "category": "动量",
       "direction": "负向",
-      "ic_mean": -0.0246,
-      "ic_ir": -0.17,
-      "win_rate": 44.4,
-      "n_months": 63,
+      "ic_mean": -0.036,
+      "ic_ir": -0.19,
+      "win_rate": 31.2,
+      "n_months": 48,
       "smallcap_corr": 0.23,
       "ic_history": [
         {
@@ -128417,9 +128417,9 @@
         }
       ],
       "recent_3m": [
-        0.1096,
-        -0.1976,
-        0.2074
+        0.05511281815012297,
+        -0.24366298651650622,
+        0.43418146981682243
       ],
       "trend": "up",
       "status": "yellow",
@@ -128709,11 +128709,11 @@
     {
       "name": "volume_ratio",
       "category": "技术",
-      "direction": "正向",
-      "ic_mean": 0.0151,
-      "ic_ir": 0.164,
-      "win_rate": 52.0,
-      "n_months": 75,
+      "direction": "负向",
+      "ic_mean": -0.0557,
+      "ic_ir": -0.328,
+      "win_rate": 33.3,
+      "n_months": 57,
       "smallcap_corr": -0.016,
       "ic_history": [
         {
@@ -129018,12 +129018,12 @@
         }
       ],
       "recent_3m": [
-        0.3243,
-        -0.0783,
-        0.3123
+        0.25514790386115505,
+        0.19845932906637595,
+        0.5845094415490321
       ],
-      "trend": "down",
-      "status": "yellow",
+      "trend": "up",
+      "status": "green",
       "validation_score": 39.7,
       "validation_verdict": "REJECT",
       "description": "[🔗 镜像]"
@@ -139229,8 +139229,123 @@
       "recent_3m": [],
       "trend": "flat",
       "validation_warning": "⚠️ 模拟数据, 无真实IC时序, 待样本外验证"
+    },
+    {
+      "name": "hl_ratio",
+      "category": "基础因子",
+      "ic_ir": -0.197,
+      "ic_mean": -0.0359,
+      "win_rate": 35.0,
+      "n_months": 60,
+      "recent_3m": [
+        0.3144815722066627,
+        0.07734249583972756,
+        0.7799186792398755
+      ],
+      "trend": "up",
+      "direction": "负向",
+      "status": "yellow",
+      "validation_score": 60,
+      "validation_verdict": "REVIEW",
+      "description": "重新计算IC | IR=-0.197"
+    },
+    {
+      "name": "amount_ratio",
+      "category": "基础因子",
+      "ic_ir": -0.334,
+      "ic_mean": -0.0603,
+      "win_rate": 29.8,
+      "n_months": 57,
+      "recent_3m": [
+        0.2599218170151986,
+        0.19318566742788706,
+        0.6873122891909288
+      ],
+      "trend": "up",
+      "direction": "负向",
+      "status": "green",
+      "validation_score": 60,
+      "validation_verdict": "REVIEW",
+      "description": "重新计算IC | IR=-0.334"
+    },
+    {
+      "name": "turnover_rate",
+      "category": "基础因子",
+      "ic_ir": -0.106,
+      "ic_mean": -0.0176,
+      "win_rate": 40.4,
+      "n_months": 57,
+      "recent_3m": [
+        0.09373458963352652,
+        0.3846975709208186,
+        0.6730402626797156
+      ],
+      "trend": "up",
+      "direction": "负向",
+      "status": "yellow",
+      "validation_score": 60,
+      "validation_verdict": "REVIEW",
+      "description": "重新计算IC | IR=-0.106"
+    },
+    {
+      "name": "skewness",
+      "category": "基础因子",
+      "ic_ir": -0.451,
+      "ic_mean": -0.0673,
+      "win_rate": 31.6,
+      "n_months": 57,
+      "recent_3m": [
+        0.022552284944289874,
+        0.05965133378026646,
+        0.43593898200719333
+      ],
+      "trend": "up",
+      "direction": "负向",
+      "status": "green",
+      "validation_score": 60,
+      "validation_verdict": "REVIEW",
+      "description": "重新计算IC | IR=-0.451"
+    },
+    {
+      "name": "kurtosis",
+      "category": "基础因子",
+      "ic_ir": -0.12,
+      "ic_mean": -0.0156,
+      "win_rate": 45.6,
+      "n_months": 57,
+      "recent_3m": [
+        -0.00741740931110758,
+        0.048873285946326964,
+        -0.02460423195624543
+      ],
+      "trend": "flat",
+      "direction": "负向",
+      "status": "yellow",
+      "validation_score": 60,
+      "validation_verdict": "REVIEW",
+      "description": "重新计算IC | IR=-0.12"
+    },
+    {
+      "name": "max_drawdown_factor",
+      "category": "基础因子",
+      "ic_ir": 0.112,
+      "ic_mean": 0.0279,
+      "win_rate": 50.9,
+      "n_months": 57,
+      "recent_3m": [
+        -0.24365829049191176,
+        -0.39098989227491515,
+        -0.7523299447628246
+      ],
+      "trend": "flat",
+      "direction": "正向",
+      "status": "yellow",
+      "validation_score": 60,
+      "validation_verdict": "REVIEW",
+      "description": "重新计算IC | IR=0.112"
     }
   ],
   "dedup_note": "331 duplicate/mirror factors identified",
-  "code_note": "Alpha101/GTJA191/Alpha158因子IC数据来自ClickHouse批量计算(115服务器),gen_factor_metrics.py仅覆盖原始33+衍生7因子。891因子中851个的IC计算代码位于115服务器,不在GitHub仓库中。"
+  "code_note": "Alpha101/GTJA191/Alpha158因子IC数据来自ClickHouse批量计算(115服务器),gen_factor_metrics.py仅覆盖原始33+衍生7因子。891因子中851个的IC计算代码位于115服务器,不在GitHub仓库中。",
+  "ic_note": "2026-06-29: 补充10个 + 新增6个因子IC计算 | 计算环境:115服务器 200股×全时段"
 }

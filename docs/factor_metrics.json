@@ -6215,8 +6215,9 @@
           "ic": -0.1134
         }
       ],
-      "validation_score": 100,
-      "validation_verdict": "SAFE"
+      "validation_score": 45,
+      "validation_verdict": "REVIEW",
+      "validation_warning": "⚠️ 高市值相关性(|corr|=0.83), IC主要由规模效应驱动"
     },
     {
       "name": "MIN5",
@@ -138690,5 +138691,6 @@
       "validation_warning": "⚠️ 模拟数据, 无真实IC时序, 待样本外验证"
     }
   ],
-  "dedup_note": "331 duplicate/mirror factors identified"
+  "dedup_note": "331 duplicate/mirror factors identified",
+  "code_note": "Alpha101/GTJA191/Alpha158因子IC数据来自ClickHouse批量计算(115服务器),gen_factor_metrics.py仅覆盖原始33+衍生7因子。891因子中851个的IC计算代码位于115服务器,不在GitHub仓库中。"
 }

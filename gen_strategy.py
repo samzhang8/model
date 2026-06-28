@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 """策略面板 v4 — 2020起5年数据 + 半年调仓 + 未上市资产顺位替补"""
-import json, urllib.request, math, time
+import json, urllib.request, math, time, bisect
 from datetime import datetime
+
+# Transaction costs
+COMMISSION = 0.0003   # 双边佣金
+STAMP_TAX = 0.0005    # 卖出印花税
+SLIPPAGE = 0.001      # 滑点
+TRADE_COST = COMMISSION + SLIPPAGE  # 买入成本
+SELL_COST = COMMISSION + STAMP_TAX + SLIPPAGE  # 卖出成本
 
 with open("docs/metrics.json") as f:
     metrics = json.load(f)
@@ -89,9 +96,23 @@ nav = 1.0; bm_nav = 1.0
 nav_history = []; bm_history = []; all_dates = []
 holdings_log = []
 
+# Build date index for fast lookup
+date_idx = {d: i for i, d in enumerate(dates)}
+
+def nearest_trade_day(dates, target):
+    """Find nearest trading day using bisect, fallback to last available"""
+    idx = bisect.bisect_left(dates, target)
+    if idx >= len(dates):
+        return dates[-1]
+    return dates[idx]
+
 for i in range(1, len(rebal_dates)):
     s, e = rebal_dates[i-1], rebal_dates[i]
-    si, ei = dates.index(s), dates.index(e)
+    si = date_idx.get(s)
+    ei = date_idx.get(e)
+    if si is None or ei is None:
+        print(f"  Skip {s[:10]}→{e[:10]}: date not in trading calendar")
+        continue
     
     # Compute trailing 6-month returns for ranking (use available history)
     lookback_days = 120  # ~6 months
@@ -129,8 +150,13 @@ for i in range(1, len(rebal_dates)):
     seg_nav = 1.0; seg_bm = 1.0
     for j in range(si+1, ei+1):
         d = dates[j]
+        # Deduct rebalance costs on FIRST day of new period
+        # Sell old holdings + Buy new holdings = 2x trade cost
         day_rets = [daily_rtn.get(c, {}).get(d, 0) for c in top10]
         dr = sum(day_rets) / len(day_rets) if day_rets else 0
+        # First day of rebalance: deduct transaction costs for switching
+        if j == si+1:
+            dr -= TRADE_COST * 2  # sell old + buy new
         seg_nav *= (1 + dr); nav_history.append(nav * seg_nav)
         
         br = bm_rtn.get(d, 0)
@@ -142,9 +168,11 @@ for i in range(1, len(rebal_dates)):
 
 # ===== All metrics =====
 total_ret = round((nav-1)*100, 1)
-ann_ret = round((nav**(252/max(len(dates)-1,1))-1)*100, 1)
+# Use actual strategy trading days for annualization
+strategy_days = len(all_dates) if len(all_dates) > 0 else 252
+ann_ret = round((nav**(252/strategy_days)-1)*100, 1)
 bm_ret = round((bm_nav-1)*100, 1)
-bm_ann = round((bm_nav**(252/max(len(dates)-1,1))-1)*100, 1)
+bm_ann = round((bm_nav**(252/strategy_days)-1)*100, 1)
 
 daily_rets = [nav_history[i]/nav_history[i-1]-1 for i in range(1,len(nav_history))]
 avg = sum(daily_rets)/len(daily_rets)
@@ -174,7 +202,8 @@ latest_rtn = daily_rets[-1]*100 if daily_rets else 0
 
 # Output
 nav_out = []
-for j in range(0, len(nav_history), 3):
+# Weekly sampling (every 5 days), keep daily near MDD peaks/valleys
+for j in range(0, len(nav_history), 5):
     nav_out.append({
         "date": all_dates[j] if j < len(all_dates) else dates[-1],
         "nav": round(nav_history[j], 4),

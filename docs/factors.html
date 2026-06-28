@@ -148,10 +148,10 @@ drawDecay();
 <div class="nav"><a href="./">← 资产排名看板</a></div>
 
 <div class="meta">
-<div><strong>IC类型</strong> Spearman Rank-IC · 预测期20日 · 滚动窗口36月</div>
+<div><strong>IC类型</strong> Spearman Rank-IC · 预测期1日 · 滚动窗口36月（注意：面板标注原为20日，实际代码为次日收益）</div>
 <div><strong>股票池</strong> 全A股(剔除ST/退市/上市不满60日/停牌)</div>
-<div><strong>截面预处理</strong> Winsorize 1%-99% + Z-Score标准化</div>
-<div><strong>中性化</strong> 未扣除行业/市值暴露(计划中)</div>
+<div><strong>截面预处理</strong> 原始数据未做Winsorize/中性化（计划中） — IC值可能系统性偏高</div>
+<div><strong>中性化</strong> ⚠️ 未扣除行业/市值暴露 — 高市值相关因子IC主要由规模效应驱动</div>
 <div><strong>验证等级</strong> SAFE≥70 / REVIEW 40-69 / REJECT<40</div>
 <div><strong>说明</strong> GP因子已降级为REVIEW(模拟数据,无真实IC时序)。镜像因子已标注🔗。市值相关性覆盖不完整。</div>
 </div>

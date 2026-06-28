@@ -16,9 +16,9 @@ def metrics(s):
     return {
         'name': s['name'],
         'ann': s['annual_return'],
-        'sharpe': round(avg/std*math.sqrt(12),2) if std>0 else 0,
+        'sharpe': round(avg/std*math.sqrt(252),2) if std>0 else 0,
         'mdd': s['max_drawdown'],
-        'vol': round(std*math.sqrt(12)*100, 1),
+        'vol': round(std*math.sqrt(252)*100, 1),
         'calmar': round(s['annual_return']/s['max_drawdown'], 2),
     }
 

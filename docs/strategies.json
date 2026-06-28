@@ -35727,5 +35727,21 @@
         }
       ]
     }
-  ]
+  ],
+  "last_cruise": {
+    "date": "2026-06-28",
+    "papers_found": 21,
+    "paper_extracted": "2606.25811 - Hierarchical Graph Learning for Calendar Spread Strategies",
+    "paper_factors": 6,
+    "paper_factors_note": "Commodity futures specific — requires commodity futures data for validation",
+    "strategies_analyzed": 59,
+    "safe_strategies": 33,
+    "top_performer": "TOP3自适应止损 (49.7% ann, Sharpe 2.80, DD 10.1%)",
+    "correlation_warning": "TOP3 variants 0.94-0.99 correlated — effectively 1 strategy with different stop-loss params"
+  },
+  "cruise_findings": {
+    "strategy_redundancy": "TOP3 variants (止损3%, 止损8%, 因子合成, 50/50) are 0.94-0.99 correlated — consolidate to single entry with stop-loss parameter",
+    "best_risk_adjusted": "TOP3自适应止损: 49.7% ann / 2.80 Sharpe / 10.1% DD — historically best",
+    "paper_insight": "Calendar spread strategies from 2606.25811 use ANOVA decomposition for cross-sectional normalization — applicable to multi-asset futures"
+  }
 }

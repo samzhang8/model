@@ -101,6 +101,7 @@
   <th onclick="sortBy('win_rate')">胜率</th>
   <th>近期IC</th><th>IC柱</th>
   <th onclick="sortBy('direction')">方向</th>
+  <th onclick="sortBy('validation_score')">验证</th>
   <th onclick="sortBy('smallcap_corr')">市值相关</th>
 </tr></thead>
 <tbody></tbody>
@@ -131,6 +132,13 @@ fetch('factor_metrics.json?' + Date.now())
     buildHelp();
     render();
   });
+
+function valBadge(f) {
+  let vs = f.validation_score, vv = f.validation_verdict;
+  if (!vs && !vv) return '<span class="corr-lo">—</span>';
+  let color = vv === 'SAFE' ? '#22c55e' : (vv === 'REVIEW' ? '#eab308' : '#ef4444');
+  return '<span style=\"color:'+color+';font-weight:600;font-size:12px\">'+vv+'</span> <span style=\"color:#94a3b8;font-size:11px\">'+vs+'</span>';
+}
 
 function buildHelp() {
   let h = '<dl>';
@@ -185,7 +193,7 @@ function render() {
       +'<td>'+trendIcon+' '+recentStr+'</td>'
       +'<td class="bar-cell"><div class="bar"><div class="bar-fill '+barC+'" style="width:'+barW+'%"></div></div></td>'
       +'<td><span class="tag '+(f.direction==='负向'?'tag-neg':'tag-pos')+'">'+f.direction+'</span></td>'
-      +'<td>'+scHtml+'</td></tr>';
+      +'<td>'+valBadge(f)+'</td>'+'<td>'+scHtml+'</td></tr>';
   }
   document.querySelector('#tbl tbody').innerHTML = html;
 }

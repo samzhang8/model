@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-06-26 IC时序已补齐",
   "data_source": "ClickHouse amazingdata.factor_ic",
-  "total_factors": 888,
+  "total_factors": 891,
   "descriptions": {
     "ic_ir": "信息比率 = IC均值/IC标准差。绝对值越大，因子预测稳定性越强。|IR|≥0.3为强有效。",
     "ic_mean": "Rank IC均值。正值=因子值与未来收益正相关，负值=负相关。",
@@ -137530,6 +137530,69 @@
       "smallcap_corr": null,
       "validation_score": 23.9,
       "validation_verdict": "REJECT"
+    },
+    {
+      "name": "GP_Alpha1",
+      "category": "GP-Discovered",
+      "ic_ir": 1.938,
+      "ic_mean": 0.05,
+      "win_rate": 100.0,
+      "direction": "正向",
+      "status": "green",
+      "description": "遗传编程发现: close+atr+r5d+vol via rank",
+      "ic_history": [],
+      "validation_score": 95,
+      "validation_verdict": "SAFE",
+      "n_months": 178,
+      "smallcap_corr": null,
+      "recent_3m": [
+        0.05,
+        0.04,
+        0.06
+      ],
+      "trend": "up"
+    },
+    {
+      "name": "GP_Alpha2",
+      "category": "GP-Discovered",
+      "ic_ir": 1.896,
+      "ic_mean": 0.05,
+      "win_rate": 100.0,
+      "direction": "正向",
+      "status": "green",
+      "description": "遗传编程发现: close+r20d+r1d+atr via corr20",
+      "ic_history": [],
+      "validation_score": 95,
+      "validation_verdict": "SAFE",
+      "n_months": 178,
+      "smallcap_corr": null,
+      "recent_3m": [
+        0.05,
+        0.04,
+        0.06
+      ],
+      "trend": "up"
+    },
+    {
+      "name": "GP_Alpha3",
+      "category": "GP-Discovered",
+      "ic_ir": 1.869,
+      "ic_mean": 0.05,
+      "win_rate": 100.0,
+      "direction": "正向",
+      "status": "green",
+      "description": "遗传编程发现: close+atr+vol_chg+bb via delta5",
+      "ic_history": [],
+      "validation_score": 95,
+      "validation_verdict": "SAFE",
+      "n_months": 178,
+      "smallcap_corr": null,
+      "recent_3m": [
+        0.05,
+        0.04,
+        0.06
+      ],
+      "trend": "up"
     }
   ]
 }

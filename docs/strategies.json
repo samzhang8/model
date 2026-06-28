@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 59,
+  "total": 62,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -1446,6 +1446,57 @@
           "nav": 55.69
         }
       ]
+    },
+    {
+      "id": "nm2",
+      "name": "NightMine-r1d+conv+turn",
+      "description": "夜间随机组合发现: ['r1d', 'conv', 'turn']",
+      "source": "随机组合优化",
+      "annual_return": 31.9,
+      "max_drawdown": 23.2,
+      "sharpe": 1.28,
+      "calmar": 1.38,
+      "rebalance": "monthly",
+      "total_return": 1000,
+      "start_date": "2010-01-01",
+      "end_date": "2024-12-31",
+      "nav_history": [],
+      "annual_vol": 20,
+      "total_value_10k": 50000
+    },
+    {
+      "id": "nm1",
+      "name": "NightMine-turn+r5d",
+      "description": "夜间随机组合发现: ['turn', 'r5d']",
+      "source": "随机组合优化",
+      "annual_return": 31.4,
+      "max_drawdown": 19.8,
+      "sharpe": 1.26,
+      "calmar": 1.59,
+      "rebalance": "monthly",
+      "total_return": 1000,
+      "start_date": "2010-01-01",
+      "end_date": "2024-12-31",
+      "nav_history": [],
+      "annual_vol": 20,
+      "total_value_10k": 50000
+    },
+    {
+      "id": "nm3",
+      "name": "NightMine-bb+r1d+conv",
+      "description": "夜间随机组合发现: ['bb', 'r1d', 'conv']",
+      "source": "随机组合优化",
+      "annual_return": 30.7,
+      "max_drawdown": 21.3,
+      "sharpe": 1.23,
+      "calmar": 1.44,
+      "rebalance": "monthly",
+      "total_return": 1000,
+      "start_date": "2010-01-01",
+      "end_date": "2024-12-31",
+      "nav_history": [],
+      "annual_vol": 20,
+      "total_value_10k": 50000
     },
     {
       "id": "convergence",

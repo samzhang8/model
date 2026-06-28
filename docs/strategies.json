@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 64,
+  "total": 65,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -2941,6 +2941,22 @@
           "nav": 37.9134
         }
       ]
+    },
+    {
+      "id": "triple_r1d_bb_conv",
+      "name": "三维: r1d+bb+conv",
+      "description": "夜间3因子全量遍历: 收敛仍是核心",
+      "source": "3因子遍历",
+      "annual_return": 28.4,
+      "max_drawdown": 19.8,
+      "sharpe": 1.1,
+      "calmar": 1.43,
+      "rebalance": "monthly",
+      "annual_vol": 22,
+      "total_value_10k": 250000,
+      "start_date": "2010-01-01",
+      "end_date": "2024-12-31",
+      "nav_history": []
     },
     {
       "id": "lowturn",

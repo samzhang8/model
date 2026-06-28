@@ -17,7 +17,8 @@
       "rebalance": "monthly",
       "start_date": "2010-01-31",
       "end_date": "2024-12-31",
-      "nav_history": []
+      "nav_history": [],
+      "confidence": "⚠️ OOD 31.1% (样本内51.5%, 保留60%)"
     },
     {
       "id": "top3_stop3",
@@ -731,7 +732,8 @@
           "date": "2024-12-31",
           "nav": 149.095
         }
-      ]
+      ],
+      "confidence": "⚠️ OOD待补充 | 成本80bp仍>40%"
     },
     {
       "id": "top3_止损8%",

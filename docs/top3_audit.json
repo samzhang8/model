@@ -1,0 +1,21 @@
+{
+  "strategy": "TOP3自适应止损",
+  "future_function": "PASS — 信号与收益严格时序分离",
+  "in_sample": {
+    "ann": 51.5,
+    "mdd": 11.6,
+    "months": 125
+  },
+  "out_of_sample": {
+    "ann": 31.1,
+    "mdd": 4.8,
+    "months": 47
+  },
+  "cost_stress": {
+    "30bp": 46.5,
+    "50bp": 44.2,
+    "80bp": 41.0
+  },
+  "retention_ratio": 0.6,
+  "verdict": "VALID — 样本外仍有效但衰减, OOD数据建议持续跟踪"
+}

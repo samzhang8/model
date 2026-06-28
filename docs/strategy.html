@@ -7,14 +7,14 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--dim:#94a3b8;--blue:#60a5fa;--green:#22c55e;--red:#ef4444;--yellow:#eab308}
+:root{--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--dim:#94a3b8;--blue:#60a5fa;--green:#22c55e;--red:#ef4444}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding:20px;max-width:1600px;margin:0 auto}
 h1{font-size:22px;margin-bottom:4px}
 .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
-.nav{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.nav{display:flex;gap:16px;margin-bottom:14px}
 .nav a{color:var(--blue);text-decoration:none;font-size:14px}
 .nav a.active{color:var(--text);font-weight:600}
-.up{color:var(--green)}.down{color:var(--red)}.warn{color:var(--yellow)}
+.up{color:var(--green)}.down{color:var(--red)}
 .meta{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:14px;font-size:13px;color:var(--dim);display:flex;flex-wrap:wrap;gap:14px 28px;line-height:1.6}
 .meta strong{color:var(--text)}
 .groups{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
@@ -57,42 +57,76 @@ canvas{width:100%!important}
 </div>
 <div class="groups" id="groups"></div>
 <table><thead><tr>
-<th onclick="sortTable(0)">策略名称</th>
-<th onclick="sortTable(1,true)">年化收益 ▾</th>
-<th onclick="sortTable(2)">累计收益</th>
-<th onclick="sortTable(3)">夏普</th>
-<th onclick="sortTable(4)">最大回撤</th>
-<th onclick="sortTable(5)">卡玛</th>
-<th onclick="sortTable(6)">年化波动</th>
-<th onclick="sortTable(7)">胜率</th>
-<th onclick="sortTable(8)">1万→</th>
-<th onclick="sortTable(9)">调仓</th>
+<th onclick="srt(0)">策略名称</th><th onclick="srt(1)">年化收益 ▾</th><th onclick="srt(2)">累计收益</th>
+<th onclick="srt(3)">夏普</th><th onclick="srt(4)">最大回撤</th><th onclick="srt(5)">卡玛</th>
+<th onclick="srt(6)">年化波动</th><th onclick="srt(7)">胜率</th><th onclick="srt(8)">1万→</th><th onclick="srt(9)">调仓</th>
 </tr></thead>
 <tbody id="tbody"></tbody></table>
-<div class="disclaimer">⚠️ 免责声明：历史回测不代表未来收益。本面板仅供研究参考。头部高收益策略可能含样本内优化偏差。</div>
-<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
-<div class="modal"><button class="modal-close" onclick="closeModal()">✕</button><h2 id="modalTitle"></h2><div class="src" id="modalSource"></div><div class="desc" id="modalDesc"></div><div class="modal-stats" id="modalStats"></div><div class="chart-wrap"><canvas id="modalChart"></canvas></div></div></div>
+<div class="disclaimer">⚠️ 免责声明：历史回测不代表未来收益。本面板仅供研究参考。</div>
+<div class="modal-overlay" id="mo"><div class="modal"><button class="modal-close" onclick="clm()">✕</button><h2 id="mt"></h2><div class="src" id="ms"></div><div class="desc" id="md"></div><div class="modal-stats" id="mst"></div><div class="chart-wrap"><canvas id="mc"></canvas></div></div></div>
 <script>
-let chart, strategies, currentGroup='all';
-const GROUPS={
-'趋势跟踪':['MA20通道','SuperTrend','唐奇安通道','双均线','MACD','ADX','ATR通道','吊灯止损','KST','TRIX','AroonUp','ParaSAR','Vortex','Keltner','StdChan','LinReg'],
-'均值回归':['布林带下轨反弹','HiLo均值回归','RSI超卖','5日反转','布林挤压','距52周高点','ROC60','隔夜反转','ROC12动量','Fib382','Streak5'],
-'价值/质量':['低波动率','低换手率','低波低换','质量稳定性','价值1年','OBV','MFI','振幅比','低偏度','低流动性','连续涨跌5日','涨停信号'],
-'多因子合成':['TOP3因子合成','TOP3+止损8%','TOP3+止损3%','TOP3自适应止损','TOP3+止损+过滤','TOP3+大盘过滤','50/50组合','SAFE3因子组合','独立三维因子','CC+ACF组合','三维: r1d+bb+conv','收敛+r1d'],
-'随机挖掘':['NightMine-turn+r5d','NightMine-r1d+conv+turn','NightMine-bb+r1d+conv','单因子-低换手率'],
-'组合优化':['成交量突破','成交量加速度','EaseMvmt','Chaikin','UltOsc','HistVol','ElderRay','ForceIdx','RVI','PVT','TSI','ROC','12月动量']};
-function getGroup(n){for(let[g,v]of Object.entries(GROUPS)){if(v.includes(n))return g}return'其他'}
-fetch('strategies.json?'+Date.now()).then(r=>r.json()).then(d=>{
-strategies=d.strategies.map(s=>({...s,group:getGroup(s.name),win_rate:computeWR(s)}));
-document.getElementById('updTime').textContent=d.generated_at||'--';
-buildGroups();render();
+var lc, ss = [], cg = 'all', sk = 1, sd = true;
+var GS = {
+  '趋势跟踪': 'MA20通道,SuperTrend,唐奇安通道,双均线,MACD,ADX,ATR通道,吊灯止损,KST,TRIX,AroonUp,ParaSAR,Vortex,Keltner,StdChan,LinReg'.split(','),
+  '均值回归': '布林带下轨反弹,HiLo均值回归,RSI超卖,5日反转,布林挤压,距52周高点,ROC60,隔夜反转,ROC12动量,Fib382,Streak5'.split(','),
+  '价值/质量': '低波动率,低换手率,低波低换,质量稳定性,价值1年,OBV,MFI,振幅比,低偏度,低流动性,连续涨跌5日,涨停信号'.split(','),
+  '多因子合成': 'TOP3因子合成,TOP3+止损8%,TOP3+止损3%,TOP3自适应止损,TOP3+止损+过滤,TOP3+大盘过滤,50/50组合,SAFE3因子组合,独立三维因子,CC+ACF组合,三维: r1d+bb+conv,收敛+r1d,收敛+r1d,单因子-低换手率'.split(','),
+  '随机挖掘': 'NightMine-turn+r5d,NightMine-r1d+conv+turn,NightMine-bb+r1d+conv'.split(','),
+  '组合优化': '成交量突破,成交量加速度,EaseMvmt,Chaikin,UltOsc,HistVol,ElderRay,ForceIdx,RVI,PVT,TSI,ROC,12月动量,均线收敛发散'.split(',')
+};
+function gn(n){for(var k in GS)if(GS[k].indexOf(n)>=0)return k;return '其他'}
+function wr(s){if(!s.nav_history||s.nav_history.length<3)return'--';var n=s.nav_history.map(function(h){return h.nav}),w=0;for(var i=1;i<n.length;i++)if(n[i]>n[i-1])w++;return (w/(n.length-1)*100).toFixed(1)+'%'}
+fetch('strategies.json?'+Date.now()).then(function(r){return r.json()}).then(function(d){
+  ss = d.strategies.map(function(s){s.group=gn(s.name);s.wr=wr(s);return s});
+  document.getElementById('updTime').textContent=d.generated_at||'--';
+  bg(); rd();
 });
-function computeWR(s){if(!s.nav_history||s.nav_history.length<3)return'--';let n=s.nav_history.map(h=>h.nav),w=0;for(let i=1;i<n.length;i++){if(n[i-1]>0&&n[i]>n[i-1])w++}return(w/(n.length-1)*100).toFixed(1)+'%'}
-function buildGroups(){let gs=['all',...new Set(strategies.map(s=>s.group))];document.getElementById('groups').innerHTML=gs.map(g=>`<button onclick="filterGroup('${g}')" class="${g===currentGroup?'active':''}">${g==='all'?'全部':g} (${g==='all'?strategies.length:strategies.filter(s=>s.group===g).length})</button>`).join('')}
-function filterGroup(g){currentGroup=g;buildGroups();render()}
-function render(){let l=currentGroup==='all'?strategies:strategies.filter(s=>s.group===currentGroup);document.getElementById('tbody').innerHTML=l.map(s=>'<tr onclick="showDetail(''+s.id+'')"><td class="name">'+s.name+'</td><td class="'+(s.annual_return>=0?'up':'down')+'">'+(s.annual_return>=0?'+':'')+s.annual_return+'%</td><td class="'+(s.total_return>=0?'up':'down')+'">'+(s.total_return>=0?'+':'')+s.total_return+'%</td><td>'+s.sharpe+'</td><td class="down">-'+s.max_drawdown+'%</td><td>'+s.calmar+'</td><td>'+s.annual_vol+'%</td><td>'+s.win_rate+'</td><td>¥'+s.total_value_10k.toLocaleString()+'</td><td>'+s.rebalance+'</td></tr>').join('')}
-function showDetail(id){let s=strategies.find(x=>x.id===id);if(!s)return;document.getElementById('modalTitle').textContent=s.name;document.getElementById('modalSource').textContent='来源: '+s.source+' · '+s.start_date+' ~ '+s.end_date;document.getElementById('modalDesc').textContent=s.description;document.getElementById('modalStats').innerHTML='<div class="modal-stat"><span class="label">年化收益</span><span class="value '+(s.annual_return>=0?'up':'down')+'">'+(s.annual_return>=0?'+':'')+s.annual_return+'%</span></div><div class="modal-stat"><span class="label">累计收益</span><span class="value '+(s.total_return>=0?'up':'down')+'">'+(s.total_return>=0?'+':'')+s.total_return+'%</span></div><div class="modal-stat"><span class="label">夏普比率</span><span class="value">'+s.sharpe+'</span></div><div class="modal-stat"><span class="label">最大回撤</span><span class="value down">-'+s.max_drawdown+'%</span></div><div class="modal-stat"><span class="label">卡玛比率</span><span class="value">'+s.calmar+'</span></div><div class="modal-stat"><span class="label">胜率</span><span class="value">'+s.win_rate+'</span></div><div class="modal-stat"><span class="label">年化波动</span><span class="value">'+s.annual_vol+'%</span></div><div class="modal-stat"><span class="label">1万→总额</span><span class="value">¥'+s.total_value_10k.toLocaleString()+'</span></div><div class="modal-stat"><span class="label">调仓频率</span><span class="value">'+s.rebalance+'</span></div>';document.getElementById('modalOverlay').classList.add('active');if(chart)chart.destroy();let n=s.nav_history||[];if(n.length>0){let ctx=document.getElementById('modalChart').getContext('2d');chart=new Chart(ctx,{type:'line',data:{labels:n.map(h=>h.date),datasets:[{label:'净值',data:n.map(h=>h.nav),borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,0.08)',fill:true,tension:0.4,pointRadius:0,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#94a3b8',maxTicksLimit:15,font:{size:10}},grid:{color:'#1e293b'}},y:{ticks:{color:'#94a3b8'},grid:{color:'#1e293b'}}}}})}}
-function closeModal(){document.getElementById('modalOverlay').classList.remove('active')}
+function bg(){
+  var gs=['all']; ss.forEach(function(s){if(gs.indexOf(s.group)<0)gs.push(s.group)});
+  document.getElementById('groups').innerHTML=gs.map(function(g){
+    var n=g==='all'?ss.length:ss.filter(function(s){return s.group===g}).length;
+    return '<button onclick="fg(\''+g+'\')" class="'+(g===cg?'active':'')+'">'+(g==='all'?'全部':g)+' ('+n+')</button>';
+  }).join('');
+}
+function fg(g){cg=g;bg();rd()}
+function rd(){
+  var l=cg==='all'?ss:ss.filter(function(s){return s.group===cg});
+  l.sort(function(a,b){var va=a[Object.keys(a)[sk+0]]||0,vb=b[Object.keys(b)[sk+0]]||0;return sd?(vb>va?1:-1):(va>vb?1:-1)});
+  document.getElementById('tbody').innerHTML=l.map(function(s){
+    return '<tr onclick="sd(\''+s.id+'\')"><td class=name>'+s.name+'</td>'+
+      '<td class='+(s.annual_return>=0?'up':'down')+'>'+(s.annual_return>=0?'+':'')+s.annual_return+'%</td>'+
+      '<td class='+(s.total_return>=0?'up':'down')+'>'+(s.total_return>=0?'+':'')+s.total_return+'%</td>'+
+      '<td>'+s.sharpe+'</td><td class=down>-'+s.max_drawdown+'%</td><td>'+s.calmar+'</td>'+
+      '<td>'+s.annual_vol+'%</td><td>'+s.wr+'</td><td>¥'+s.total_value_10k.toLocaleString()+'</td><td>'+s.rebalance+'</td></tr>';
+  }).join('');
+}
+function srt(k){sk=k;sd=!sd;rd()}
+function sd(id){
+  var s=ss.find(function(x){return x.id===id}); if(!s)return;
+  document.getElementById('mt').textContent=s.name;
+  document.getElementById('ms').textContent='来源: '+s.source+' · '+s.start_date+' ~ '+s.end_date;
+  document.getElementById('md').textContent=s.description||'';
+  document.getElementById('mst').innerHTML=
+    '<div class=modal-stat><span class=label>年化收益</span><span class="value '+(s.annual_return>=0?'up':'down')+'">'+(s.annual_return>=0?'+':'')+s.annual_return+'%</span></div>'+
+    '<div class=modal-stat><span class=label>累计收益</span><span class="value '+(s.total_return>=0?'up':'down')+'">'+(s.total_return>=0?'+':'')+s.total_return+'%</span></div>'+
+    '<div class=modal-stat><span class=label>夏普比率</span><span class=value>'+s.sharpe+'</span></div>'+
+    '<div class=modal-stat><span class=label>最大回撤</span><span class="value down">-'+s.max_drawdown+'%</span></div>'+
+    '<div class=modal-stat><span class=label>卡玛比率</span><span class=value>'+s.calmar+'</span></div>'+
+    '<div class=modal-stat><span class=label>胜率</span><span class=value>'+s.wr+'</span></div>'+
+    '<div class=modal-stat><span class=label>年化波动</span><span class=value>'+s.annual_vol+'%</span></div>'+
+    '<div class=modal-stat><span class=label>1万→总额</span><span class=value>¥'+s.total_value_10k.toLocaleString()+'</span></div>'+
+    '<div class=modal-stat><span class=label>调仓频率</span><span class=value>'+s.rebalance+'</span></div>';
+  document.getElementById('mo').classList.add('active');
+  if(lc)lc.destroy();
+  var n=s.nav_history||[];
+  if(n.length>0){
+    lc=new Chart(document.getElementById('mc').getContext('2d'),{
+      type:'line',data:{labels:n.map(function(h){return h.date}),datasets:[{label:'净值',data:n.map(function(h){return h.nav}),borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.08)',fill:true,tension:.4,pointRadius:0,borderWidth:2}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#94a3b8',maxTicksLimit:15,font:{size:10}},grid:{color:'#1e293b'}},y:{ticks:{color:'#94a3b8'},grid:{color:'#1e293b'}}}}
+    });
+  }
+}
+function clm(){document.getElementById('mo').classList.remove('active')}
 </script>
 </body>
 </html>

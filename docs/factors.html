@@ -75,6 +75,21 @@ function drawDecay() {
 drawHeatmap();
 drawDecay();
 
+
+function exportCSV(){
+  var rows=[],headers=[],data=[];
+  var table=document.querySelector("table");
+  table.querySelectorAll("th").forEach(function(th){headers.push(th.textContent.trim())});
+  rows.push(headers.join(","));
+  table.querySelectorAll("tbody tr").forEach(function(tr){
+    var cols=[];
+    tr.querySelectorAll("td").forEach(function(td){cols.push('"'+td.textContent.trim()+'"')});
+    rows.push(cols.join(","));
+  });
+  var blob=new Blob([rows.join("\n")],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="export.csv"; a.click();
+}
+
 </script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -197,6 +212,7 @@ drawDecay();
 </tr></thead>
 <tbody></tbody>
 </table>
+<button onclick="exportCSV()" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px">📥 导出CSV</button>
 
 <div style="margin-top:30px">
 <h3 style="font-size:18px;margin-bottom:12px">🔥 因子相关性热力图</h3>
@@ -464,6 +480,21 @@ function drawDecay() {
 
 drawHeatmap();
 drawDecay();
+
+
+function exportCSV(){
+  var rows=[],headers=[],data=[];
+  var table=document.querySelector("table");
+  table.querySelectorAll("th").forEach(function(th){headers.push(th.textContent.trim())});
+  rows.push(headers.join(","));
+  table.querySelectorAll("tbody tr").forEach(function(tr){
+    var cols=[];
+    tr.querySelectorAll("td").forEach(function(td){cols.push('"'+td.textContent.trim()+'"')});
+    rows.push(cols.join(","));
+  });
+  var blob=new Blob([rows.join("\n")],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="export.csv"; a.click();
+}
 
 </script>
 </body>

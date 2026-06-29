@@ -4,7 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>策略监控面板</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+function exportCSV(){
+  var rows=[],headers=[],data=[];
+  var table=document.querySelector("table");
+  table.querySelectorAll("th").forEach(function(th){headers.push(th.textContent.trim())});
+  rows.push(headers.join(","));
+  table.querySelectorAll("tbody tr").forEach(function(tr){
+    var cols=[];
+    tr.querySelectorAll("td").forEach(function(td){cols.push('"'+td.textContent.trim()+'"')});
+    rows.push(cols.join(","));
+  });
+  var blob=new Blob([rows.join("\n")],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="export.csv"; a.click();
+}
+
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--dim:#94a3b8;--blue:#60a5fa;--green:#22c55e;--red:#ef4444}
@@ -63,6 +78,7 @@ canvas{width:100%!important}
 <th onclick="srt(6)">年化波动</th><th onclick="srt(7)">胜率</th><th onclick="srt(8)">1万→</th><th onclick="srt(9)">调仓</th>
 </tr></thead>
 <tbody id="tbody"></tbody></table>
+<button onclick="exportCSV()" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px">📥 导出CSV</button>
 <div class="disclaimer">⚠️ 免责声明：历史回测不代表未来收益。本面板仅供研究参考。</div>
 <div class="modal-overlay" id="mo"><div class="modal"><button class="modal-close" onclick="clm()">✕</button><h2 id="mt"></h2><div class="src" id="ms"></div><div class="desc" id="md"></div><div class="modal-stats" id="mst"></div><div class="chart-wrap"><canvas id="mc"></canvas></div></div></div>
 <script>
@@ -129,6 +145,21 @@ function sd(id){
   document.getElementById('mo').classList.add('active');
 }
 function clm(){document.getElementById('mo').classList.remove('active')}
+
+function exportCSV(){
+  var rows=[],headers=[],data=[];
+  var table=document.querySelector("table");
+  table.querySelectorAll("th").forEach(function(th){headers.push(th.textContent.trim())});
+  rows.push(headers.join(","));
+  table.querySelectorAll("tbody tr").forEach(function(tr){
+    var cols=[];
+    tr.querySelectorAll("td").forEach(function(td){cols.push('"'+td.textContent.trim()+'"')});
+    rows.push(cols.join(","));
+  });
+  var blob=new Blob([rows.join("\n")],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="export.csv"; a.click();
+}
+
 </script>
 </body>
 </html>

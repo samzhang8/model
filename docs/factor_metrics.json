@@ -26,8 +26,9 @@
       "trend": "flat",
       "smallcap_corr": null,
       "validation_verdict": "REVIEW",
-      "validation_score": 30,
-      "validation_warning": "⚠️ 胜率0%, 样本可能不足"
+      "validation_score": 25,
+      "validation_warning": "⚠️ 胜率0%, 样本可能不足",
+      "description": "⚠️ 胜率0% 样本不足"
     },
     {
       "name": "A077",
@@ -1639,7 +1640,8 @@
       "trend": "flat",
       "smallcap_corr": null,
       "validation_score": 0,
-      "validation_verdict": "--"
+      "validation_verdict": "--",
+      "description": "[🔗 镜像]"
     },
     {
       "name": "A078",
@@ -1723,7 +1725,8 @@
       "trend": "flat",
       "smallcap_corr": null,
       "validation_score": 0,
-      "validation_verdict": "--"
+      "validation_verdict": "--",
+      "description": "[🔗 镜像]"
     },
     {
       "name": "GTJA_019",
@@ -3175,7 +3178,8 @@
       "status": "green",
       "ic_history": [],
       "validation_score": 0,
-      "validation_verdict": "--"
+      "validation_verdict": "--",
+      "description": "[🔗 镜像]"
     },
     {
       "name": "SUMP30",
@@ -6291,7 +6295,8 @@
       "trend": "flat",
       "smallcap_corr": null,
       "validation_score": 0,
-      "validation_verdict": "--"
+      "validation_verdict": "--",
+      "description": "[🔗 镜像]"
     },
     {
       "name": "RSI28",
@@ -134517,7 +134522,7 @@
       "smallcap_corr": null,
       "validation_score": 0,
       "validation_verdict": "--",
-      "description": "[🔗 镜像]"
+      "description": "[🔗 镜像] ⚠️ 胜率50% 可能默认值"
     },
     {
       "name": "Barra_Beta",
@@ -138256,7 +138261,7 @@
       "smallcap_corr": null,
       "validation_score": 0,
       "validation_verdict": "--",
-      "description": "[🔗 镜像]"
+      "description": "[🔗 镜像] ⚠️ 胜率50% 可能默认值"
     },
     {
       "name": "GTJA103",
@@ -138271,7 +138276,7 @@
       "recent_3m": [],
       "trend": "flat",
       "smallcap_corr": null,
-      "description": " [🔗 重复/镜像]",
+      "description": "[🔗 重复/镜像] ⚠️ 胜率50% 可能默认值",
       "validation_score": 0,
       "validation_verdict": "--"
     },
@@ -138288,7 +138293,7 @@
       "recent_3m": [],
       "trend": "flat",
       "smallcap_corr": null,
-      "description": " [🔗 重复/镜像]",
+      "description": "[🔗 重复/镜像] ⚠️ 胜率50% 可能默认值",
       "validation_score": 0,
       "validation_verdict": "--"
     },
@@ -138305,7 +138310,7 @@
       "recent_3m": [],
       "trend": "flat",
       "smallcap_corr": null,
-      "description": " [🔗 重复/镜像]",
+      "description": "[🔗 重复/镜像] ⚠️ 胜率50% 可能默认值",
       "validation_score": 0,
       "validation_verdict": "--"
     },
@@ -139184,7 +139189,7 @@
       "win_rate": 50,
       "direction": "正向",
       "status": "yellow",
-      "description": "遗传编程发现: close+atr+r5d+vol via rank",
+      "description": "遗传编程发现: close+atr+r5d+vol via rank ⚠️ 胜率50% 可能默认值",
       "ic_history": [],
       "validation_score": 45,
       "validation_verdict": "REVIEW",
@@ -139202,7 +139207,7 @@
       "win_rate": 50,
       "direction": "正向",
       "status": "yellow",
-      "description": "遗传编程发现: close+r20d+r1d+atr via corr20 [🔗 重复/镜像]",
+      "description": "遗传编程发现: close+r20d+r1d+atr via corr20 [🔗 重复/镜像] ⚠️ 胜率50% 可能默认值",
       "ic_history": [],
       "validation_score": 45,
       "validation_verdict": "REVIEW",
@@ -139220,7 +139225,7 @@
       "win_rate": 50,
       "direction": "正向",
       "status": "yellow",
-      "description": "遗传编程发现: close+atr+vol_chg+bb via delta5 [🔗 重复/镜像]",
+      "description": "遗传编程发现: close+atr+vol_chg+bb via delta5 [🔗 重复/镜像] ⚠️ 胜率50% 可能默认值",
       "ic_history": [],
       "validation_score": 45,
       "validation_verdict": "REVIEW",
@@ -139247,7 +139252,7 @@
       "status": "yellow",
       "validation_score": 60,
       "validation_verdict": "REVIEW",
-      "description": "重新计算IC | IR=-0.197"
+      "description": "重新计算IC | IR=-0.197 [🔗 镜像]"
     },
     {
       "name": "amount_ratio",
@@ -139266,7 +139271,7 @@
       "status": "green",
       "validation_score": 60,
       "validation_verdict": "REVIEW",
-      "description": "重新计算IC | IR=-0.334"
+      "description": "重新计算IC | IR=-0.334 [🔗 镜像]"
     },
     {
       "name": "turnover_rate",
@@ -139285,7 +139290,7 @@
       "status": "yellow",
       "validation_score": 60,
       "validation_verdict": "REVIEW",
-      "description": "重新计算IC | IR=-0.106"
+      "description": "重新计算IC | IR=-0.106 [🔗 镜像]"
     },
     {
       "name": "skewness",
@@ -139304,7 +139309,7 @@
       "status": "green",
       "validation_score": 60,
       "validation_verdict": "REVIEW",
-      "description": "重新计算IC | IR=-0.451"
+      "description": "重新计算IC | IR=-0.451 [🔗 镜像]"
     },
     {
       "name": "kurtosis",
@@ -139323,7 +139328,7 @@
       "status": "yellow",
       "validation_score": 60,
       "validation_verdict": "REVIEW",
-      "description": "重新计算IC | IR=-0.12"
+      "description": "重新计算IC | IR=-0.12 [🔗 镜像]"
     },
     {
       "name": "max_drawdown_factor",
@@ -139342,7 +139347,7 @@
       "status": "yellow",
       "validation_score": 60,
       "validation_verdict": "REVIEW",
-      "description": "重新计算IC | IR=0.112"
+      "description": "重新计算IC | IR=0.112 [🔗 镜像]"
     }
   ],
   "dedup_note": "331 duplicate/mirror factors identified",

@@ -61,8 +61,8 @@ def load_ic_summary_clickhouse():
     SELECT 
         factor,
         avg(IC) as ic_mean,
-        avg(IC) / stddevPop(IC) as ic_ir,
-        stddevPop(IC) as ic_std,
+        avg(IC) / stddevSamp(IC) as ic_ir,
+        stddevSamp(IC) as ic_std,
         countIf(IC > 0) * 100.0 / count() as win_rate,
         count() as n_months
     FROM amazingdata.factor_ic

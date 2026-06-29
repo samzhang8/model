@@ -152,7 +152,7 @@ drawDecay();
 <div><strong>股票池</strong> 全A股(剔除ST/退市/上市不满60日/停牌)</div>
 <div><strong>截面预处理</strong> 原始数据未做Winsorize/中性化（计划中） — IC值可能系统性偏高</div>
 <div><strong>中性化</strong> ⚠️ 未扣除行业/市值暴露 — 高市值相关因子IC主要由规模效应驱动</div>
-<div><strong>验证等级</strong> SAFE≥70 / REVIEW 40-69 / REJECT<40</div>
+<div><strong>验证等级</strong> SAFE≥70(IC_IR>0.3+胜率>60%+相关性低) / REVIEW 40-69(部分指标不足) / REJECT<40(不可用) | <strong>IC滚动窗口</strong> 36月(3年) | <strong>验证周期</strong> 全量数据2010-2024</div>
 <div><strong>说明</strong> GP因子已降级为REVIEW(模拟数据,无真实IC时序)。镜像因子已标注🔗。市值相关性覆盖不完整。</div>
 </div>
 

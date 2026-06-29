@@ -55,6 +55,7 @@ canvas{width:100%!important}
 <div><strong>交易成本</strong> ⚠️ 策略收益<b>未扣除</b>交易成本(佣金0.03%+印花税0.05%+滑点0.1%)，实际收益更低</div>
 <div><strong>基准</strong> 中证全指(000985)</div>
 </div>
+<div style="display:flex;gap:8px;margin-bottom:8px"><input id="ssearch" placeholder="搜索策略名..." oninput="sf()" style="background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:5px 10px;border-radius:6px;font-size:12px;width:180px"></div>
 <div class="groups" id="groups"></div>
 <table><thead><tr>
 <th onclick="srt(0)">策略名称</th><th onclick="srt(1)">年化收益 ▾</th><th onclick="srt(2)">累计收益</th>
@@ -88,9 +89,9 @@ function bg(){
     return '<button onclick="fg(\''+g+'\')" class="'+(g===cg?'active':'')+'">'+(g==='all'?'全部':g)+' ('+n+')</button>';
   }).join('');
 }
-function fg(g){cg=g;bg();rd()}
-function rd(){
-  var l=cg==='all'?ss:ss.filter(function(s){return s.group===cg});
+function sf(){var q=document.getElementById("ssearch").value.toLowerCase();rd(q)}
+function rd(query){if(!query)query="";
+  var l=(cg==='all'?ss:ss.filter(function(s){return s.group===cg})).filter(function(s){return !query||s.name.toLowerCase().indexOf(query)>=0});
   l.sort(function(a,b){var keys=['annual_return','total_return','sharpe','max_drawdown','calmar','annual_vol'];var k=keys[sk-1]||'annual_return';var va=a[k]||0,vb=b[k]||0;return sdesc?(vb>va?1:-1):(va>vb?1:-1)});
   document.getElementById('tbody').innerHTML=l.map(function(s){
     return '<tr onclick="sd(\''+s.id+'\')"><td class=name>'+s.name+'</td>'+

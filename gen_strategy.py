@@ -156,7 +156,14 @@ for i in range(1, len(rebal_dates)):
         dr = sum(day_rets) / len(day_rets) if day_rets else 0
         # First day of rebalance: deduct transaction costs for switching
         if j == si+1:
-            dr -= (TRADE_COST + SELL_COST)  # sell old(含印花税) + buy new(不含印花税)
+            # Calculate actual turnover vs assuming 100%
+            prev = holdings_log[-2]['holdings'] if len(holdings_log) >= 2 else []
+            if prev:
+                new_set, old_set = set(top10), set(prev)
+                turnover = (len(new_set - old_set) + len(old_set - new_set)) / (2 * len(top10))
+            else:
+                turnover = 1.0
+            dr -= turnover * (TRADE_COST + SELL_COST)
         seg_nav *= (1 + dr); nav_history.append(nav * seg_nav)
         
         br = bm_rtn.get(d, 0)

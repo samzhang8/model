@@ -18,7 +18,8 @@
       "start_date": "2010-01-31",
       "end_date": "2024-12-31",
       "nav_history": [],
-      "confidence": "⚠️ OOS 30bp≈18.4% (面板49.7%为无成本/含样本内优化)"
+      "confidence": "⚠️ OOS 30bp≈18.4% (面板49.7%为无成本/含样本内优化)",
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "top3_stop3",
@@ -733,7 +734,8 @@
           "nav": 149.095
         }
       ],
-      "confidence": "⚠️ 成本实测: 30bp→24.2%, OOS→18.4%"
+      "confidence": "⚠️ 成本实测: 30bp→24.2%, OOS→18.4%",
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "top3_止损8%",
@@ -1447,7 +1449,8 @@
           "date": "2024-12-31",
           "nav": 55.69
         }
-      ]
+      ],
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "nm2",
@@ -1459,12 +1462,13 @@
       "sharpe": 1.28,
       "calmar": 1.38,
       "rebalance": "monthly",
-      "total_return": 1000,
+      "total_return": 4724.2,
       "start_date": "2010-01-01",
       "end_date": "2024-12-31",
       "nav_history": [],
       "annual_vol": 20,
-      "total_value_10k": 110000
+      "total_value_10k": 482420,
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "nm1",
@@ -1476,12 +1480,13 @@
       "sharpe": 1.26,
       "calmar": 1.59,
       "rebalance": "monthly",
-      "total_return": 1000,
+      "total_return": 4474.4,
       "start_date": "2010-01-01",
       "end_date": "2024-12-31",
       "nav_history": [],
       "annual_vol": 20,
-      "total_value_10k": 110000
+      "total_value_10k": 457440,
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "nm3",
@@ -1493,12 +1498,13 @@
       "sharpe": 1.23,
       "calmar": 1.44,
       "rebalance": "monthly",
-      "total_return": 1000,
+      "total_return": 4144.8,
       "start_date": "2010-01-01",
       "end_date": "2024-12-31",
       "nav_history": [],
       "annual_vol": 20,
-      "total_value_10k": 110000
+      "total_value_10k": 424480,
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "convergence",
@@ -2229,7 +2235,8 @@
       "start_date": "2010-01-01",
       "end_date": "2024-12-31",
       "nav_history": [],
-      "total_return": 3550.7
+      "total_return": 3550.7,
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "top3等权",
@@ -2943,7 +2950,8 @@
           "date": "2024-12-31",
           "nav": 37.9134
         }
-      ]
+      ],
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "triple_r1d_bb_conv",
@@ -2960,7 +2968,8 @@
       "start_date": "2010-01-01",
       "end_date": "2024-12-31",
       "nav_history": [],
-      "total_return": 3210.6
+      "total_return": 3210.6,
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "lowturn",
@@ -3715,7 +3724,8 @@
       "start_date": "2010-01-01",
       "end_date": "2024-12-31",
       "nav_history": [],
-      "total_return": 2677.6
+      "total_return": 2677.6,
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "blend50",
@@ -14413,7 +14423,8 @@
           "date": "2024-12-31",
           "nav": 16.2535
         }
-      ]
+      ],
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "bbsqueeze",
@@ -23883,7 +23894,8 @@
           "date": "2024-12-31",
           "nav": 9.1945
         }
-      ]
+      ],
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "ma20_channel",
@@ -26073,7 +26085,8 @@
           "date": "2024-12-31",
           "nav": 7.2869
         }
-      ]
+      ],
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "rev5d",
@@ -27814,7 +27827,8 @@
           "date": "2024-12-31",
           "nav": 5.7097
         }
-      ]
+      ],
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "rsi_oversold",
@@ -30026,7 +30040,8 @@
           "date": "2024-12-31",
           "nav": 4.461
         }
-      ]
+      ],
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     },
     {
       "id": "williamsr",
@@ -35338,7 +35353,8 @@
           "date": "2024-12-31",
           "nav": 1.1613
         }
-      ]
+      ],
+      "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
     }
   ],
   "last_cruise": {

@@ -202,9 +202,12 @@ latest_rtn = daily_rets[-1]*100 if daily_rets else 0
 
 # Output
 nav_out = []
-# Weekly sampling (every 5 days), keep daily near MDD peaks/valleys
-for j in range(0, len(nav_history), 5):
-    nav_out.append({
+# MDD interval daily + weekly sampling elsewhere
+mdd_range = set(range(mdd_start, mdd_end+1)) if 'mdd_start' in dir() else set()
+nav_out = []
+for j in range(len(nav_history)):
+    if j % 5 == 0 or j in mdd_range:
+        nav_out.append({
         "date": all_dates[j] if j < len(all_dates) else dates[-1],
         "nav": round(nav_history[j], 4),
         "in_drawdown": j >= mdd_start and j <= mdd_end

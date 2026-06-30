@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 68,
+  "total": 70,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -1505,6 +1505,24 @@
       "annual_vol": 20,
       "total_value_10k": 424480,
       "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
+    },
+    {
+      "id": "turn_small_cost",
+      "name": "低换手+小盘(扣成本30bp)",
+      "annual_return": 30.1,
+      "total_return": 3880.0,
+      "sharpe": 0.81,
+      "max_drawdown": 37.2,
+      "calmar": 0.81,
+      "annual_vol": 40.9,
+      "total_value_10k": 397999,
+      "rebalance": "monthly",
+      "win_rate": "55.1%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "115成本组合回测",
+      "group": "多因子合成",
+      "confidence": "✅ 扣成本后最优组合 | 低换手alpha+小盘beta互补"
     },
     {
       "id": "convergence",
@@ -9446,6 +9464,24 @@
           "nav": 18.6159
         }
       ]
+    },
+    {
+      "id": "small_conv_cost",
+      "name": "小盘+收敛(扣成本30bp)",
+      "annual_return": 24.2,
+      "total_return": 1978.3,
+      "sharpe": 0.67,
+      "max_drawdown": 36.3,
+      "calmar": 0.67,
+      "annual_vol": 39.9,
+      "total_value_10k": 207827,
+      "rebalance": "monthly",
+      "win_rate": "55.1%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "115成本组合回测",
+      "group": "多因子合成",
+      "confidence": "✅ 已扣成本"
     },
     {
       "id": "turn_cost30",

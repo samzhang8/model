@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 70,
+  "total": 71,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -13783,6 +13783,24 @@
           "nav": 20.4309
         }
       ]
+    },
+    {
+      "id": "turn_small_oos",
+      "name": "低换手+小盘 OOS(扣成本)",
+      "annual_return": 22.3,
+      "total_return": 1574.8,
+      "sharpe": 1.14,
+      "max_drawdown": 19.5,
+      "calmar": 1.14,
+      "annual_vol": 21.0,
+      "total_value_10k": 167483,
+      "rebalance": "monthly",
+      "win_rate": "62.0%",
+      "start_date": "2021",
+      "end_date": "2024",
+      "source": "115 OOS验证",
+      "group": "多因子合成",
+      "confidence": "✅ OOS验证 22.3% | 前向预期20.2% 样本内33.3%保留67%"
     },
     {
       "id": "top3_ls",

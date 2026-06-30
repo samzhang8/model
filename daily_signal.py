@@ -59,7 +59,7 @@ def generate_report():
     # Header
     report.append(f"# 📊 量化日报")
     report.append(f"## {today.strftime('%Y年%m月%d日')} · {['周一','周二','周三','周四','周五','周六','周日'][today.weekday()]}")
-    report.append(f"> 由 AI量化引擎自动生成 | 基于 A 股 63 策略 + 897 因子 + 70 资产")
+    report.append(f"> 由 AI量化引擎自动生成 | 基于 A 股 85 策略 + 897 因子 + 70 资产")
     report.append("")
     
     # Market Overview

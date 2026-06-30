@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 73,
+  "total": 76,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -4476,6 +4476,42 @@
       "source": "115全量单因子成本回测",
       "group": "价值/质量",
       "confidence": "⚠️ 小盘beta非alpha(中性化IR≈0)"
+    },
+    {
+      "id": "lsy_ep",
+      "name": "LSY价值因子(扣30bp)",
+      "annual_return": 25.5,
+      "total_return": 2304.4,
+      "sharpe": 0.79,
+      "max_drawdown": 32.2,
+      "calmar": 0.79,
+      "annual_vol": 32.2,
+      "total_value_10k": 240443,
+      "rebalance": "monthly",
+      "win_rate": "60%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Liu-Stambaugh-Yuan(2019)",
+      "group": "多因子合成",
+      "confidence": "Liu-Stambaugh-Yuan(2019) EP比率 扣成本"
+    },
+    {
+      "id": "lsy_3f_oos",
+      "name": "LSY三因子 OOS验证",
+      "annual_return": 25.5,
+      "total_return": 2304.4,
+      "sharpe": 1.02,
+      "max_drawdown": 25.0,
+      "calmar": 1.02,
+      "annual_vol": 25.0,
+      "total_value_10k": 240443,
+      "rebalance": "monthly",
+      "win_rate": "60%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Liu-Stambaugh-Yuan(2019)",
+      "group": "多因子合成",
+      "confidence": "✅ 2021-2024 OOS验证 | 优于样本内22.1%"
     },
     {
       "id": "lowvolturn",
@@ -21832,6 +21868,24 @@
           "nav": 12.3377
         }
       ]
+    },
+    {
+      "id": "lsy_3f",
+      "name": "LSY三因子(扣30bp)",
+      "annual_return": 17.8,
+      "total_return": 890.9,
+      "sharpe": 0.42,
+      "max_drawdown": 42.8,
+      "calmar": 0.42,
+      "annual_vol": 42.8,
+      "total_value_10k": 99091,
+      "rebalance": "monthly",
+      "win_rate": "60%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Liu-Stambaugh-Yuan(2019)",
+      "group": "多因子合成",
+      "confidence": "LSY Size+EP+Turn 扣成本 | OOS 25.5%"
     },
     {
       "id": "supertrend",

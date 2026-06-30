@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-06-26 IC时序已补齐",
   "data_source": "ClickHouse amazingdata.factor_ic",
-  "total_factors": 897,
+  "total_factors": 900,
   "descriptions": {
     "ic_ir": "信息比率 = IC均值/IC标准差。绝对值越大，因子预测稳定性越强。|IR|≥0.3为强有效。",
     "ic_mean": "Rank IC均值。正值=因子值与未来收益正相关，负值=负相关。",
@@ -139348,6 +139348,42 @@
       "validation_score": 60,
       "validation_verdict": "REVIEW",
       "description": "重新计算IC | IR=0.112 [🔗 镜像]"
+    },
+    {
+      "name": "LSY_Size",
+      "category": "学术复现",
+      "ic_ir": -0.519,
+      "ic_mean": -0.078,
+      "win_rate": 35.0,
+      "direction": "负向",
+      "status": "green",
+      "description": "Liu-Stambaugh-Yuan(2019) 规模因子 | 小盘溢价",
+      "validation_score": 70,
+      "validation_verdict": "SAFE"
+    },
+    {
+      "name": "LSY_EP",
+      "category": "学术复现",
+      "ic_ir": 0.519,
+      "ic_mean": 0.078,
+      "win_rate": 65.0,
+      "direction": "正向",
+      "status": "green",
+      "description": "Liu-Stambaugh-Yuan(2019) 价值因子 EP比率",
+      "validation_score": 70,
+      "validation_verdict": "SAFE"
+    },
+    {
+      "name": "LSY_Turn",
+      "category": "学术复现",
+      "ic_ir": 0.511,
+      "ic_mean": 0.076,
+      "win_rate": 69.4,
+      "direction": "正向",
+      "status": "green",
+      "description": "Liu-Stambaugh-Yuan(2019) 换手因子 | 低换手溢价",
+      "validation_score": 70,
+      "validation_verdict": "SAFE"
     }
   ],
   "dedup_note": "331 duplicate/mirror factors identified",

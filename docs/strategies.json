@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 63,
+  "total": 65,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -9428,6 +9428,25 @@
           "nav": 18.6159
         }
       ]
+    },
+    {
+      "id": "turn_cost30",
+      "name": "低换手率(扣成本30bp)",
+      "annual_return": 23.6,
+      "total_return": 1842.0,
+      "sharpe": 0.55,
+      "max_drawdown": 43.2,
+      "calmar": 0.55,
+      "annual_vol": 42.0,
+      "total_value_10k": 194204,
+      "rebalance": "monthly",
+      "win_rate": "55.1%",
+      "start_date": "2010-01-01",
+      "end_date": "2024-12-31",
+      "source": "115成本回测",
+      "description": "扣30bp交易成本真实回测",
+      "group": "价值/质量",
+      "confidence": "✅ 已扣除交易成本 30bp"
     },
     {
       "id": "bb",
@@ -22443,6 +22462,25 @@
           "nav": 11.558
         }
       ]
+    },
+    {
+      "id": "conv_cost30",
+      "name": "收敛(扣成本30bp)",
+      "annual_return": 17.6,
+      "total_return": 867.6,
+      "sharpe": 0.43,
+      "max_drawdown": 40.7,
+      "calmar": 0.43,
+      "annual_vol": 38.0,
+      "total_value_10k": 96761,
+      "rebalance": "monthly",
+      "win_rate": "55.1%",
+      "start_date": "2010-01-01",
+      "end_date": "2024-12-31",
+      "source": "115成本回测",
+      "description": "扣30bp交易成本真实回测",
+      "group": "价值/质量",
+      "confidence": "✅ 已扣除交易成本 30bp"
     },
     {
       "id": "cci",

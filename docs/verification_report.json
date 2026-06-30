@@ -1,0 +1,52 @@
+{
+  "generated_at": "2026-06-30T13:41:10.249588",
+  "factors": {
+    "total": 900,
+    "safe": 36,
+    "review": 636,
+    "reject": 228
+  },
+  "strategies": {
+    "total": 76,
+    "safe": 13,
+    "review": 58
+  },
+  "safe_factors": [
+    "ACF",
+    "Barra_DivYield",
+    "Alpha158_ROC20",
+    "illiquidity",
+    "min_ret_1m",
+    "PVCF",
+    "GTJA_rev016",
+    "GTJA_w17_rev",
+    "GTJA_rev017",
+    "GTJA_rev019",
+    "A158_ROC20",
+    "GTJA_rev018",
+    "GTJA_w20_rev",
+    "GTJA_rev020",
+    "GTJA_rev022",
+    "GTJA_rev028",
+    "GTJA_w26_rev",
+    "GTJA_rev026",
+    "GTJA_w23_rev",
+    "GTJA_rev024"
+  ],
+  "safe_strategies": [
+    "TOP3+止损3%",
+    "低换手+小盘(扣成本30bp)",
+    "小盘因子(扣成本30bp)",
+    "LSY三因子 OOS验证",
+    "小盘+收敛(扣成本30bp)",
+    "低换手率(扣成本30bp)",
+    "低换手+小盘 OOS(扣成本)",
+    "低换手率 OOS验证",
+    "小盘因子 OOS验证",
+    "LSY三因子(扣30bp)",
+    "收敛(扣成本30bp)",
+    "非流动性(扣成本30bp)",
+    "20日反转(扣成本30bp)"
+  ],
+  "verifier_version": "1.0"
+}

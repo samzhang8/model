@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-06-30",
+  "correlation_matrix": {
+    "labels": [
+      "turn",
+      "conv",
+      "small",
+      "illiquid",
+      "turn+small",
+      "small+conv",
+      "turn+conv",
+      "turn+small+conv"
+    ],
+    "min_corr": 0.736,
+    "max_corr": 0.992,
+    "avg_corr": 0.925
+  },
+  "finding": "A股8大策略高度相关(均值0.925), 组合无法分散风险。止损是唯一有效风控。"
+}

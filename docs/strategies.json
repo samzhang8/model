@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 65,
+  "total": 68,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -4440,6 +4440,24 @@
           "nav": 30.9249
         }
       ]
+    },
+    {
+      "id": "logprice_cost30",
+      "name": "小盘因子(扣成本30bp)",
+      "annual_return": 25.5,
+      "total_return": 2304.4,
+      "sharpe": 0.79,
+      "max_drawdown": 32.2,
+      "calmar": 0.79,
+      "annual_vol": 38.6,
+      "total_value_10k": 240443,
+      "rebalance": "monthly",
+      "win_rate": "55.1%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "115全量单因子成本回测",
+      "group": "价值/质量",
+      "confidence": "⚠️ 小盘beta非alpha(中性化IR≈0)"
     },
     {
       "id": "lowvolturn",
@@ -23221,6 +23239,24 @@
       ]
     },
     {
+      "id": "illiquid_cost30",
+      "name": "非流动性(扣成本30bp)",
+      "annual_return": 16.7,
+      "total_return": 768.9,
+      "sharpe": 0.43,
+      "max_drawdown": 38.4,
+      "calmar": 0.43,
+      "annual_vol": 46.1,
+      "total_value_10k": 86894,
+      "rebalance": "monthly",
+      "win_rate": "55.1%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "115全量单因子成本回测",
+      "group": "价值/质量",
+      "confidence": "✅ 已扣除交易成本"
+    },
+    {
       "id": "safe3",
       "name": "SAFE3因子组合",
       "description": "CC+TCC+illiq三个验证最高分因子合成",
@@ -26756,6 +26792,24 @@
           "in_drawdown": false
         }
       ]
+    },
+    {
+      "id": "r20d_cost30",
+      "name": "20日反转(扣成本30bp)",
+      "annual_return": 13.3,
+      "total_return": 474.4,
+      "sharpe": 0.31,
+      "max_drawdown": 43.0,
+      "calmar": 0.31,
+      "annual_vol": 51.6,
+      "total_value_10k": 57441,
+      "rebalance": "monthly",
+      "win_rate": "55.1%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "115全量单因子成本回测",
+      "group": "价值/质量",
+      "confidence": "扣成本后衰减显著"
     },
     {
       "id": "illiquid",

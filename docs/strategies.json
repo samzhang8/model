@@ -1,7 +1,43 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 85,
+  "total": 89,
   "strategies": [
+    {
+      "id": "ts_n5_c30",
+      "name": "turn+small N5(扣30bp)",
+      "annual_return": 75.7,
+      "total_return": 267080.4,
+      "sharpe": 3.02,
+      "max_drawdown": 25.1,
+      "calmar": 3.02,
+      "annual_vol": 25.1,
+      "total_value_10k": 26718044,
+      "rebalance": "monthly",
+      "win_rate": "65%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "参数优化：持仓数/窗口/权重",
+      "group": "多因子合成",
+      "confidence": "🔥 集中持仓 N=5 | ⚠️ 高浓度风险 实盘需分散"
+    },
+    {
+      "id": "ts_n10_c30",
+      "name": "turn+small N10(扣30bp)",
+      "annual_return": 56.1,
+      "total_return": 50908.3,
+      "sharpe": 2.22,
+      "max_drawdown": 25.3,
+      "calmar": 2.22,
+      "annual_vol": 25.3,
+      "total_value_10k": 5100828,
+      "rebalance": "monthly",
+      "win_rate": "65%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "参数优化：持仓数/窗口/权重",
+      "group": "多因子合成",
+      "confidence": "集中持仓 N=10"
+    },
     {
       "id": "top3_adaptive",
       "name": "TOP3自适应止损",
@@ -693,6 +729,24 @@
       ],
       "confidence": "⚠️ walk-forward OOS均值45.0% | 中性化turn IR=0.17(67%来自小盘) | conv IR=0.27(26%衰减)",
       "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
+    },
+    {
+      "id": "ts_n15_c30",
+      "name": "turn+small N15(扣30bp)",
+      "annual_return": 44.1,
+      "total_return": 16545.5,
+      "sharpe": 1.68,
+      "max_drawdown": 26.3,
+      "calmar": 1.68,
+      "annual_vol": 26.3,
+      "total_value_10k": 1664546,
+      "rebalance": "monthly",
+      "win_rate": "65%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "参数优化：持仓数/窗口/权重",
+      "group": "多因子合成",
+      "confidence": "集中持仓 N=15"
     },
     {
       "id": "top3_stop3",
@@ -17617,6 +17671,24 @@
           "nav": 23.4907
         }
       ]
+    },
+    {
+      "id": "turn_w60_c30",
+      "name": "低换手60日窗(扣30bp)",
+      "annual_return": 24.1,
+      "total_return": 1955.0,
+      "sharpe": 0.58,
+      "max_drawdown": 41.8,
+      "calmar": 0.58,
+      "annual_vol": 41.8,
+      "total_value_10k": 205497,
+      "rebalance": "monthly",
+      "win_rate": "65%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "参数优化：持仓数/窗口/权重",
+      "group": "多因子合成",
+      "confidence": "60日窗口 优于20日"
     },
     {
       "id": "turn_cost30",

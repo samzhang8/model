@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 71,
+  "total": 73,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -13803,6 +13803,24 @@
       "confidence": "✅ OOS验证 22.3% | 前向预期20.2% 样本内33.3%保留67%"
     },
     {
+      "id": "turn_oos",
+      "name": "低换手率 OOS验证",
+      "annual_return": 22.2,
+      "total_return": 1555.8,
+      "sharpe": 0.55,
+      "max_drawdown": 40.0,
+      "calmar": 0.55,
+      "annual_vol": 38.0,
+      "total_value_10k": 165576,
+      "rebalance": "monthly",
+      "win_rate": "60.0%",
+      "start_date": "2021",
+      "end_date": "2024",
+      "source": "115 7因子全量OOS",
+      "group": "多因子合成",
+      "confidence": "✅ OOS保留94% 最稳定因子"
+    },
+    {
       "id": "top3_ls",
       "name": "TOP3多空组合",
       "description": "TOP3合成,买TOP20%卖BOTTOM20%",
@@ -18248,6 +18266,24 @@
           "nav": 16.5551
         }
       ]
+    },
+    {
+      "id": "small_oos",
+      "name": "小盘因子 OOS验证",
+      "annual_return": 19.6,
+      "total_return": 1125.3,
+      "sharpe": 0.49,
+      "max_drawdown": 40.0,
+      "calmar": 0.49,
+      "annual_vol": 38.0,
+      "total_value_10k": 122528,
+      "rebalance": "monthly",
+      "win_rate": "60.0%",
+      "start_date": "2021",
+      "end_date": "2024",
+      "source": "115 7因子全量OOS",
+      "group": "多因子合成",
+      "confidence": "✅ OOS保留77%"
     },
     {
       "id": "pct52high",

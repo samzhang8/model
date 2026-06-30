@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-06-30",
+  "top_factors": [
+    {
+      "name": "turn(低换手)",
+      "full_30bp": 23.6,
+      "oos_30bp": 22.2,
+      "retain": 94,
+      "fwd_exp": 22.2
+    },
+    {
+      "name": "small(小盘)",
+      "full_30bp": 25.5,
+      "oos_30bp": 19.6,
+      "retain": 77,
+      "fwd_exp": 19.6
+    },
+    {
+      "name": "conv(收敛)",
+      "full_30bp": 17.6,
+      "oos_30bp": 11.2,
+      "retain": 64,
+      "fwd_exp": 11.3
+    },
+    {
+      "name": "turn+small",
+      "full_30bp": 30.1,
+      "oos_30bp": 22.3,
+      "retain": 74,
+      "fwd_exp": 22.3
+    },
+    {
+      "name": "turn+conv",
+      "full_30bp": 18.4,
+      "oos_30bp": 11.0,
+      "retain": 60,
+      "fwd_exp": 11.0
+    }
+  ],
+  "key_finding": "低换手率最稳定(94%保留), 收敛严重衰减(64%), 小盘是beta非alpha"
+}

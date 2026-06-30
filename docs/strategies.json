@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 79,
+  "total": 82,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -28407,6 +28407,24 @@
       ]
     },
     {
+      "id": "lowvol_c30",
+      "name": "低波动率(扣30bp)",
+      "annual_return": 20.3,
+      "total_return": 1229.6,
+      "sharpe": 0.53,
+      "max_drawdown": 38.3,
+      "calmar": 0.53,
+      "annual_vol": 34.5,
+      "total_value_10k": 132959,
+      "rebalance": "monthly",
+      "win_rate": "55%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Amihud/Hwang/Jegadeesh/Blitz",
+      "group": "多因子合成",
+      "confidence": "Blitz-van Vliet(2007) OOS=11.4%"
+    },
+    {
       "id": "small_oos",
       "name": "小盘因子 OOS验证",
       "annual_return": 19.6,
@@ -44545,6 +44563,24 @@
       ]
     },
     {
+      "id": "strev5_c30",
+      "name": "5日反转(扣30bp)",
+      "annual_return": 10.6,
+      "total_return": 309.8,
+      "sharpe": 0.24,
+      "max_drawdown": 45.1,
+      "calmar": 0.24,
+      "annual_vol": 40.6,
+      "total_value_10k": 40980,
+      "rebalance": "monthly",
+      "win_rate": "55%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Amihud/Hwang/Jegadeesh/Blitz",
+      "group": "多因子合成",
+      "confidence": "Jegadeesh-Titman(1993) OOS=7.9%"
+    },
+    {
       "id": "mom12m",
       "name": "12月动量",
       "description": "买入12月动量最强20%，月调仓",
@@ -46245,6 +46281,24 @@
           "nav": 3.4367
         }
       ]
+    },
+    {
+      "id": "high52_c30",
+      "name": "52周高点反转(扣30bp)",
+      "annual_return": 8.5,
+      "total_return": 213.3,
+      "sharpe": 0.21,
+      "max_drawdown": 39.7,
+      "calmar": 0.21,
+      "annual_vol": 35.7,
+      "total_value_10k": 31334,
+      "rebalance": "monthly",
+      "win_rate": "55%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Amihud/Hwang/Jegadeesh/Blitz",
+      "group": "多因子合成",
+      "confidence": "George-Hwang(2004) OOS=9.0% 保留106%"
     },
     {
       "id": "chaikin",

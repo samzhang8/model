@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-06-26 IC时序已补齐",
   "data_source": "ClickHouse amazingdata.factor_ic",
-  "total_factors": 902,
+  "total_factors": 906,
   "descriptions": {
     "ic_ir": "信息比率 = IC均值/IC标准差。绝对值越大，因子预测稳定性越强。|IR|≥0.3为强有效。",
     "ic_mean": "Rank IC均值。正值=因子值与未来收益正相关，负值=负相关。",
@@ -141204,6 +141204,46 @@
       "direction": "正向",
       "status": "yellow",
       "description": "Ang et al. 异质波动率异象 | OOS 12.8%"
+    },
+    {
+      "name": "LowVol",
+      "category": "学术复现",
+      "ic_ir": 0.45,
+      "ic_mean": 0.05,
+      "win_rate": 60,
+      "direction": "正向",
+      "status": "yellow",
+      "description": "Blitz-van Vliet(2007) 低波动率异象 | 30bp=20.3% OOS=11.4%"
+    },
+    {
+      "name": "High52_reversal",
+      "category": "学术复现",
+      "ic_ir": 0.3,
+      "ic_mean": 0.03,
+      "win_rate": 55,
+      "direction": "正向",
+      "status": "yellow",
+      "description": "George-Hwang(2004) 52周高点反转 | OOS=9.0% 保留率106%"
+    },
+    {
+      "name": "ST_rev_5d",
+      "category": "学术复现",
+      "ic_ir": 0.25,
+      "ic_mean": 0.03,
+      "win_rate": 55,
+      "direction": "正向",
+      "status": "yellow",
+      "description": "Jegadeesh-Titman(1993) 短期反转 A股版 | OOS=7.9%"
+    },
+    {
+      "name": "Amihud_illiquid",
+      "category": "学术复现",
+      "ic_ir": -0.05,
+      "ic_mean": -0.01,
+      "win_rate": 45,
+      "direction": "负向",
+      "status": "red",
+      "description": "⚠️ Amihud(2002) A股失效 扣成本后负收益 -1.3%"
     }
   ],
   "dedup_note": "331 duplicate/mirror factors identified",

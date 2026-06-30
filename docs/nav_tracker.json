@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-06-30",
+  "accounts": {
+    "ZZB": {
+      "name": "ZZB",
+      "aum": 1852749,
+      "color": "#60a5fa"
+    },
+    "CML": {
+      "name": "CML",
+      "aum": 971988,
+      "color": "#a78bfa"
+    },
+    "HK": {
+      "name": "HK",
+      "aum": 1955887,
+      "color": "#f97316"
+    },
+    "HN": {
+      "name": "HN",
+      "aum": 1011152,
+      "color": "#22c55e"
+    },
+    "ZY": {
+      "name": "ZY",
+      "aum": 101666,
+      "color": "#eab308"
+    },
+    "ZQH": {
+      "name": "ZQH",
+      "aum": 880089,
+      "color": "#06b6d4"
+    },
+    "MNN": {
+      "name": "MNN",
+      "aum": 1997302,
+      "color": "#ec4899"
+    },
+    "SY": {
+      "name": "SY(新)",
+      "aum": 10000000,
+      "color": "#ef4444"
+    }
+  },
+  "nav_data": {
+    "ZZB": {
+      "live": [
+        {
+          "date": "2026-06-30",
+          "nav": 1.0,
+          "aum": 1852749
+        }
+      ],
+      "sim": [],
+      "backtest": []
+    },
+    "CML": {
+      "live": [
+        {
+          "date": "2026-06-30",
+          "nav": 1.0,
+          "aum": 971988
+        }
+      ],
+      "sim": [],
+      "backtest": []
+    },
+    "HK": {
+      "live": [
+        {
+          "date": "2026-06-30",
+          "nav": 1.0,
+          "aum": 1955887
+        }
+      ],
+      "sim": [],
+      "backtest": []
+    },
+    "HN": {
+      "live": [
+        {
+          "date": "2026-06-30",
+          "nav": 1.0,
+          "aum": 1011152
+        }
+      ],
+      "sim": [],
+      "backtest": []
+    },
+    "ZY": {
+      "live": [
+        {
+          "date": "2026-06-30",
+          "nav": 1.0,
+          "aum": 101666
+        }
+      ],
+      "sim": [],
+      "backtest": []
+    },
+    "ZQH": {
+      "live": [
+        {
+          "date": "2026-06-30",
+          "nav": 1.0,
+          "aum": 880089
+        }
+      ],
+      "sim": [],
+      "backtest": []
+    },
+    "MNN": {
+      "live": [
+        {
+          "date": "2026-06-30",
+          "nav": 1.0,
+          "aum": 1997302
+        }
+      ],
+      "sim": [],
+      "backtest": []
+    },
+    "SY": {
+      "live": [
+        {
+          "date": "2026-06-30",
+          "nav": 1.0,
+          "aum": 10000000
+        }
+      ],
+      "sim": [],
+      "backtest": []
+    }
+  }
+}

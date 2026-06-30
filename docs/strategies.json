@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 76,
+  "total": 79,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -31909,6 +31909,24 @@
       ]
     },
     {
+      "id": "max_turn",
+      "name": "MAX+Turn(扣30bp)",
+      "annual_return": 19.3,
+      "total_return": 1082.9,
+      "sharpe": 0.48,
+      "max_drawdown": 40.5,
+      "calmar": 0.48,
+      "annual_vol": 36.5,
+      "total_value_10k": 118295,
+      "rebalance": "monthly",
+      "win_rate": "55%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Bali-Cakici-Whitelaw(2011) MAX效应",
+      "group": "多因子合成",
+      "confidence": "OOS 10.2% 优于纯MAX"
+    },
+    {
       "id": "atr",
       "name": "ATR通道反转",
       "description": "ATR超卖反转，月度调仓",
@@ -34075,6 +34093,24 @@
           "nav": 11.558
         }
       ]
+    },
+    {
+      "id": "max_ivol",
+      "name": "MAX+IVOL(扣30bp)",
+      "annual_return": 17.7,
+      "total_return": 879.2,
+      "sharpe": 0.46,
+      "max_drawdown": 38.7,
+      "calmar": 0.46,
+      "annual_vol": 34.8,
+      "total_value_10k": 97920,
+      "rebalance": "monthly",
+      "win_rate": "55%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Bali-Cakici-Whitelaw(2011) MAX效应",
+      "group": "多因子合成",
+      "confidence": "Bali et al.(2011) OOS 9.3%"
     },
     {
       "id": "conv_cost30",
@@ -41538,6 +41574,24 @@
         }
       ],
       "cost_note": "⚠️ 未扣交易成本(OOS 30bp≈18.4%)"
+    },
+    {
+      "id": "ivol_oos",
+      "name": "IVOL OOS验证",
+      "annual_return": 12.8,
+      "total_return": 439.9,
+      "sharpe": 0.51,
+      "max_drawdown": 25.0,
+      "calmar": 0.51,
+      "annual_vol": 22.5,
+      "total_value_10k": 53992,
+      "rebalance": "monthly",
+      "win_rate": "55%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Bali-Cakici-Whitelaw(2011) MAX效应",
+      "group": "多因子合成",
+      "confidence": "Ang et al. OOS保留70%"
     },
     {
       "id": "rsi_oversold",

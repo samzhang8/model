@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 82,
+  "total": 85,
   "strategies": [
     {
       "id": "top3_adaptive",
@@ -11919,6 +11919,24 @@
           "nav": 28.6545
         }
       ]
+    },
+    {
+      "id": "4factor_invest",
+      "name": "四因子组合(扣30bp)",
+      "annual_return": 24.9,
+      "total_return": 2148.4,
+      "sharpe": 0.62,
+      "max_drawdown": 40.3,
+      "calmar": 0.62,
+      "annual_vol": 36.3,
+      "total_value_10k": 224840,
+      "rebalance": "monthly",
+      "win_rate": "60%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "全量15策略排名+OOS验证",
+      "group": "多因子合成",
+      "confidence": "✅ SAFE | OOS=21.6% 保留率87% 最均衡"
     },
     {
       "id": "lowvolturn",
@@ -23960,6 +23978,24 @@
       ]
     },
     {
+      "id": "small_r5d_invest",
+      "name": "小盘+5日反转(扣30bp)",
+      "annual_return": 21.3,
+      "total_return": 1393.0,
+      "sharpe": 0.64,
+      "max_drawdown": 33.5,
+      "calmar": 0.64,
+      "annual_vol": 30.2,
+      "total_value_10k": 149297,
+      "rebalance": "monthly",
+      "win_rate": "60%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "全量15策略排名+OOS验证",
+      "group": "多因子合成",
+      "confidence": "✅ SAFE | OOS=16.4% 保留率77%"
+    },
+    {
       "id": "top3_ls",
       "name": "TOP3多空组合",
       "description": "TOP3合成,买TOP20%卖BOTTOM20%",
@@ -28405,6 +28441,24 @@
           "nav": 16.5551
         }
       ]
+    },
+    {
+      "id": "turn_lowvol_invest",
+      "name": "低换手+低波(扣30bp)",
+      "annual_return": 20.6,
+      "total_return": 1276.8,
+      "sharpe": 0.48,
+      "max_drawdown": 43.1,
+      "calmar": 0.48,
+      "annual_vol": 38.8,
+      "total_value_10k": 137677,
+      "rebalance": "monthly",
+      "win_rate": "60%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "全量15策略排名+OOS验证",
+      "group": "多因子合成",
+      "confidence": "✅ SAFE | OOS=15.7% 保留率76%"
     },
     {
       "id": "lowvol_c30",

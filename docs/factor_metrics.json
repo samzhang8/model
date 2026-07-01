@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-06-26 IC时序已补齐",
   "data_source": "ClickHouse amazingdata.factor_ic",
-  "total_factors": 906,
+  "total_factors": 908,
   "descriptions": {
     "ic_ir": "信息比率 = IC均值/IC标准差。绝对值越大，因子预测稳定性越强。|IR|≥0.3为强有效。",
     "ic_mean": "Rank IC均值。正值=因子值与未来收益正相关，负值=负相关。",
@@ -141244,6 +141244,26 @@
       "direction": "负向",
       "status": "red",
       "description": "⚠️ Amihud(2002) A股失效 扣成本后负收益 -1.3%"
+    },
+    {
+      "name": "BAB_lowbeta",
+      "category": "学术复现",
+      "ic_ir": 0.4,
+      "ic_mean": 0.04,
+      "win_rate": 58,
+      "direction": "正向",
+      "status": "yellow",
+      "description": "Frazzini-Pedersen(2014) Betting Against Beta A股版 30bp=18.3%"
+    },
+    {
+      "name": "VaR5_lefttail",
+      "category": "学术复现",
+      "ic_ir": 0.05,
+      "ic_mean": 0.01,
+      "win_rate": 48,
+      "direction": "正向",
+      "status": "red",
+      "description": "⚠️ Atilgan(2020) 左尾风险 A股失效 30bp=2.4%"
     }
   ],
   "dedup_note": "331 duplicate/mirror factors identified",

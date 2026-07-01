@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 89,
+  "total": 90,
   "strategies": [
     {
       "id": "ts_n5_c30",
@@ -32069,6 +32069,24 @@
       "source": "论文复现: Bali-Cakici-Whitelaw(2011) MAX效应",
       "group": "多因子合成",
       "confidence": "OOS 10.2% 优于纯MAX"
+    },
+    {
+      "id": "bab_c30",
+      "name": "低Beta(扣30bp)",
+      "annual_return": 18.3,
+      "total_return": 951.4,
+      "sharpe": 0.51,
+      "max_drawdown": 36.1,
+      "calmar": 0.51,
+      "annual_vol": 30.0,
+      "total_value_10k": 105144,
+      "rebalance": "monthly",
+      "win_rate": "58%",
+      "start_date": "2010",
+      "end_date": "2024",
+      "source": "论文复现: Frazzini-Pedersen(2014) BAB",
+      "group": "多因子合成",
+      "confidence": "✅ BAB A股有效 18.3%/30bp"
     },
     {
       "id": "atr",

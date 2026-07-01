@@ -32072,7 +32072,7 @@
     },
     {
       "id": "bab_c30",
-      "name": "低Beta(扣30bp)",
+      "name": "低Beta(扣30bp) ⚠️OOS衰减",
       "annual_return": 18.3,
       "total_return": 951.4,
       "sharpe": 0.51,
@@ -32086,7 +32086,7 @@
       "end_date": "2024",
       "source": "论文复现: Frazzini-Pedersen(2014) BAB",
       "group": "多因子合成",
-      "confidence": "✅ BAB A股有效 18.3%/30bp"
+      "confidence": "⚠️ OOS仅4.7% 衰减74% — 样本内过拟合 不推荐"
     },
     {
       "id": "atr",

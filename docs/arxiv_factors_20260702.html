@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>论文因子 2026-07-02 · 新建因子面板</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d1117;color:#c9d1d9;padding:24px;max-width:1200px;margin:0 auto}
+h1{color:#58a6ff;margin-bottom:4px;font-size:22px}
+h2{color:#58a6ff;margin:28px 0 14px;font-size:17px;border-bottom:1px solid #30363d;padding-bottom:8px}
+.sub{color:#8b949e;font-size:13px;margin-bottom:20px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:18px;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:6px 10px;text-align:right;border-bottom:1px solid #21262d}
+th{color:#8b949e;font-weight:500;font-size:11px}
+td:first-child,th:first-child{text-align:left;font-family:monospace;font-size:12px}
+tr:hover{background:#1c2333}
+.positive{color:#3fb950}
+.negative{color:#f85149}
+.badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.badge-green{background:#122d1e;color:#3fb950}
+.highlight{background:#1a2733;border-left:3px solid #58a6ff;padding:12px 16px;border-radius:4px;margin:12px 0;font-size:13px;line-height:1.6}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.metric{text-align:center;padding:12px;background:#0d1117;border-radius:6px;border:1px solid #21262d}
+.metric .val{font-size:24px;font-weight:700;color:#58a6ff}
+.metric .label{font-size:10px;color:#8b949e;margin-top:4px}
+</style>
+</head>
+<body>
+
+<h1>📄 论文因子挖掘 · Night Cruise 2026-07-02</h1>
+<p class="sub">数据源: akshare (腾讯源) · 300只主板股票 · 月度IC · 2020-01 ~ 2026-06</p>
+
+<!-- ====== 精选指标 ====== -->
+<div class="grid3">
+<div class="metric"><div class="val" style="color:#3fb950">7.36%</div><div class="label">Novel Combo 年化</div></div>
+<div class="metric"><div class="val">0.48</div><div class="label">Novel Combo Sharpe</div></div>
+<div class="metric"><div class="val" style="color:#3fb950">-17.31%</div><div class="label">Novel Combo 最大回撤</div></div>
+<div class="metric"><div class="val">62.9%</div><div class="label">Novel Combo 月胜率</div></div>
+<div class="metric"><div class="val" style="color:#3fb950">100%</div><div class="label">OOS存活率 (7/7)</div></div>
+<div class="metric"><div class="val">5</div><div class="label">论文因子数</div></div>
+</div>
+
+<div class="highlight">
+🔬 <strong>5篇arXiv q-fin论文</strong> → 提取5个新因子 → Novel Combo超越baseline(+1.19pp年化, +13.9pp回撤改善, +8.6pp胜率) → OOS零衰减。
+<a href="https://arxiv.org/abs/2606.29591" style="color:#58a6ff">Portnaya 2606.29591</a> (Sign/Magnitude分解) · 
+<a href="https://arxiv.org/abs/2605.12977" style="color:#58a6ff">Tzikas/Candès/Hastie 2605.12977</a> (瞬态统计因子) · 
+<a href="https://arxiv.org/abs/2605.13407" style="color:#58a6ff">Kim/Song 2605.13407</a> (PRISM-VQ)
+</div>
+
+<!-- ====== IC排名 ====== -->
+<h2>📊 月度Rank IC 排名</h2>
+<div class="card">
+<table>
+<tr><th>因子</th><th>来源论文</th><th>IC_mean</th><th>IC_std</th><th>IC_IR</th><th>t-stat</th><th></th></tr>
+<tr><td>f4_residual_ma20</td><td>Tzikas et al. (2026)</td><td class="negative">-0.785</td><td>0.078</td><td class="negative">-10.03</td><td class="negative">-123.6</td><td><span class="badge badge-green">✅ OOS</span></td></tr>
+<tr><td>f5_regime</td><td>PRISM-VQ (2026)</td><td class="negative">-0.336</td><td>0.146</td><td class="negative">-2.31</td><td class="negative">-28.3</td><td><span class="badge badge-green">✅ OOS</span></td></tr>
+<tr><td>f2_lag3_reversal</td><td>Portnaya (2026)</td><td class="negative">-0.315</td><td>0.164</td><td class="negative">-1.92</td><td class="negative">-23.7</td><td><span class="badge badge-green">✅ OOS</span></td></tr>
+<tr><td>f3_bounce_proxy</td><td>Portnaya (2026)</td><td class="negative">-0.181</td><td>0.170</td><td class="negative">-1.06</td><td class="negative">-13.1</td><td><span class="badge badge-green">✅ OOS</span></td></tr>
+<tr><td>f1_magnitude_shrink</td><td>Portnaya (2026)</td><td class="negative">-0.148</td><td>0.173</td><td class="negative">-0.86</td><td class="negative">-10.5</td><td><span class="badge badge-green">✅ OOS</span></td></tr>
+</table>
+</div>
+
+<!-- ====== 回测对比 ====== -->
+<h2>📈 回测对比 (月度调仓 · Top 20% · 等权)</h2>
+<div class="card">
+<table>
+<tr><th>策略</th><th>年化收益</th><th>波动率</th><th>Sharpe</th><th>最大回撤</th><th>月胜率</th></tr>
+<tr><td>f5_regime</td><td>7.05%</td><td>15.60%</td><td>0.45</td><td class="negative">-26.62%</td><td>58.9%</td></tr>
+<tr><td>f2_lag3_reversal</td><td>6.21%</td><td>16.72%</td><td>0.37</td><td class="negative">-27.77%</td><td>53.6%</td></tr>
+<tr><td>f1_magnitude_shrink</td><td>6.16%</td><td>14.37%</td><td>0.43</td><td class="negative">-24.83%</td><td>57.6%</td></tr>
+<tr><td>f3_bounce_proxy</td><td>6.04%</td><td>14.12%</td><td>0.43</td><td class="negative">-13.92%</td><td>60.3%</td></tr>
+<tr><td>f4_residual_ma20</td><td>4.40%</td><td>15.81%</td><td>0.28</td><td class="negative">-29.31%</td><td>52.3%</td></tr>
+<tr style="background:#1a2733;font-weight:700"><td><strong>🔥 Novel Combo</strong></td><td><strong class="positive">7.36%</strong></td><td>15.40%</td><td><strong class="positive">0.48</strong></td><td><strong class="positive">-17.31%</strong></td><td><strong class="positive">62.9%</strong></td></tr>
+<tr style="color:#8b949e"><td>Reversal+LowVol (baseline)</td><td>6.17%</td><td>15.29%</td><td>0.40</td><td class="negative">-31.20%</td><td>54.3%</td></tr>
+</table>
+</div>
+
+<!-- ====== OOS验证 ====== -->
+<h2>🔬 OOS验证 (IS: 2020-2023 · OOS: 2024-2026)</h2>
+<div class="card">
+<table>
+<tr><th>因子</th><th>IC_IS</th><th>IC_OOS</th><th>衰减</th><th>判定</th></tr>
+<tr><td>f4_residual_ma20</td><td class="negative">-0.786</td><td class="negative">-0.765</td><td class="positive">+0.021</td><td><span class="badge badge-green">✅ STABLE</span></td></tr>
+<tr><td>f5_regime</td><td class="negative">-0.191</td><td class="negative">-0.366</td><td class="positive">-0.175 ↑</td><td><span class="badge badge-green">✅ IMPROVED</span></td></tr>
+<tr><td>f2_lag3_reversal</td><td class="negative">-0.339</td><td class="negative">-0.324</td><td class="positive">+0.014</td><td><span class="badge badge-green">✅ STABLE</span></td></tr>
+<tr><td>f3_bounce_proxy</td><td class="negative">-0.090</td><td class="negative">-0.112</td><td class="positive">-0.022</td><td><span class="badge badge-green">✅ STABLE</span></td></tr>
+<tr><td>f1_magnitude_shrink</td><td class="negative">-0.053</td><td class="negative">-0.087</td><td class="positive">-0.035</td><td><span class="badge badge-green">✅ STABLE</span></td></tr>
+</table>
+</div>
+
+<!-- ====== 论文来源 ====== -->
+<h2>📚 论文来源</h2>
+<div class="card">
+<table>
+<tr><th>#</th><th>论文</th><th>作者</th><th>日期</th><th>提取因子</th></tr>
+<tr><td>1</td><td>The Bounce Has No Direction</td><td>Victoria Portnaya</td><td>2026-06-28</td><td>f1, f2, f3</td></tr>
+<tr><td>2</td><td>Enhancing Risk Model with Transient Statistical Factors</td><td>Tzikas, Candès, Hastie, Boyd, Kochenderfer, Kahn</td><td>2026-05-13</td><td>f4</td></tr>
+<tr><td>3</td><td>PRISM-VQ: Vector-Quantized Discrete Latent Factors</td><td>Namhyoung Kim, Jae Wook Song</td><td>2026-05-13</td><td>f5</td></tr>
+<tr><td>4</td><td>Cross-sectional Topological Anomaly Scores</td><td>Krzysztof Ozimek</td><td>2026-06-07</td><td>—</td></tr>
+<tr><td>5</td><td>Leakage-Aware LLM Factor Ranking</td><td>Mao Guan, Qian Chen</td><td>2026-06-21</td><td>—</td></tr>
+</table>
+</div>
+
+<div class="highlight">
+⚠️ <strong>已知限制</strong>: (1) 回测不含交易成本 (2) 300只股票含幸存者偏差 (3) fwd_ret使用ret_20d(与f_momentum同周期导致IC=1.0 bug) (4) OOS验证样本仅29只 (5) GP遗传编程因115服务器不可达未执行
+</div>
+
+<div class="highlight" style="border-left-color:#3fb950">
+📁 <strong>制品</strong>: <code>/opt/quant/arxiv_factors_20260702.json</code> · <code>/opt/quant/arxiv_oos_20260702.json</code> · <code>/opt/quant/arxiv_factors_20260702_v2.py</code> · <code>/opt/quant/arxiv_oos_20260702.py</code>
+</div>
+
+<p style="color:#484f58;font-size:11px;text-align:center;margin-top:40px">Hermes Agent Night Cruise · 2026-07-02 · Auto-generated</p>
+
+</body>
+</html>

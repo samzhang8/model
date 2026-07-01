@@ -1,0 +1,170 @@
+{
+  "date": "2026-07-02",
+  "papers_found": [
+    {
+      "id": "2606.29591",
+      "title": "Sign/Magnitude Decomposition of Return Autocorrelation",
+      "authors": "Portnaya",
+      "factors": [
+        "f1_magnitude_shrink",
+        "f2_lag3_reversal",
+        "f3_bounce_proxy"
+      ]
+    },
+    {
+      "id": "2605.12977",
+      "title": "Enhancing Risk Model with Transient Statistical Factors",
+      "authors": "Tzikas, Cand\u00e8s, Hastie, Boyd, Kahn",
+      "factors": [
+        "f4_residual_ma20"
+      ]
+    },
+    {
+      "id": "2605.13407",
+      "title": "PRISM-VQ: Vector-Quantized Discrete Latent Factors",
+      "authors": "Kim, Song",
+      "factors": [
+        "f5_regime"
+      ]
+    },
+    {
+      "id": "2606.08586",
+      "title": "Cross-sectional Topological Anomaly Scores",
+      "authors": "Ozimek",
+      "factors": []
+    },
+    {
+      "id": "2606.22719",
+      "title": "Leakage-Aware LLM Factor Ranking",
+      "authors": "Guan, Chen",
+      "factors": []
+    }
+  ],
+  "ic_summary": [
+    {
+      "factor": "f_momentum_1m",
+      "IC_mean": 1.0,
+      "IC_std": 4.948600372881882e-17,
+      "N": 152,
+      "IC_IR": 2.020773399848485e+16,
+      "IC_tstat": 2.4913767685706448e+17
+    },
+    {
+      "factor": "f1_magnitude_shrink",
+      "IC_mean": -0.14762361883234307,
+      "IC_std": 0.1726187587899413,
+      "N": 152,
+      "IC_IR": -0.8552003262402399,
+      "IC_tstat": -10.543617732837943
+    },
+    {
+      "factor": "f_lowvol",
+      "IC_mean": -0.21485391832317924,
+      "IC_std": 0.22058092701000373,
+      "N": 152,
+      "IC_IR": -0.9740367004325593,
+      "IC_tstat": -12.008730951104333
+    },
+    {
+      "factor": "f3_bounce_proxy",
+      "IC_mean": -0.180672850142409,
+      "IC_std": 0.16972189585803985,
+      "N": 152,
+      "IC_IR": -1.0645229316406462,
+      "IC_tstat": -13.124320132574368
+    },
+    {
+      "factor": "f2_lag3_reversal",
+      "IC_mean": -0.314994140854396,
+      "IC_std": 0.16408630192560567,
+      "N": 152,
+      "IC_IR": -1.9196857821636428,
+      "IC_tstat": -23.667475833740024
+    },
+    {
+      "factor": "f5_regime",
+      "IC_mean": -0.3358754046360245,
+      "IC_std": 0.14564862711104257,
+      "N": 151,
+      "IC_IR": -2.306066396217748,
+      "IC_tstat": -28.337418297870247
+    },
+    {
+      "factor": "f_reversal_5d",
+      "IC_mean": -0.42497264146893715,
+      "IC_std": 0.16667011628022566,
+      "N": 152,
+      "IC_IR": -2.5497830742160312,
+      "IC_tstat": -31.43583697446117
+    },
+    {
+      "factor": "f4_residual_ma20",
+      "IC_mean": -0.7852013466671842,
+      "IC_std": 0.07832284359248813,
+      "N": 152,
+      "IC_IR": -10.025189467744148,
+      "IC_tstat": -123.59883667475825
+    }
+  ],
+  "backtest": {
+    "f1_magnitude_shrink": {
+      "ann_ret": 0.061592428213192926,
+      "ann_vol": 0.14372492859240166,
+      "sharpe": 0.4285438080673303,
+      "max_dd": -0.24830169393622414,
+      "win_rate": 0.5761589403973509,
+      "n_months": 151
+    },
+    "f2_lag3_reversal": {
+      "ann_ret": 0.06208593446066842,
+      "ann_vol": 0.16718175037303984,
+      "sharpe": 0.37136789345806825,
+      "max_dd": -0.27771678355437085,
+      "win_rate": 0.5364238410596026,
+      "n_months": 151
+    },
+    "f3_bounce_proxy": {
+      "ann_ret": 0.060355359651468835,
+      "ann_vol": 0.14116336257135492,
+      "sharpe": 0.427556828854658,
+      "max_dd": -0.1392409742388368,
+      "win_rate": 0.6026490066225165,
+      "n_months": 151
+    },
+    "f4_residual_ma20": {
+      "ann_ret": 0.04404461729049569,
+      "ann_vol": 0.15806858153453704,
+      "sharpe": 0.2786424529334579,
+      "max_dd": -0.29314792076396057,
+      "win_rate": 0.5231788079470199,
+      "n_months": 151
+    },
+    "f5_regime": {
+      "ann_ret": 0.07050857854299919,
+      "ann_vol": 0.15604809086499097,
+      "sharpe": 0.4518387770857223,
+      "max_dd": -0.2662076121931264,
+      "win_rate": 0.5894039735099338,
+      "n_months": 151
+    }
+  },
+  "combo": {
+    "novel": {
+      "ann_ret": 0.07357195300784021,
+      "sharpe": 0.4775909285589088,
+      "max_dd": -0.2543775964539252,
+      "n": 151
+    },
+    "baseline": {
+      "ann_ret": 0.06167030659558695,
+      "sharpe": 0.40326315619609443,
+      "max_dd": -0.3119881945786629,
+      "n": 151
+    }
+  },
+  "universe_size": 300,
+  "n_month_ends": 158,
+  "blocked": [
+    "GP mining (115 unreachable)"
+  ]
+}

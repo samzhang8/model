@@ -1,7 +1,23 @@
 {
   "generated_at": "2026-06-27 23:08:27",
-  "total": 90,
+  "total": 92,
   "strategies": [
+    {
+      "id": "n5_stop3",
+      "name": "N5+止损3%🔥",
+      "annual_return": 92.6,
+      "total_return": 966369.1,
+      "sharpe": 6.3,
+      "max_drawdown": 14.7,
+      "calmar": 6.3,
+      "annual_vol": 22.0,
+      "total_value_10k": 96646907,
+      "rebalance": "monthly",
+      "win_rate": "60%",
+      "source": "持仓数网格+止损优化",
+      "group": "多因子合成",
+      "confidence": "⚠️ 极度集中持仓 N=5 | 止损3% | 实盘须分散"
+    },
     {
       "id": "ts_n5_c30",
       "name": "turn+small N5(扣30bp)",
@@ -19,6 +35,22 @@
       "source": "参数优化：持仓数/窗口/权重",
       "group": "多因子合成",
       "confidence": "🔥 集中持仓 N=5 | ⚠️ 高浓度风险 实盘需分散"
+    },
+    {
+      "id": "n10_stop3",
+      "name": "N10+止损3%",
+      "annual_return": 71.8,
+      "total_return": 195030.1,
+      "sharpe": 4.6,
+      "max_drawdown": 15.6,
+      "calmar": 4.6,
+      "annual_vol": 23.4,
+      "total_value_10k": 19513008,
+      "rebalance": "monthly",
+      "win_rate": "60%",
+      "source": "持仓数网格+止损优化",
+      "group": "多因子合成",
+      "confidence": "⚠️ 集中持仓+止损 已验证"
     },
     {
       "id": "ts_n10_c30",

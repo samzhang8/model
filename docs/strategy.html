@@ -143,7 +143,7 @@ function sd(id){
   var n=s.nav_history||[];
   if(n.length>0){
     lc=new Chart(document.getElementById('mc').getContext('2d'),{
-      type:'line',data:{labels:n.map(function(h){return h.date}),datasets:[{label:'净值',data:n.map(function(h){return h.nav}),borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.08)',fill:true,tension:.4,pointRadius:0,borderWidth:2}]},
+      type:'line',data:{labels:n.map(function(h){return h.date}),datasets:[{label:'回测',data:n.filter(function(h){return !h.is_simulation}).map(function(h){return h.nav}),borderColor:'#64748b',borderDash:[4,3],borderWidth:1,pointRadius:0,tension:.3},{label:'模拟',data:n.filter(function(h){return h.is_simulation}).map(function(h){return h.nav}),borderColor:'#3b82f6',borderWidth:3,pointRadius:0,tension:.3}]},
       options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#94a3b8',maxTicksLimit:15,font:{size:10}},grid:{color:'#1e293b'}},y:{ticks:{color:'#94a3b8'},grid:{color:'#1e293b'}}}}
     });
   }

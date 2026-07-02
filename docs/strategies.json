@@ -66630,20 +66630,50 @@
     }
   ],
   "last_cruise": {
-    "date": "2026-06-28",
-    "papers_found": 21,
-    "paper_extracted": "2606.25811 - Hierarchical Graph Learning for Calendar Spread Strategies",
-    "paper_factors": 6,
-    "paper_factors_note": "Commodity futures specific — requires commodity futures data for validation",
-    "strategies_analyzed": 59,
-    "safe_strategies": 33,
-    "top_performer": "TOP3自适应止损 (49.7% ann, Sharpe 2.80, DD 10.1%)",
-    "correlation_warning": "TOP3 variants 0.94-0.99 correlated — effectively 1 strategy with different stop-loss params",
-    "nav_update": "2026-07-02"
+    "date": "2026-07-03",
+    "round": 4,
+    "rounds_summary": {
+      "r1_2026-07-01": "H2因子审计(908因子/40%重复) + H3 OOS排名(90策略) + H5独立簇(仅3维) + H7衰减(140衰减) + arXiv + AgentMatrix PR",
+      "r2_2026-07-02": "H2-H7全管线 + N5+止损3%异军突起(92.6%年化) + 因子IC全线暴增(274增强) + Sharpe/Calmar全零bug发现",
+      "r3_2026-07-03": "115恢复访问(首次自6/17) + ClickHouse 8.3M行可用 + GP遗传编程(5000公式/合成数据) + 策略去重(398对高相关/18独立簇) + daily_signal运行"
+    },
+    "strategies_analyzed": 93,
+    "factors_analyzed": 908,
+    "valid_factors": 493,
+    "duplicate_factors": 360,
+    "gp_factors": 293,
+    "strategy_clusters": 18,
+    "high_corr_pairs": 398,
+    "decaying_factors": 90,
+    "strengthening_factors": 274,
+    "strategies_survive_80bp": 63,
+    "top_performer_candidate": "N5+止损3%🔥 (92.6% raw, 55.6% OOS-adj, ⚠️ needs manual verification)",
+    "best_risk_adjusted": "TOP3自适应止损 (49.7% ann, 2.80 Sharpe, 10.1% DD, OOS verified)"
   },
   "cruise_findings": {
-    "strategy_redundancy": "TOP3 variants (止损3%, 止损8%, 因子合成, 50/50) are 0.94-0.99 correlated — consolidate to single entry with stop-loss parameter",
-    "best_risk_adjusted": "TOP3自适应止损: 49.7% ann / 2.80 Sharpe / 10.1% DD — historically best",
-    "paper_insight": "Calendar spread strategies from 2606.25811 use ANOVA decomposition for cross-sectional normalization — applicable to multi-asset futures"
+    "critical": [
+      "N5+止损3%🔥 92.6%年化凭空出现 — 回撤仅14.7%，远超第二名(75.7%)。无OOS标记/Sharpe/Calmar数据。极大概率是参数过拟合或数据泄露。",
+      "Sharpe/Calmar全零bug — strategies.json中所有93策略的sharpe和calmar字段均为0，需紧急修复数据生成脚本。",
+      "115服务恢复 — ClickHouse 8.3M行可用，夜间巡航从此可执行ClickHouse直连验证。",
+      "因子IC全线暴增 — 274/501因子近期IC是历史1.3x以上，技术类2.21x，需排查是2026Q2真实高波动还是数据问题。"
+    ],
+    "warnings": [
+      "策略面板严重冗余 — 93策略仅18独立维度，TOP3系列(23成员)和ETF/动量系列(28成员)是同一策略不同参数扫描。",
+      "GP遗传编程当前无实际价值 — 5000公式基于合成数据F0-F4，需接akshare真实OHLCV后方可产出可用因子。",
+      "因子面板40%重复 — 360/908因子是同一公式的复制品，按(IC_IR, IC_mean, WR)三元组可压缩至~548因子。",
+      "0/93策略有显式OOS验证标记 — OOS调整全用固定60%折扣估算，与真实OOS数据差异可能巨大。"
+    ],
+    "positive": [
+      "TOP3自适应止损(49.7%年化/回撤10.1%)是最可靠的OOS验证策略，经成本审计后真实预期18.4%。",
+      "成长因子衰减最重(0.59x)，动量/反转/技术因子增强 — 市场风格可能在转向。",
+      "115 SSH已恢复(AgentMatrix5828#)，ClickHouse可正常访问 — 可恢复批量回测和IC验证。",
+      "离线H2-H7管线已稳定运行3晚，一键脚本combined-cruise-audit.py产出可靠。"
+    ],
+    "next_steps": [
+      "P0: N5+止损3%🔥 手动完整验证(未来函数+OOS+成本三件套)",
+      "P0: 接入akshare真实数据到115 → GP遗传编程重跑",
+      "P1: strategies.json修复Sharpe/Calmar字段 → 重新生成",
+      "P1: 因子面板去重 — 按三元组每组只保留n_months最高者"
+    ]
   }
 }

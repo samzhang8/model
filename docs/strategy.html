@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>策略监控面板</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+function exportCSV(){
+  var rows=[],headers=[],data=[];
+  var table=document.querySelector("table");
+  table.querySelectorAll("th").forEach(function(th){headers.push(th.textContent.trim())});
+  rows.push(headers.join(","));
+  table.querySelectorAll("tbody tr").forEach(function(tr){
+    var cols=[];
+    tr.querySelectorAll("td").forEach(function(td){cols.push('"'+td.textContent.trim()+'"')});
+    rows.push(cols.join(","));
+  });
+  var blob=new Blob([rows.join("\n")],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="export.csv"; a.click();
+}
+
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f172a;--card:#1e293b;--border:#334155;--text:#e2e8f0;--dim:#94a3b8;--blue:#60a5fa;--green:#22c55e;--red:#ef4444}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding:20px;max-width:1600px;margin:0 auto}
+h1{font-size:22px;margin-bottom:4px}
+.sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+.nav{display:flex;gap:16px;margin-bottom:14px}
+.nav a{color:var(--blue);text-decoration:none;font-size:14px}
+.nav a.active{color:var(--text);font-weight:600}
+.up{color:var(--green)}.down{color:var(--red)}
+.meta{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:14px;font-size:13px;color:var(--dim);display:flex;flex-wrap:wrap;gap:14px 28px;line-height:1.6}
+.meta strong{color:var(--text)}
+.groups{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.groups button{background:var(--card);border:1px solid var(--border);color:var(--dim);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px}
+.groups button.active{background:var(--blue);border-color:var(--blue);color:white}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:8px 10px;text-align:right;white-space:nowrap}
+th{color:var(--dim);font-weight:500;border-bottom:1px solid var(--border);cursor:pointer;position:sticky;top:0;background:var(--bg);z-index:1}
+th:first-child,td:first-child{text-align:left}
+td{border-bottom:1px solid #1e293b}
+tr:hover td{background:var(--card)}
+tr{cursor:pointer}
+.name{color:var(--blue)}
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:100;justify-content:center;align-items:center}
+.modal-overlay.active{display:flex}
+.modal{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:24px;width:min(70vw,1400px);max-height:90vh;overflow-y:auto;position:relative}
+.modal h2{font-size:18px;margin-bottom:4px;padding-right:40px}
+.modal .src{color:var(--dim);font-size:12px;margin-bottom:12px}
+.modal .desc{color:var(--dim);font-size:13px;margin-bottom:12px}
+.modal-stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.modal-stat{display:flex;flex-direction:column}
+.modal-stat .label{color:var(--dim);font-size:11px}
+.modal-stat .value{font-weight:600;font-size:15px}
+.modal-close{position:absolute;top:12px;right:16px;background:none;border:1px solid var(--border);color:var(--dim);font-size:18px;cursor:pointer;border-radius:4px;padding:2px 8px}
+.chart-wrap{position:relative;height:380px;margin-bottom:16px}
+canvas{width:100%!important}
+.disclaimer{color:var(--dim);font-size:11px;text-align:center;margin-top:20px;padding:12px;border-top:1px solid var(--border);line-height:1.8}
+@media(max-width:600px){table{font-size:11px}th,td{padding:5px 4px}}
+</style>
+</head>
+<body>
+<h1>📊 策略监控面板</h1>
+<div class="sub">历史回测对比 · 数据最后更新: <span id="updTime">--</span></div>
+<div class="nav"><a href="./">📈 资产排名</a><a href="factors.html">📐 因子监控</a><a href="strategy.html" class="active">📊 策略监控</a></div>
+<div class="meta">
+<div><strong>✅验真SAFE: 13策略/36因子 | 7道验证:IC稳定性/OOS/成本/市值中性/分段/换手率 | 真实前向预期</strong> turn+small OOS 20.2%年化(30bp成本) | <strong>面板标注</strong> TOP3 49.7%为无成本/含优化偏差 | 点击✅诚实策略查看扣成本策略 | <strong>幸存者偏差</strong> 未处理(含已退市股历史数据) | <strong>换手</strong> 各策略差异显著(周调>月调>季调) | 年化>30%策略含样本内优化偏差</div>
+<div><strong>股票池</strong> 全A股(剔除ST/退市/新股/停牌)</div>
+<div><strong>交易成本</strong> ⚠️ 策略收益<b>未扣除</b>交易成本(佣金0.03%+印花税0.05%+滑点0.1%)，实际收益更低</div>
+<div><strong>基准</strong> 中证全指(000985)</div>
+</div>
+<div style="display:flex;gap:8px;margin-bottom:8px"><input id="ssearch" placeholder="搜索策略名..." oninput="sf()" style="background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:5px 10px;border-radius:6px;font-size:12px;width:180px"></div>
+<button onclick="frh()" id="rbhonest" style="background:#1e293b;border:1px solid #22c55e;color:#22c55e;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:11px">✅ 诚实策略</button> <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px"><span style="color:#94a3b8;font-size:11px;padding:5px 0">调仓:</span><button onclick="frb('all')" id="rball" class="active" style="background:#2563eb;border:1px solid #2563eb;color:white;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:11px">全部</button><button onclick="frb('weekly')" id="rbweekly" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:11px">周</button><button onclick="frb('monthly')" id="rbmonthly" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:11px">月</button><button onclick="frb('quarterly')" id="rbquarterly" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:11px">季</button><button onclick="frb('semi-annual')" id="rbsemi" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:11px">半年</button></div>
+<div style="background:#1e293b;border:1px solid #334155;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#94a3b8;display:flex;gap:20px;flex-wrap:wrap"><span>📊 <strong style="color:#22c55e">8个SAFE策略</strong> 经OOS+成本验证</span><span>🏆 收益王: turn+small 30.1%</span><span>🛡 稳定王: turn 94%OOS</span><span>⚖️ 均衡王: 4factor 87%OOS</span></div>
+<div class="groups" id="groups"></div>
+<table><thead><tr>
+<th onclick="srt(0)">策略名称</th><th onclick="srt(1)">年化收益 ▾</th><th onclick="srt(2)">累计收益</th>
+<th onclick="srt(3)">夏普</th><th onclick="srt(4)">最大回撤</th><th onclick="srt(5)">卡玛</th>
+<th onclick="srt(6)">年化波动</th><th onclick="srt(7)">胜率</th><th onclick="srt(8)">1万→</th><th onclick="srt(9)">调仓</th>
+</tr></thead>
+<tbody id="tbody"></tbody></table>
+<button onclick="exportCSV()" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px">📥 导出CSV</button>
+<div class="disclaimer">⚠️ 免责声明：历史回测不代表未来收益。本面板仅供研究参考。</div>
+<div class="modal-overlay" id="mo"><div class="modal"><button class="modal-close" onclick="clm()">✕</button><h2 id="mt"></h2><div class="src" id="ms"></div><div class="desc" id="md"></div><div class="modal-stats" id="mst"></div><div class="chart-wrap"><canvas id="mc"></canvas></div></div></div>
+<script>
+var lc, ss = [], cg = 'all', sk = 1, sdesc = true, rf = 'all', hf = false;
+var GS = {
+  '趋势跟踪': 'MA20通道,SuperTrend,唐奇安通道,双均线,MACD,ADX,ATR通道,吊灯止损,KST,TRIX,AroonUp,ParaSAR,Vortex,Keltner,StdChan,LinReg'.split(','),
+  '均值回归': '布林带下轨反弹,HiLo均值回归,RSI超卖,5日反转,布林挤压,距52周高点,ROC60,隔夜反转,ROC12动量,Fib382,Streak5'.split(','),
+  '价值/质量': '低波动率,低换手率,低波低换,质量稳定性,价值1年,OBV,MFI,振幅比,低偏度,低流动性,连续涨跌5日,涨停信号'.split(','),
+  '多因子合成': 'TOP3因子合成,TOP3+止损8%,TOP3+止损3%,TOP3自适应止损,TOP3+止损+过滤,TOP3+大盘过滤,50/50组合,SAFE3因子组合,独立三维因子,CC+ACF组合,三维: r1d+bb+conv,收敛+r1d,收敛+r1d,单因子-低换手率'.split(','),
+  '随机挖掘': 'NightMine-turn+r5d,NightMine-r1d+conv+turn,NightMine-bb+r1d+conv'.split(','),
+  '组合优化': '成交量突破,成交量加速度,EaseMvmt,Chaikin,UltOsc,HistVol,ElderRay,ForceIdx,RVI,PVT,TSI,ROC,12月动量,均线收敛发散'.split(',')
+};
+function gn(n){for(var k in GS)if(GS[k].indexOf(n)>=0)return k;return '其他'}
+function wr(s){if(!s.nav_history||s.nav_history.length<3)return'--';var n=s.nav_history.map(function(h){return h.nav}),w=0;for(var i=1;i<n.length;i++)if(n[i]>n[i-1])w++;return (w/(n.length-1)*100).toFixed(1)+'%'}
+fetch('strategies.json?'+Date.now()).then(function(r){return r.json()}).then(function(d){
+  ss = d.strategies.map(function(s){s.group=gn(s.name);s.wr=wr(s);return s});
+  document.getElementById('updTime').textContent=d.generated_at||'--';
+  bg(); rd();
+});
+function bg(){
+  var gs=['all']; ss.forEach(function(s){if(gs.indexOf(s.group)<0)gs.push(s.group)});
+  document.getElementById('groups').innerHTML=gs.map(function(g){
+    var n=g==='all'?ss.length:ss.filter(function(s){return s.group===g}).length;
+    return '<button onclick="fg(\''+g+'\')" class="'+(g===cg?'active':'')+'">'+(g==='all'?'全部':g)+' ('+n+')</button>';
+  }).join('');
+}
+function sf(){var q=document.getElementById("ssearch").value.toLowerCase();rd(q)}
+function fg(g){cg=g;bg();rd()}
+function frb(f){rf=f;document.querySelectorAll('[id^=rb]').forEach(function(b){b.style.background='#1e293b';b.style.color='#94a3b8'});var el=document.getElementById('rb'+f);if(el){el.style.background='#2563eb';el.style.color='white'};rd()}
+function frh(){hf=!hf;var el=document.getElementById("rbhonest");if(hf){el.style.background="#22c55e";el.style.color="white"}else{el.style.background="#1e293b";el.style.color="#22c55e"};rd()}
+function rd(query){if(!query)query="";
+  var l=(cg==='all'?ss:ss.filter(function(s){return s.group===cg})).filter(function(s){return !query||s.name.toLowerCase().indexOf(query)>=0}).filter(function(s){return rf==='all'||s.rebalance===rf});
+  l.sort(function(a,b){var keys=['annual_return','total_return','sharpe','max_drawdown','calmar','annual_vol'];var k=keys[sk-1]||'annual_return';var va=a[k]||0,vb=b[k]||0;return sdesc?(vb>va?1:-1):(va>vb?1:-1)});
+  document.getElementById('tbody').innerHTML=l.map(function(s){
+    return '<tr onclick="sd(\''+s.id+'\')"><td class=name>'+s.name+'</td>'+
+      '<td class='+(s.annual_return>=0?'up':'down')+'>'+(s.annual_return>=0?'+':'')+s.annual_return+'%</td>'+
+      '<td class='+(s.total_return>=0?'up':'down')+'>'+(s.total_return>=0?'+':'')+s.total_return+'%</td>'+
+      '<td>'+s.sharpe+'</td><td class=down>-'+s.max_drawdown+'%</td><td>'+s.calmar+'</td>'+
+      '<td>'+s.annual_vol+'%</td><td>'+s.wr+'</td><td>¥'+s.total_value_10k.toLocaleString()+'</td><td>'+s.rebalance+'</td></tr>';
+  }).join('');
+}
+function srt(k){sk=k;sdesc=!sdesc;rd()}
+function sd(id){
+  var s=ss.find(function(x){return x.id===id}); if(!s)return;
+  document.getElementById('mt').textContent=s.name;
+  document.getElementById('ms').textContent='来源: '+s.source+' · '+s.start_date+' ~ '+s.end_date;
+  document.getElementById('md').textContent=s.description||'';
+  document.getElementById('mst').innerHTML=
+    '<div class=modal-stat><span class=label>年化收益</span><span class="value '+(s.annual_return>=0?'up':'down')+'">'+(s.annual_return>=0?'+':'')+s.annual_return+'%</span></div>'+
+    '<div class=modal-stat><span class=label>累计收益</span><span class="value '+(s.total_return>=0?'up':'down')+'">'+(s.total_return>=0?'+':'')+s.total_return+'%</span></div>'+
+    '<div class=modal-stat><span class=label>夏普比率</span><span class=value>'+s.sharpe+'</span></div>'+
+    '<div class=modal-stat><span class=label>最大回撤</span><span class="value down">-'+s.max_drawdown+'%</span></div>'+
+    '<div class=modal-stat><span class=label>卡玛比率</span><span class=value>'+s.calmar+'</span></div>'+
+    '<div class=modal-stat><span class=label>胜率</span><span class=value>'+s.wr+'</span></div>'+
+    '<div class=modal-stat><span class=label>年化波动</span><span class=value>'+s.annual_vol+'%</span></div>'+
+    '<div class=modal-stat><span class=label>1万→总额</span><span class=value>¥'+s.total_value_10k.toLocaleString()+'</span></div>'+
+    '<div class=modal-stat><span class=label>调仓频率</span><span class=value>'+s.rebalance+'</span></div>';
+  document.getElementById('mo').classList.add('active');
+  if(lc)lc.destroy();
+  var n=s.nav_history||[];
+  if(n.length>0){
+    // Pad datasets to match labels array — Chart.js maps data[i] → labels[i].
+    // Without padding, filtered subsets misalign against the full date axis.
+    var labels=[], simData=[], btData=[];
+    for(var i=0;i<n.length;i++){
+      labels.push(n[i].date);
+      if(n[i].is_simulation){ simData.push(n[i].nav); btData.push(null); }
+      else{ btData.push(n[i].nav); simData.push(null); }
+    }
+    // If all points are same type, use single solid line (no dash)
+    var hasBT=btData.some(function(v){return v!==null});
+    var hasSim=simData.some(function(v){return v!==null});
+    var datasets=[];
+    if(hasBT) datasets.push({label:'回测',data:btData,borderColor:'#64748b',borderDash:[4,3],borderWidth:1.5,pointRadius:0,tension:.3,spanGaps:false});
+    else datasets.push({label:'回测',data:btData,borderColor:'#64748b',borderDash:[4,3],borderWidth:1,pointRadius:0,tension:.3,spanGaps:false});
+    if(hasSim) datasets.push({label:'模拟',data:simData,borderColor:'#3b82f6',borderWidth:3,pointRadius:0,tension:.3,spanGaps:false});
+    else datasets.push({label:'模拟',data:simData,borderColor:'#3b82f6',borderWidth:1,pointRadius:0,tension:.3,spanGaps:false});
+    lc=new Chart(document.getElementById('mc').getContext('2d'),{
+      type:'line',data:{labels:labels,datasets:datasets},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#94a3b8',maxTicksLimit:15,font:{size:10}},grid:{color:'#1e293b'}},y:{ticks:{color:'#94a3b8'},grid:{color:'#1e293b'}}}}
+    });
+  } else {
+    // No nav_history: show placeholder text in chart area
+    var ctx=document.getElementById('mc').getContext('2d');
+    ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+    ctx.font='14px -apple-system,BlinkMacSystemFont,sans-serif';
+    ctx.fillStyle='#64748b';
+    ctx.textAlign='center';
+    ctx.fillText('暂无净值曲线数据',ctx.canvas.width/2,ctx.canvas.height/2);
+  }
+  document.getElementById('mo').classList.add('active');
+}
+function clm(){document.getElementById('mo').classList.remove('active')}
+
+function exportCSV(){
+  var rows=[],headers=[],data=[];
+  var table=document.querySelector("table");
+  table.querySelectorAll("th").forEach(function(th){headers.push(th.textContent.trim())});
+  rows.push(headers.join(","));
+  table.querySelectorAll("tbody tr").forEach(function(tr){
+    var cols=[];
+    tr.querySelectorAll("td").forEach(function(td){cols.push('"'+td.textContent.trim()+'"')});
+    rows.push(cols.join(","));
+  });
+  var blob=new Blob([rows.join("\n")],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="export.csv"; a.click();
+}
+
+</script>
+</body>
+</html>

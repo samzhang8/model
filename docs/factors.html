@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>因子监控面板</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+// Heatmap + Decay charts
+let edata = {"factor_corr": {"labels": ["r1d", "r5d", "r20d", "vol_chg", "bb", "ma20d", "turn", "conv"], "matrix": [[1.0, 0.276, 0.317, 0.067, 0.266, 0.266, -0.107, 0.043], [0.276, 1.0, 0.056, 0.698, 0.898, 0.897, -0.29, 0.221], [0.317, 0.056, 1.0, 0.071, 0.053, 0.056, 0.028, -0.037], [0.067, 0.698, 0.071, 1.0, 0.688, 0.688, -0.063, 0.04], [0.266, 0.898, 0.053, 0.688, 1.0, 1.0, -0.227, 0.191], [0.266, 0.897, 0.056, 0.688, 1.0, 1.0, -0.229, 0.189], [-0.107, -0.29, 0.028, -0.063, -0.227, -0.229, 1.0, 0.257], [0.043, 0.221, -0.037, 0.04, 0.191, 0.189, 0.257, 1.0]]}, "factor_decay": {"r1d": {"1M": 0.1247, "3M": 0.1138, "6M": 0.1001, "12M": 0.0925}, "r5d": {"1M": 0.1319, "3M": 0.1164, "6M": 0.102, "12M": 0.097}, "r20d": {"1M": 0.1369, "3M": 0.1307, "6M": 0.0914, "12M": 0.0964}, "vol_chg": {"1M": 0.1234, "3M": 0.1123, "6M": 0.1006, "12M": 0.0948}, "bb": {"1M": 0.1268, "3M": 0.1136, "6M": 0.1062, "12M": 0.117}, "ma20d": {"1M": 0.13, "3M": 0.1178, "6M": 0.1103, "12M": 0.1323}, "turn": {"1M": 0.1143, "3M": 0.1151, "6M": 0.1169, "12M": 0.1039}, "conv": {"1M": 0.1482, "3M": 0.1425, "6M": 0.1247, "12M": 0.1525}}, "strategy_monthly": {"conv": [{"date": "2010-02", "ret": 9.31}, {"date": "2010-03", "ret": -7.71}, {"date": "2010-04", "ret": -6.88}, {"date": "2010-05", "ret": -6.86}, {"date": "2010-06", "ret": 15.02}, {"date": "2010-07", "ret": 3.1}, {"date": "2010-08", "ret": 1.74}, {"date": "2010-09", "ret": 7.59}, {"date": "2010-10", "ret": 0.13}, {"date": "2010-11", "ret": -5.98}, {"date": "2010-12", "ret": -0.49}, {"date": "2011-01", "ret": 9.08}, {"date": "2011-02", "ret": 2.44}, {"date": "2011-03", "ret": 2.07}, {"date": "2011-04", "ret": -5.96}, {"date": "2011-05", "ret": -0.64}, {"date": "2011-06", "ret": -0.09}, {"date": "2011-07", "ret": 3.14}, {"date": "2011-08", "ret": -8.01}, {"date": "2011-09", "ret": 3.29}, {"date": "2011-10", "ret": -1.69}, {"date": "2011-11", "ret": -10.41}, {"date": "2011-12", "ret": 0.19}, {"date": "2012-01", "ret": 6.13}, {"date": "2012-02", "ret": -4.65}, {"date": "2012-03", "ret": 7.0}, {"date": "2012-04", "ret": -0.25}, {"date": "2012-05", "ret": -5.24}, {"date": "2012-06", "ret": -4.94}, {"date": "2012-07", "ret": -2.51}, {"date": "2012-08", "ret": 0.94}, {"date": "2012-09", "ret": 46.24}, {"date": "2012-10", "ret": -7.3}, {"date": "2012-11", "ret": 13.06}, {"date": "2012-12", "ret": 7.84}, {"date": "2013-01", "ret": 21.92}, {"date": "2013-02", "ret": -5.38}, {"date": "2013-03", "ret": -1.03}, {"date": "2013-04", "ret": 8.94}, {"date": "2013-05", "ret": -15.19}, {"date": "2013-06", "ret": 3.86}, {"date": "2013-07", "ret": 10.87}, {"date": "2013-08", "ret": 2.58}, {"date": "2013-09", "ret": -1.27}, {"date": "2013-10", "ret": 3.4}, {"date": "2013-11", "ret": -3.7}, {"date": "2013-12", "ret": -0.06}, {"date": "2014-01", "ret": 4.43}, {"date": "2014-02", "ret": 3.83}, {"date": "2014-03", "ret": -2.51}, {"date": "2014-04", "ret": 1.82}, {"date": "2014-05", "ret": 1.07}, {"date": "2014-06", "ret": 9.47}, {"date": "2014-07", "ret": 4.96}, {"date": "2014-08", "ret": 15.84}, {"date": "2014-09", "ret": 7.33}, {"date": "2014-10", "ret": 11.58}, {"date": "2014-11", "ret": 9.85}, {"date": "2014-12", "ret": 6.32}], "turn": [{"date": "2010-02", "ret": 10.39}, {"date": "2010-03", "ret": -1.5}, {"date": "2010-04", "ret": -6.81}, {"date": "2010-05", "ret": -7.72}, {"date": "2010-06", "ret": 11.6}, {"date": "2010-07", "ret": 6.99}, {"date": "2010-08", "ret": 2.36}, {"date": "2010-09", "ret": 5.61}, {"date": "2010-10", "ret": 2.9}, {"date": "2010-11", "ret": -4.63}, {"date": "2010-12", "ret": -2.82}, {"date": "2011-01", "ret": 9.36}, {"date": "2011-02", "ret": 1.32}, {"date": "2011-03", "ret": -0.76}, {"date": "2011-04", "ret": -4.03}, {"date": "2011-05", "ret": 0.16}, {"date": "2011-06", "ret": 0.18}, {"date": "2011-07", "ret": 1.05}, {"date": "2011-08", "ret": -8.09}, {"date": "2011-09", "ret": 3.29}, {"date": "2011-10", "ret": -2.17}, {"date": "2011-11", "ret": -12.76}, {"date": "2011-12", "ret": 4.89}, {"date": "2012-01", "ret": 11.47}, {"date": "2012-02", "ret": -3.92}, {"date": "2012-03", "ret": 8.01}, {"date": "2012-04", "ret": 1.46}, {"date": "2012-05", "ret": -5.12}, {"date": "2012-06", "ret": -3.52}, {"date": "2012-07", "ret": 1.15}, {"date": "2012-08", "ret": 0.7}, {"date": "2012-09", "ret": 48.06}, {"date": "2012-10", "ret": -8.21}, {"date": "2012-11", "ret": 12.15}, {"date": "2012-12", "ret": 9.29}, {"date": "2013-01", "ret": 21.46}, {"date": "2013-02", "ret": -1.49}, {"date": "2013-03", "ret": 0.1}, {"date": "2013-04", "ret": 10.06}, {"date": "2013-05", "ret": -15.01}, {"date": "2013-06", "ret": 8.47}, {"date": "2013-07", "ret": 10.05}, {"date": "2013-08", "ret": 3.17}, {"date": "2013-09", "ret": -2.23}, {"date": "2013-10", "ret": 2.45}, {"date": "2013-11", "ret": -2.73}, {"date": "2013-12", "ret": 1.42}, {"date": "2014-01", "ret": 2.99}, {"date": "2014-02", "ret": 2.08}, {"date": "2014-03", "ret": -3.65}, {"date": "2014-04", "ret": 1.63}, {"date": "2014-05", "ret": -1.49}, {"date": "2014-06", "ret": 6.73}, {"date": "2014-07", "ret": 3.27}, {"date": "2014-08", "ret": 15.7}, {"date": "2014-09", "ret": 7.27}, {"date": "2014-10", "ret": 7.6}, {"date": "2014-11", "ret": 0.77}, {"date": "2014-12", "ret": -0.17}], "conv_turn": [{"date": "2010-02", "ret": 9.25}, {"date": "2010-03", "ret": -4.44}, {"date": "2010-04", "ret": -6.82}, {"date": "2010-05", "ret": -5.44}, {"date": "2010-06", "ret": 12.63}, {"date": "2010-07", "ret": 4.56}, {"date": "2010-08", "ret": 2.73}, {"date": "2010-09", "ret": 6.77}, {"date": "2010-10", "ret": 0.35}, {"date": "2010-11", "ret": -5.24}, {"date": "2010-12", "ret": -1.2}, {"date": "2011-01", "ret": 9.3}, {"date": "2011-02", "ret": 1.58}, {"date": "2011-03", "ret": 2.63}, {"date": "2011-04", "ret": -5.11}, {"date": "2011-05", "ret": -1.18}, {"date": "2011-06", "ret": 1.13}, {"date": "2011-07", "ret": 2.64}, {"date": "2011-08", "ret": -7.15}, {"date": "2011-09", "ret": 3.31}, {"date": "2011-10", "ret": -1.22}, {"date": "2011-11", "ret": -12.37}, {"date": "2011-12", "ret": 1.07}, {"date": "2012-01", "ret": 9.01}, {"date": "2012-02", "ret": -4.54}, {"date": "2012-03", "ret": 6.13}, {"date": "2012-04", "ret": 0.05}, {"date": "2012-05", "ret": -5.68}, {"date": "2012-06", "ret": -3.96}, {"date": "2012-07", "ret": 1.45}, {"date": "2012-08", "ret": 0.4}, {"date": "2012-09", "ret": 46.46}, {"date": "2012-10", "ret": -8.13}, {"date": "2012-11", "ret": 13.09}, {"date": "2012-12", "ret": 9.19}, {"date": "2013-01", "ret": 21.76}, {"date": "2013-02", "ret": -2.65}, {"date": "2013-03", "ret": -1.56}, {"date": "2013-04", "ret": 8.81}, {"date": "2013-05", "ret": -14.74}, {"date": "2013-06", "ret": 5.45}, {"date": "2013-07", "ret": 11.82}, {"date": "2013-08", "ret": 3.7}, {"date": "2013-09", "ret": -0.87}, {"date": "2013-10", "ret": 2.51}, {"date": "2013-11", "ret": -2.22}, {"date": "2013-12", "ret": 0.97}, {"date": "2014-01", "ret": 2.33}, {"date": "2014-02", "ret": 4.87}, {"date": "2014-03", "ret": -1.98}, {"date": "2014-04", "ret": 1.79}, {"date": "2014-05", "ret": 1.02}, {"date": "2014-06", "ret": 9.51}, {"date": "2014-07", "ret": 5.98}, {"date": "2014-08", "ret": 15.36}, {"date": "2014-09", "ret": 6.47}, {"date": "2014-10", "ret": 7.9}, {"date": "2014-11", "ret": 4.27}, {"date": "2014-12", "ret": 1.5}], "conv_bb": [{"date": "2010-02", "ret": 7.5}, {"date": "2010-03", "ret": -7.51}, {"date": "2010-04", "ret": -5.38}, {"date": "2010-05", "ret": -8.43}, {"date": "2010-06", "ret": 15.14}, {"date": "2010-07", "ret": 2.43}, {"date": "2010-08", "ret": 6.65}, {"date": "2010-09", "ret": 11.15}, {"date": "2010-10", "ret": 2.14}, {"date": "2010-11", "ret": -6.08}, {"date": "2010-12", "ret": -4.4}, {"date": "2011-01", "ret": 10.23}, {"date": "2011-02", "ret": -0.34}, {"date": "2011-03", "ret": 2.96}, {"date": "2011-04", "ret": -5.49}, {"date": "2011-05", "ret": 0.45}, {"date": "2011-06", "ret": -1.07}, {"date": "2011-07", "ret": 3.36}, {"date": "2011-08", "ret": -8.24}, {"date": "2011-09", "ret": 4.33}, {"date": "2011-10", "ret": -3.23}, {"date": "2011-11", "ret": -11.19}, {"date": "2011-12", "ret": 2.63}, {"date": "2012-01", "ret": 7.56}, {"date": "2012-02", "ret": -4.79}, {"date": "2012-03", "ret": 6.77}, {"date": "2012-04", "ret": 2.19}, {"date": "2012-05", "ret": -4.86}, {"date": "2012-06", "ret": -3.45}, {"date": "2012-07", "ret": 0.04}, {"date": "2012-08", "ret": 0.81}, {"date": "2012-09", "ret": 48.7}, {"date": "2012-10", "ret": -7.14}, {"date": "2012-11", "ret": 13.61}, {"date": "2012-12", "ret": 6.06}, {"date": "2013-01", "ret": -2.31}, {"date": "2013-02", "ret": -5.52}, {"date": "2013-03", "ret": -0.79}, {"date": "2013-04", "ret": 12.28}, {"date": "2013-05", "ret": -12.24}, {"date": "2013-06", "ret": 5.68}, {"date": "2013-07", "ret": 10.26}, {"date": "2013-08", "ret": 3.5}, {"date": "2013-09", "ret": -0.73}, {"date": "2013-10", "ret": 2.4}, {"date": "2013-11", "ret": -5.61}, {"date": "2013-12", "ret": -1.87}, {"date": "2014-01", "ret": 2.31}, {"date": "2014-02", "ret": 2.9}, {"date": "2014-03", "ret": -0.42}, {"date": "2014-04", "ret": 0.41}, {"date": "2014-05", "ret": -1.67}, {"date": "2014-06", "ret": 7.36}, {"date": "2014-07", "ret": 2.42}, {"date": "2014-08", "ret": 14.26}, {"date": "2014-09", "ret": 6.49}, {"date": "2014-10", "ret": 8.69}, {"date": "2014-11", "ret": 8.77}, {"date": "2014-12", "ret": 6.4}], "turn_r5d": [{"date": "2010-02", "ret": 9.58}, {"date": "2010-03", "ret": -6.14}, {"date": "2010-04", "ret": -5.04}, {"date": "2010-05", "ret": -5.91}, {"date": "2010-06", "ret": 11.06}, {"date": "2010-07", "ret": 4.59}, {"date": "2010-08", "ret": 2.04}, {"date": "2010-09", "ret": 6.74}, {"date": "2010-10", "ret": 2.32}, {"date": "2010-11", "ret": -6.62}, {"date": "2010-12", "ret": -2.38}, {"date": "2011-01", "ret": 8.41}, {"date": "2011-02", "ret": 1.55}, {"date": "2011-03", "ret": -0.15}, {"date": "2011-04", "ret": -6.44}, {"date": "2011-05", "ret": 1.45}, {"date": "2011-06", "ret": 0.08}, {"date": "2011-07", "ret": -3.06}, {"date": "2011-08", "ret": -7.83}, {"date": "2011-09", "ret": 6.06}, {"date": "2011-10", "ret": -1.59}, {"date": "2011-11", "ret": -15.65}, {"date": "2011-12", "ret": 3.68}, {"date": "2012-01", "ret": 11.44}, {"date": "2012-02", "ret": -3.95}, {"date": "2012-03", "ret": 13.15}, {"date": "2012-04", "ret": 2.64}, {"date": "2012-05", "ret": -5.72}, {"date": "2012-06", "ret": -4.8}, {"date": "2012-07", "ret": 2.72}, {"date": "2012-08", "ret": 0.25}, {"date": "2012-09", "ret": 48.13}, {"date": "2012-10", "ret": -7.58}, {"date": "2012-11", "ret": 15.72}, {"date": "2012-12", "ret": 7.43}, {"date": "2013-01", "ret": -3.0}, {"date": "2013-02", "ret": -4.11}, {"date": "2013-03", "ret": -0.78}, {"date": "2013-04", "ret": 15.64}, {"date": "2013-05", "ret": -11.83}, {"date": "2013-06", "ret": 6.98}, {"date": "2013-07", "ret": 13.5}, {"date": "2013-08", "ret": 2.83}, {"date": "2013-09", "ret": -1.39}, {"date": "2013-10", "ret": 2.26}, {"date": "2013-11", "ret": -2.94}, {"date": "2013-12", "ret": 1.15}, {"date": "2014-01", "ret": 2.49}, {"date": "2014-02", "ret": 2.4}, {"date": "2014-03", "ret": -0.31}, {"date": "2014-04", "ret": 0.16}, {"date": "2014-05", "ret": -1.1}, {"date": "2014-06", "ret": 7.67}, {"date": "2014-07", "ret": 3.07}, {"date": "2014-08", "ret": 9.13}, {"date": "2014-09", "ret": 6.85}, {"date": "2014-10", "ret": 7.62}, {"date": "2014-11", "ret": 5.72}, {"date": "2014-12", "ret": 5.12}], "r1d_conv_bb": [{"date": "2010-02", "ret": 7.62}, {"date": "2010-03", "ret": -7.3}, {"date": "2010-04", "ret": -5.49}, {"date": "2010-05", "ret": -6.81}, {"date": "2010-06", "ret": 14.0}, {"date": "2010-07", "ret": 4.03}, {"date": "2010-08", "ret": 4.66}, {"date": "2010-09", "ret": 11.37}, {"date": "2010-10", "ret": -0.38}, {"date": "2010-11", "ret": -4.88}, {"date": "2010-12", "ret": -2.64}, {"date": "2011-01", "ret": 9.43}, {"date": "2011-02", "ret": 0.72}, {"date": "2011-03", "ret": 1.52}, {"date": "2011-04", "ret": -5.36}, {"date": "2011-05", "ret": 2.59}, {"date": "2011-06", "ret": -1.03}, {"date": "2011-07", "ret": 0.75}, {"date": "2011-08", "ret": -7.1}, {"date": "2011-09", "ret": 4.49}, {"date": "2011-10", "ret": -1.13}, {"date": "2011-11", "ret": -13.68}, {"date": "2011-12", "ret": 2.08}, {"date": "2012-01", "ret": 7.73}, {"date": "2012-02", "ret": -4.18}, {"date": "2012-03", "ret": 6.15}, {"date": "2012-04", "ret": 2.54}, {"date": "2012-05", "ret": -4.1}, {"date": "2012-06", "ret": -3.08}, {"date": "2012-07", "ret": 0.57}, {"date": "2012-08", "ret": 0.88}, {"date": "2012-09", "ret": 48.32}, {"date": "2012-10", "ret": -6.2}, {"date": "2012-11", "ret": 17.1}, {"date": "2012-12", "ret": 5.14}, {"date": "2013-01", "ret": -2.76}, {"date": "2013-02", "ret": -6.77}, {"date": "2013-03", "ret": -0.67}, {"date": "2013-04", "ret": 14.94}, {"date": "2013-05", "ret": -15.05}, {"date": "2013-06", "ret": 7.35}, {"date": "2013-07", "ret": 9.06}, {"date": "2013-08", "ret": 3.24}, {"date": "2013-09", "ret": -0.67}, {"date": "2013-10", "ret": 2.79}, {"date": "2013-11", "ret": -4.52}, {"date": "2013-12", "ret": 1.71}, {"date": "2014-01", "ret": 1.77}, {"date": "2014-02", "ret": 0.78}, {"date": "2014-03", "ret": -2.85}, {"date": "2014-04", "ret": 0.82}, {"date": "2014-05", "ret": 0.26}, {"date": "2014-06", "ret": 8.16}, {"date": "2014-07", "ret": 4.03}, {"date": "2014-08", "ret": 13.03}, {"date": "2014-09", "ret": 2.15}, {"date": "2014-10", "ret": 7.86}, {"date": "2014-11", "ret": 8.78}, {"date": "2014-12", "ret": 8.63}]}, "generated_at": "2026-06-29 05:25:41.181368"};
+function drawHeatmap() {
+  let labels = edata.factor_corr.labels;
+  let matrix = edata.factor_corr.matrix;
+  let ctx = document.getElementById('heatmapChart').getContext('2d');
+  
+  // Build Chart.js matrix dataset
+  let datasets = [];
+  for (let i = 0; i < labels.length; i++) {
+    datasets.push({
+      label: labels[i],
+      data: matrix[i],
+      backgroundColor: matrix[i].map(v => {
+        let r = v > 0 ? 34 : 239;
+        let g = v > 0 ? 197 : 68;
+        let b = v > 0 ? 94 : 68;
+        return 'rgba('+r+','+g+','+b+','+Math.abs(v)*0.7+')';
+      }),
+      borderColor: '#334155',
+      borderWidth: 1
+    });
+  }
+  
+  new Chart(ctx, {
+    type: 'bar',
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 11 } } } },
+      scales: {
+        x: { stacked: true, ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
+        y: { stacked: true, min: -1, max: 1, ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
+      }
+    }
+  });
+}
+
+function drawDecay() {
+  let ctx = document.getElementById('decayChart').getContext('2d');
+  let decay = edata.factor_decay;
+  let factors = Object.keys(decay);
+  let periods = ['1M','3M','6M','12M'];
+  let colors = ['#22c55e','#60a5fa','#eab308','#ef4444','#a855f7','#f97316','#06b6d4','#ec4899'];
+  
+  let datasets = factors.map((f,i) => ({
+    label: f,
+    data: periods.map(p => decay[f][p] || 0),
+    borderColor: colors[i],
+    backgroundColor: 'transparent',
+    tension: 0.3, pointRadius: 4
+  }));
+  
+  new Chart(ctx, {
+    type: 'line',
+    data: { labels: periods, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 11 } } } },
+      scales: {
+        y: { title: { display: true, text: '|IC|', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
+        x: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
+      }
+    }
+  });
+}
+
+drawHeatmap();
+drawDecay();
+
+
+function exportCSV(){
+  var rows=[],headers=[],data=[];
+  var table=document.querySelector("table");
+  table.querySelectorAll("th").forEach(function(th){headers.push(th.textContent.trim())});
+  rows.push(headers.join(","));
+  table.querySelectorAll("tbody tr").forEach(function(tr){
+    var cols=[];
+    tr.querySelectorAll("td").forEach(function(td){cols.push('"'+td.textContent.trim()+'"')});
+    rows.push(cols.join(","));
+  });
+  var blob=new Blob([rows.join("\n")],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="export.csv"; a.click();
+}
+
+</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: #0f172a; color: #e2e8f0; padding: 20px; }
+  .meta{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:14px 18px;margin-bottom:14px;font-size:12px;color:#94a3b8;display:flex;flex-wrap:wrap;gap:10px 24px;line-height:1.6}.meta strong{color:#e2e8f0}
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .sub { color: #94a3b8; font-size: 13px; margin-bottom: 8px; }
+  .nav { margin-bottom: 10px; }
+  .nav a { color: #60a5fa; text-decoration: none; font-size: 14px; }
+  .help-toggle { background: #1e293b; border: 1px solid #334155; color: #94a3b8;
+    padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-bottom: 8px; }
+  .help-box { background: #1e293b; border: 1px solid #334155; border-radius: 8px;
+    padding: 14px; margin-bottom: 12px; display: none; font-size: 13px; line-height: 1.6; }
+  .help-box.show { display: block; }
+  .help-box dt { color: #60a5fa; font-weight: 600; margin-top: 6px; }
+  .help-box dd { color: #94a3b8; margin-left: 0; margin-bottom: 4px; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .filters button { background: #1e293b; border: 1px solid #334155; color: #94a3b8;
+    padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .filters button.active { background: #2563eb; border-color: #2563eb; color: white; }
+  .legend { display: flex; gap: 16px; margin-bottom: 10px; font-size: 12px; flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #1e293b; padding: 8px 10px; text-align: left; border-bottom: 2px solid #334155;
+    position: sticky; top: 0; cursor: pointer; white-space: nowrap; }
+  th:hover { background: #334155; }
+  td { padding: 7px 10px; border-bottom: 1px solid #1e293b; white-space: nowrap; }
+  tr.clickable { cursor: pointer; }
+  tr.clickable:hover { background: #1e3a5f; }
+  tr.clickable:nth-child(even) { background: rgba(30,41,59,0.4); }
+  tr.selected { background: #1e3a5f; outline: 1px solid #2563eb; }
+  .ir-strong { font-weight: 700; font-size: 15px; }
+  .ir-mid { font-weight: 500; font-size: 13px; }
+  .ir-weak { color: #64748b; font-size: 12px; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .status-green { background: #22c55e; } .status-yellow { background: #eab308; } .status-red { background: #ef4444; }
+  .trend-up { color: #22c55e; } .trend-down { color: #ef4444; } .trend-flat { color: #94a3b8; }
+  .tag { font-size: 11px; padding: 2px 6px; border-radius: 4px; }
+  .tag-neg { background: #7c3aed20; color: #a78bfa; } .tag-pos { background: #05966920; color: #34d399; }
+  .corr-lo { color: #22c55e; } .corr-md { color: #eab308; } .corr-hi { color: #ef4444; }
+  .bar-cell { min-width: 60px; }
+  .bar { height: 6px; border-radius: 3px; background: #334155; position: relative; }
+  .bar-fill { height: 100%; border-radius: 3px; position: absolute; left: 0; top: 0; }
+  .bar-green { background: #22c55e; } .bar-yellow { background: #eab308; } .bar-red { background: #ef4444; }
+
+  /* Modal overlay */
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto; padding: 20px; }
+  .modal-overlay.show { display: flex; align-items: flex-start; justify-content: center; }
+  .modal-content { background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+    padding: 20px; width: 66vw; max-width: 1400px; margin-top: 60px; position: relative; }
+  .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none;
+    color: #94a3b8; font-size: 22px; cursor: pointer; }
+  .modal-title { font-size: 17px; font-weight: 600; margin-bottom: 14px; padding-right: 30px; }
+  .modal-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .modal-stat { background: #0f172a; padding: 10px 14px; border-radius: 6px; min-width: 90px; }
+  .modal-stat .val { font-size: 20px; font-weight: 700; }
+  .modal-stat .lbl { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+  .chart-wrap { height: 280px; position: relative; margin-top: 10px; }
+  .chart-wrap canvas { width: 100% !important; }
+  .modal-empty { text-align: center; color: #64748b; padding: 40px 0; font-size: 14px; }
+  .modal-empty span { font-size: 12px; display: block; margin-top: 4px; }
+.disclaimer{color:#64748b;font-size:11px;text-align:center;margin-top:20px;padding:12px;border-top:1px solid #334155;line-height:1.8}
+</style>
+</head>
+<body>
+<h1>📐 因子监控面板</h1>
+<div class="sub">数据更新: <span id="gentime"></span> · <span id="factorCount"></span> · <span id="dedupNote"></span></div>
+<div class="nav"><a href="./">← 资产排名看板</a></div>
+
+<div class="meta">
+<div><strong>IC类型</strong> Spearman Rank-IC · 预测期1日 · 滚动窗口36月（注意：面板标注原为20日，实际代码为次日收益）</div>
+<div><strong>股票池</strong> 全A股(剔除ST/退市/上市不满60日/停牌)</div>
+<div><strong>截面预处理</strong> 原始数据未做Winsorize/中性化（计划中） — IC值可能系统性偏高</div>
+<div><strong>中性化</strong> ⚠️ 未扣除行业/市值暴露 — 高市值相关因子IC主要由规模效应驱动</div>
+<div><strong>验证等级</strong> SAFE≥70(IC_IR>0.3+胜率>60%+相关性低) / REVIEW 40-69(部分指标不足) / REJECT<40(不可用) | <strong>IC滚动窗口</strong> 36月(3年) | <strong>验证周期</strong> 全量数据2010-2024</div>
+<div><strong>说明</strong> GP因子已降级为REVIEW(模拟数据,无真实IC时序)。镜像因子已标注🔗。市值相关性覆盖不完整。</div>
+</div>
+
+<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+<input id="searchBox" placeholder="搜索因子名..." oninput="searchFilter()" style="background:#1e293b;border:1px solid #334155;color:#e2e8f0;padding:6px 12px;border-radius:6px;font-size:13px;width:200px">
+<button id="hideMirrorBtn" onclick="toggleMirrors()" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px">🔗 隐藏镜像</button>
+</div>
+
+<button class="help-toggle" onclick="toggleHelp()">📖 字段说明</button>
+<div class="help-box" id="helpBox"></div>
+
+<div class="legend">
+  <span><span class="dot" style="background:#22c55e"></span> IR≥0.3</span>
+  <span><span class="dot" style="background:#eab308"></span> IR 0.1-0.3</span>
+  <span><span class="dot" style="background:#ef4444"></span> IR&lt;0.1</span>
+  <span>|</span><span>↑上升 ↓衰减</span><span>|</span>
+  <span style="color:#22c55e">⇋独立于市值</span>
+</div>
+
+<div class="filters">
+  <button class="active" onclick="filter('all')">全部</button>
+  <button onclick="filter('green')">强有效</button>
+  <button onclick="filter('yellow')">中等</button>
+  <button onclick="filter('red')">弱/失效</button>
+  <button onclick="filterCat('GTJA191')">GTJA191</button>
+  <button onclick="filterCat('Alpha101')">Alpha101</button>
+  <button onclick="filterCat('Alpha158')">Alpha158</button>
+  <button onclick="filterCat('Barra')">Barra</button>
+</div>
+
+<table id="tbl">
+<thead><tr>
+  <th>状态</th><th onclick="sortBy('name')">因子</th>
+  <th onclick="sortBy('category')">分类</th>
+  <th onclick="sortBy('ic_ir')">IC_IR</th>
+  <th onclick="sortBy('ic_mean')">IC均值</th>
+  <th onclick="sortBy('win_rate')">胜率</th>
+  <th>近期IC</th><th>IC柱</th>
+  <th onclick="sortBy('direction')">方向</th>
+  <th onclick="sortBy('validation_score')">验证</th>
+  <th onclick="sortBy('smallcap_corr')">市值相关</th>
+</tr></thead>
+<tbody></tbody>
+</table>
+<button onclick="exportCSV()" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px">📥 导出CSV</button>
+
+<div style="margin-top:30px">
+<h3 style="font-size:18px;margin-bottom:12px">🔥 因子相关性热力图</h3>
+<div style="display:flex;gap:20px;flex-wrap:wrap">
+<div style="flex:1;min-width:400px"><canvas id="heatmapChart"></canvas></div>
+<div style="flex:1;min-width:350px"><canvas id="decayChart"></canvas></div>
+</div>
+</div>
+
+<div class="disclaimer">⚠️ <strong>免责声明：</strong>因子展示仅供学术研究与策略开发参考，历史IC不代表未来表现。GP-Discovered因子数据为模拟值，已降级处理。部分因子存在镜像/重复(已标注🔗)。IC计算未经行业/市值中性化。本面板仅供研究参考。</div>
+
+
+<!-- Modal overlay for factor detail -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeDetail()">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeDetail()">✕</button>
+    <div class="modal-title" id="detailTitle"></div>
+    <div class="modal-stats" id="detailStats"></div>
+    <div class="chart-wrap" id="chartWrap"><canvas id="icChart"></canvas></div>
+  </div>
+</div>
+
+<script>
+let allFactors = [], descriptions = {};
+let currentFilter = 'all', sortKey = 'ic_ir', sortDesc = true;
+let chart = null, hideMirrors = false, searchQuery = '';
+
+fetch('factor_metrics.json?' + Date.now())
+  .then(r => r.json())
+  .then(d => {
+    allFactors = d.factors;
+    descriptions = d.descriptions || {};
+    document.getElementById('gentime').textContent = d.generated_at || '';
+    document.getElementById('factorCount').textContent = d.total_factors + ' 个因子';
+    document.getElementById('dedupNote').textContent = d.dedup_note ? '· ' + d.dedup_note : '';
+    buildHelp();
+    render();
+  });
+
+function toggleMirrors() {
+  hideMirrors = !hideMirrors;
+  document.getElementById('hideMirrorBtn').textContent = hideMirrors ? '🔗 显示全部' : '🔗 隐藏镜像';
+  document.getElementById('hideMirrorBtn').style.background = hideMirrors ? '#2563eb' : '#1e293b';
+  render();
+}
+
+function searchFilter() {
+  searchQuery = document.getElementById('searchBox').value.toLowerCase();
+  render();
+}
+
+function valBadge(f) {
+  let vs = f.validation_score, vv = f.validation_verdict;
+  if (!vs && !vv) return '<span class="corr-lo">—</span>';
+  let color = vv === 'SAFE' ? '#22c55e' : (vv === 'REVIEW' ? '#eab308' : '#ef4444');
+  return '<span style=\"color:'+color+';font-weight:600;font-size:12px\">'+vv+'</span> <span style=\"color:#94a3b8;font-size:11px\">'+vs+'</span>';
+}
+
+function buildHelp() {
+  let h = '<dl>';
+  h += '<dt>IC_IR</dt><dd>信息比率 = IC均值/IC标准差。绝对值越大预测越稳定。|IR|≥0.3为强有效。</dd>';
+  h += '<dt>IC均值</dt><dd>Rank IC均值。正值=因子值与未来收益正相关，负值=负相关。</dd>';
+  h += '<dt>胜率</dt><dd>IC为正的月份占比。>50%说明多数时候方向正确。</dd>';
+  h += '<dt>方向</dt><dd>正向=因子值越大收益越好；负向=越小越好。</dd>';
+  h += '<dt>市值相关</dt><dd>与小市值因子的Spearman相关。|corr|&lt;0.15独立，&gt;0.3同质化。</dd>';
+  h += '</dl>';
+  document.getElementById('helpBox').innerHTML = h;
+}
+
+function toggleHelp() { document.getElementById('helpBox').classList.toggle('show'); }
+
+function render() {
+  let list = [...allFactors];
+  if (currentFilter === 'green') list = list.filter(f => f.status === 'green');
+  if (currentFilter === 'yellow') list = list.filter(f => f.status === 'yellow');
+  if (currentFilter === 'red') list = list.filter(f => f.status === 'red');
+  if (!['all','green','yellow','red'].includes(currentFilter)) {
+    list = list.filter(f => f.category === currentFilter);
+  }
+  // Search filter
+  if (searchQuery) {
+    list = list.filter(f => f.name.toLowerCase().includes(searchQuery));
+  }
+  // Mirror filter
+  if (hideMirrors) {
+    list = list.filter(f => !(f.description || '').includes('[🔗 重复/镜像]'));
+  }
+
+  list.sort((a,b) => {
+    let va = a[sortKey] ?? 0, vb = b[sortKey] ?? 0;
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    return sortDesc ? (vb > va ? 1 : -1) : (va > vb ? 1 : -1);
+  });
+
+  let html = '';
+  for (let f of list) {
+    let ir = Math.abs(f.ic_ir);
+    let barW = Math.min(ir / 1.1 * 100, 100);
+    let barC = ir >= 0.3 ? 'bar-green' : (ir >= 0.1 ? 'bar-yellow' : 'bar-red');
+    let trendIcon = f.trend === 'up' ? '<span class="trend-up">↑</span>' :
+                    f.trend === 'down' ? '<span class="trend-down">↓</span>' : '<span class="trend-flat">→</span>';
+    let sc = f.smallcap_corr, scHtml = '-';
+    if (sc !== null && sc !== undefined) {
+      let scC = Math.abs(sc) < 0.15 ? 'corr-lo' : (Math.abs(sc) < 0.30 ? 'corr-md' : 'corr-hi');
+      scHtml = '<span class="'+scC+'">'+(sc>=0?'+':'')+sc.toFixed(3)+'</span>';
+    }
+    let recent = f.recent_3m || [];
+    let recentStr = recent.map(v => (v>=0?'+':'')+v.toFixed(3)).join(' ');
+
+    html += '<tr class="clickable" data-factor="'+f.name+'" onclick="showDetail(\''+f.name+'\')">'
+      +'<td><span class="status-dot status-'+f.status+'"></span></td>'
+      +'<td><strong>'+f.name+'</strong></td><td>'+f.category+'</td>'
+      +'<td class="'+(Math.abs(f.ic_ir)>=1?'ir-strong':(Math.abs(f.ic_ir)>=0.5?'ir-mid':'ir-weak'))+'">'+(f.ic_ir>=0?'+':'')+f.ic_ir.toFixed(3)+'</td>'
+      +'<td>'+(f.ic_mean>=0?'+':'')+f.ic_mean.toFixed(4)+'</td>'
+      +'<td>'+f.win_rate+'%</td>'
+      +'<td>'+trendIcon+' '+recentStr+'</td>'
+      +'<td class="bar-cell"><div class="bar"><div class="bar-fill '+barC+'" style="width:'+barW+'%"></div></div></td>'
+      +'<td><span class="tag '+(f.direction==='负向'?'tag-neg':'tag-pos')+'">'+f.direction+'</span></td>'
+      +'<td>'+valBadge(f)+'</td>'+'<td>'+scHtml+'</td></tr>';
+  }
+  document.querySelector('#tbl tbody').innerHTML = html;
+}
+
+function showDetail(name) {
+  let f = allFactors.find(x => x.name === name);
+  if (!f) return;
+
+  document.querySelectorAll('tr.selected').forEach(r => r.classList.remove('selected'));
+  let row = document.querySelector('tr[data-factor="'+name+'"]');
+  if(row) row.classList.add('selected');
+
+  document.getElementById('detailTitle').textContent = f.name + ' — ' + f.category + ' · ' + f.direction;
+  
+  let stats = '<div class="modal-stat"><div class="val">'+(f.ic_ir>=0?'+':'')+f.ic_ir.toFixed(3)+'</div><div class="lbl">IC_IR</div></div>';
+  stats += '<div class="modal-stat"><div class="val">'+(f.ic_mean>=0?'+':'')+f.ic_mean.toFixed(4)+'</div><div class="lbl">IC均值</div></div>';
+  stats += '<div class="modal-stat"><div class="val">'+f.win_rate+'%</div><div class="lbl">胜率</div></div>';
+  stats += '<div class="modal-stat"><div class="val">'+(f.n_months||'?')+'</div><div class="lbl">月数</div></div>';
+  if (f.smallcap_corr !== null && f.smallcap_corr !== undefined) {
+    let scC = Math.abs(f.smallcap_corr)<0.15?'#22c55e':(Math.abs(f.smallcap_corr)<0.30?'#eab308':'#ef4444');
+    stats += '<div class="modal-stat"><div class="val" style="color:'+scC+'">'+(f.smallcap_corr>=0?'+':'')+f.smallcap_corr.toFixed(3)+'</div><div class="lbl">市值相关</div></div>';
+  }
+  document.getElementById('detailStats').innerHTML = stats;
+
+  // Chart
+  let cw = document.getElementById('chartWrap');
+  let hist = f.ic_history || [];
+  
+  if (chart) { chart.destroy(); chart = null; }
+
+  if (hist.length > 0) {
+    cw.innerHTML = '<canvas id="icChart"></canvas>';
+    let labels = hist.map(h => h.date.substring(0,7));
+    let ics = hist.map(h => h.ic);
+    let ctx = document.getElementById('icChart').getContext('2d');
+    chart = new Chart(ctx, {
+      type: 'bar',
+      data: { labels: labels, datasets: [{ label: 'Rank IC', data: ics,
+        backgroundColor: ics.map(v => v>=0?'rgba(34,197,94,0.6)':'rgba(239,68,68,0.6)'),
+        borderColor: ics.map(v => v>=0?'#22c55e':'#ef4444'), borderWidth: 1 }] },
+      options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { x: { ticks: { color: '#94a3b8', maxTicksLimit: 30, font: { size: 10 } }, grid: { color: '#1e293b' } },
+                  y: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' }, title: { display: true, text: 'Rank IC', color: '#94a3b8' } } }
+      }
+    });
+    cw.style.display = 'block';
+  } else {
+    cw.innerHTML = '<div class="modal-empty">暂无IC时序图表<br><span>该因子只有汇总统计（从因子库计算得出）</span></div>';
+    cw.style.display = 'block';
+  }
+
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeDetail() {
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.querySelectorAll('tr.selected').forEach(r => r.classList.remove('selected'));
+  if (chart) { chart.destroy(); chart = null; }
+}
+
+function filter(type) { currentFilter = type; updateButtons(type); closeDetail(); render(); }
+function filterCat(cat) { currentFilter = cat; closeDetail(); render(); }
+
+function updateButtons(active) {
+  document.querySelectorAll('.filters button').forEach(b => {
+    b.classList.remove('active');
+    if (active==='all' && b.textContent.includes('全部')) b.classList.add('active');
+    if (b.textContent === active) b.classList.add('active');
+  });
+}
+
+function sortBy(key) {
+  if (sortKey === key) sortDesc = !sortDesc;
+  else { sortKey = key; sortDesc = key === 'ic_ir'; }
+  render();
+}
+
+// Heatmap + Decay charts
+let edata = {"factor_corr": {"labels": ["r1d", "r5d", "r20d", "vol_chg", "bb", "ma20d", "turn", "conv"], "matrix": [[1.0, 0.276, 0.317, 0.067, 0.266, 0.266, -0.107, 0.043], [0.276, 1.0, 0.056, 0.698, 0.898, 0.897, -0.29, 0.221], [0.317, 0.056, 1.0, 0.071, 0.053, 0.056, 0.028, -0.037], [0.067, 0.698, 0.071, 1.0, 0.688, 0.688, -0.063, 0.04], [0.266, 0.898, 0.053, 0.688, 1.0, 1.0, -0.227, 0.191], [0.266, 0.897, 0.056, 0.688, 1.0, 1.0, -0.229, 0.189], [-0.107, -0.29, 0.028, -0.063, -0.227, -0.229, 1.0, 0.257], [0.043, 0.221, -0.037, 0.04, 0.191, 0.189, 0.257, 1.0]]}, "factor_decay": {"r1d": {"1M": 0.1247, "3M": 0.1138, "6M": 0.1001, "12M": 0.0925}, "r5d": {"1M": 0.1319, "3M": 0.1164, "6M": 0.102, "12M": 0.097}, "r20d": {"1M": 0.1369, "3M": 0.1307, "6M": 0.0914, "12M": 0.0964}, "vol_chg": {"1M": 0.1234, "3M": 0.1123, "6M": 0.1006, "12M": 0.0948}, "bb": {"1M": 0.1268, "3M": 0.1136, "6M": 0.1062, "12M": 0.117}, "ma20d": {"1M": 0.13, "3M": 0.1178, "6M": 0.1103, "12M": 0.1323}, "turn": {"1M": 0.1143, "3M": 0.1151, "6M": 0.1169, "12M": 0.1039}, "conv": {"1M": 0.1482, "3M": 0.1425, "6M": 0.1247, "12M": 0.1525}}, "strategy_monthly": {"conv": [{"date": "2010-02", "ret": 9.31}, {"date": "2010-03", "ret": -7.71}, {"date": "2010-04", "ret": -6.88}, {"date": "2010-05", "ret": -6.86}, {"date": "2010-06", "ret": 15.02}, {"date": "2010-07", "ret": 3.1}, {"date": "2010-08", "ret": 1.74}, {"date": "2010-09", "ret": 7.59}, {"date": "2010-10", "ret": 0.13}, {"date": "2010-11", "ret": -5.98}, {"date": "2010-12", "ret": -0.49}, {"date": "2011-01", "ret": 9.08}, {"date": "2011-02", "ret": 2.44}, {"date": "2011-03", "ret": 2.07}, {"date": "2011-04", "ret": -5.96}, {"date": "2011-05", "ret": -0.64}, {"date": "2011-06", "ret": -0.09}, {"date": "2011-07", "ret": 3.14}, {"date": "2011-08", "ret": -8.01}, {"date": "2011-09", "ret": 3.29}, {"date": "2011-10", "ret": -1.69}, {"date": "2011-11", "ret": -10.41}, {"date": "2011-12", "ret": 0.19}, {"date": "2012-01", "ret": 6.13}, {"date": "2012-02", "ret": -4.65}, {"date": "2012-03", "ret": 7.0}, {"date": "2012-04", "ret": -0.25}, {"date": "2012-05", "ret": -5.24}, {"date": "2012-06", "ret": -4.94}, {"date": "2012-07", "ret": -2.51}, {"date": "2012-08", "ret": 0.94}, {"date": "2012-09", "ret": 46.24}, {"date": "2012-10", "ret": -7.3}, {"date": "2012-11", "ret": 13.06}, {"date": "2012-12", "ret": 7.84}, {"date": "2013-01", "ret": 21.92}, {"date": "2013-02", "ret": -5.38}, {"date": "2013-03", "ret": -1.03}, {"date": "2013-04", "ret": 8.94}, {"date": "2013-05", "ret": -15.19}, {"date": "2013-06", "ret": 3.86}, {"date": "2013-07", "ret": 10.87}, {"date": "2013-08", "ret": 2.58}, {"date": "2013-09", "ret": -1.27}, {"date": "2013-10", "ret": 3.4}, {"date": "2013-11", "ret": -3.7}, {"date": "2013-12", "ret": -0.06}, {"date": "2014-01", "ret": 4.43}, {"date": "2014-02", "ret": 3.83}, {"date": "2014-03", "ret": -2.51}, {"date": "2014-04", "ret": 1.82}, {"date": "2014-05", "ret": 1.07}, {"date": "2014-06", "ret": 9.47}, {"date": "2014-07", "ret": 4.96}, {"date": "2014-08", "ret": 15.84}, {"date": "2014-09", "ret": 7.33}, {"date": "2014-10", "ret": 11.58}, {"date": "2014-11", "ret": 9.85}, {"date": "2014-12", "ret": 6.32}], "turn": [{"date": "2010-02", "ret": 10.39}, {"date": "2010-03", "ret": -1.5}, {"date": "2010-04", "ret": -6.81}, {"date": "2010-05", "ret": -7.72}, {"date": "2010-06", "ret": 11.6}, {"date": "2010-07", "ret": 6.99}, {"date": "2010-08", "ret": 2.36}, {"date": "2010-09", "ret": 5.61}, {"date": "2010-10", "ret": 2.9}, {"date": "2010-11", "ret": -4.63}, {"date": "2010-12", "ret": -2.82}, {"date": "2011-01", "ret": 9.36}, {"date": "2011-02", "ret": 1.32}, {"date": "2011-03", "ret": -0.76}, {"date": "2011-04", "ret": -4.03}, {"date": "2011-05", "ret": 0.16}, {"date": "2011-06", "ret": 0.18}, {"date": "2011-07", "ret": 1.05}, {"date": "2011-08", "ret": -8.09}, {"date": "2011-09", "ret": 3.29}, {"date": "2011-10", "ret": -2.17}, {"date": "2011-11", "ret": -12.76}, {"date": "2011-12", "ret": 4.89}, {"date": "2012-01", "ret": 11.47}, {"date": "2012-02", "ret": -3.92}, {"date": "2012-03", "ret": 8.01}, {"date": "2012-04", "ret": 1.46}, {"date": "2012-05", "ret": -5.12}, {"date": "2012-06", "ret": -3.52}, {"date": "2012-07", "ret": 1.15}, {"date": "2012-08", "ret": 0.7}, {"date": "2012-09", "ret": 48.06}, {"date": "2012-10", "ret": -8.21}, {"date": "2012-11", "ret": 12.15}, {"date": "2012-12", "ret": 9.29}, {"date": "2013-01", "ret": 21.46}, {"date": "2013-02", "ret": -1.49}, {"date": "2013-03", "ret": 0.1}, {"date": "2013-04", "ret": 10.06}, {"date": "2013-05", "ret": -15.01}, {"date": "2013-06", "ret": 8.47}, {"date": "2013-07", "ret": 10.05}, {"date": "2013-08", "ret": 3.17}, {"date": "2013-09", "ret": -2.23}, {"date": "2013-10", "ret": 2.45}, {"date": "2013-11", "ret": -2.73}, {"date": "2013-12", "ret": 1.42}, {"date": "2014-01", "ret": 2.99}, {"date": "2014-02", "ret": 2.08}, {"date": "2014-03", "ret": -3.65}, {"date": "2014-04", "ret": 1.63}, {"date": "2014-05", "ret": -1.49}, {"date": "2014-06", "ret": 6.73}, {"date": "2014-07", "ret": 3.27}, {"date": "2014-08", "ret": 15.7}, {"date": "2014-09", "ret": 7.27}, {"date": "2014-10", "ret": 7.6}, {"date": "2014-11", "ret": 0.77}, {"date": "2014-12", "ret": -0.17}], "conv_turn": [{"date": "2010-02", "ret": 9.25}, {"date": "2010-03", "ret": -4.44}, {"date": "2010-04", "ret": -6.82}, {"date": "2010-05", "ret": -5.44}, {"date": "2010-06", "ret": 12.63}, {"date": "2010-07", "ret": 4.56}, {"date": "2010-08", "ret": 2.73}, {"date": "2010-09", "ret": 6.77}, {"date": "2010-10", "ret": 0.35}, {"date": "2010-11", "ret": -5.24}, {"date": "2010-12", "ret": -1.2}, {"date": "2011-01", "ret": 9.3}, {"date": "2011-02", "ret": 1.58}, {"date": "2011-03", "ret": 2.63}, {"date": "2011-04", "ret": -5.11}, {"date": "2011-05", "ret": -1.18}, {"date": "2011-06", "ret": 1.13}, {"date": "2011-07", "ret": 2.64}, {"date": "2011-08", "ret": -7.15}, {"date": "2011-09", "ret": 3.31}, {"date": "2011-10", "ret": -1.22}, {"date": "2011-11", "ret": -12.37}, {"date": "2011-12", "ret": 1.07}, {"date": "2012-01", "ret": 9.01}, {"date": "2012-02", "ret": -4.54}, {"date": "2012-03", "ret": 6.13}, {"date": "2012-04", "ret": 0.05}, {"date": "2012-05", "ret": -5.68}, {"date": "2012-06", "ret": -3.96}, {"date": "2012-07", "ret": 1.45}, {"date": "2012-08", "ret": 0.4}, {"date": "2012-09", "ret": 46.46}, {"date": "2012-10", "ret": -8.13}, {"date": "2012-11", "ret": 13.09}, {"date": "2012-12", "ret": 9.19}, {"date": "2013-01", "ret": 21.76}, {"date": "2013-02", "ret": -2.65}, {"date": "2013-03", "ret": -1.56}, {"date": "2013-04", "ret": 8.81}, {"date": "2013-05", "ret": -14.74}, {"date": "2013-06", "ret": 5.45}, {"date": "2013-07", "ret": 11.82}, {"date": "2013-08", "ret": 3.7}, {"date": "2013-09", "ret": -0.87}, {"date": "2013-10", "ret": 2.51}, {"date": "2013-11", "ret": -2.22}, {"date": "2013-12", "ret": 0.97}, {"date": "2014-01", "ret": 2.33}, {"date": "2014-02", "ret": 4.87}, {"date": "2014-03", "ret": -1.98}, {"date": "2014-04", "ret": 1.79}, {"date": "2014-05", "ret": 1.02}, {"date": "2014-06", "ret": 9.51}, {"date": "2014-07", "ret": 5.98}, {"date": "2014-08", "ret": 15.36}, {"date": "2014-09", "ret": 6.47}, {"date": "2014-10", "ret": 7.9}, {"date": "2014-11", "ret": 4.27}, {"date": "2014-12", "ret": 1.5}], "conv_bb": [{"date": "2010-02", "ret": 7.5}, {"date": "2010-03", "ret": -7.51}, {"date": "2010-04", "ret": -5.38}, {"date": "2010-05", "ret": -8.43}, {"date": "2010-06", "ret": 15.14}, {"date": "2010-07", "ret": 2.43}, {"date": "2010-08", "ret": 6.65}, {"date": "2010-09", "ret": 11.15}, {"date": "2010-10", "ret": 2.14}, {"date": "2010-11", "ret": -6.08}, {"date": "2010-12", "ret": -4.4}, {"date": "2011-01", "ret": 10.23}, {"date": "2011-02", "ret": -0.34}, {"date": "2011-03", "ret": 2.96}, {"date": "2011-04", "ret": -5.49}, {"date": "2011-05", "ret": 0.45}, {"date": "2011-06", "ret": -1.07}, {"date": "2011-07", "ret": 3.36}, {"date": "2011-08", "ret": -8.24}, {"date": "2011-09", "ret": 4.33}, {"date": "2011-10", "ret": -3.23}, {"date": "2011-11", "ret": -11.19}, {"date": "2011-12", "ret": 2.63}, {"date": "2012-01", "ret": 7.56}, {"date": "2012-02", "ret": -4.79}, {"date": "2012-03", "ret": 6.77}, {"date": "2012-04", "ret": 2.19}, {"date": "2012-05", "ret": -4.86}, {"date": "2012-06", "ret": -3.45}, {"date": "2012-07", "ret": 0.04}, {"date": "2012-08", "ret": 0.81}, {"date": "2012-09", "ret": 48.7}, {"date": "2012-10", "ret": -7.14}, {"date": "2012-11", "ret": 13.61}, {"date": "2012-12", "ret": 6.06}, {"date": "2013-01", "ret": -2.31}, {"date": "2013-02", "ret": -5.52}, {"date": "2013-03", "ret": -0.79}, {"date": "2013-04", "ret": 12.28}, {"date": "2013-05", "ret": -12.24}, {"date": "2013-06", "ret": 5.68}, {"date": "2013-07", "ret": 10.26}, {"date": "2013-08", "ret": 3.5}, {"date": "2013-09", "ret": -0.73}, {"date": "2013-10", "ret": 2.4}, {"date": "2013-11", "ret": -5.61}, {"date": "2013-12", "ret": -1.87}, {"date": "2014-01", "ret": 2.31}, {"date": "2014-02", "ret": 2.9}, {"date": "2014-03", "ret": -0.42}, {"date": "2014-04", "ret": 0.41}, {"date": "2014-05", "ret": -1.67}, {"date": "2014-06", "ret": 7.36}, {"date": "2014-07", "ret": 2.42}, {"date": "2014-08", "ret": 14.26}, {"date": "2014-09", "ret": 6.49}, {"date": "2014-10", "ret": 8.69}, {"date": "2014-11", "ret": 8.77}, {"date": "2014-12", "ret": 6.4}], "turn_r5d": [{"date": "2010-02", "ret": 9.58}, {"date": "2010-03", "ret": -6.14}, {"date": "2010-04", "ret": -5.04}, {"date": "2010-05", "ret": -5.91}, {"date": "2010-06", "ret": 11.06}, {"date": "2010-07", "ret": 4.59}, {"date": "2010-08", "ret": 2.04}, {"date": "2010-09", "ret": 6.74}, {"date": "2010-10", "ret": 2.32}, {"date": "2010-11", "ret": -6.62}, {"date": "2010-12", "ret": -2.38}, {"date": "2011-01", "ret": 8.41}, {"date": "2011-02", "ret": 1.55}, {"date": "2011-03", "ret": -0.15}, {"date": "2011-04", "ret": -6.44}, {"date": "2011-05", "ret": 1.45}, {"date": "2011-06", "ret": 0.08}, {"date": "2011-07", "ret": -3.06}, {"date": "2011-08", "ret": -7.83}, {"date": "2011-09", "ret": 6.06}, {"date": "2011-10", "ret": -1.59}, {"date": "2011-11", "ret": -15.65}, {"date": "2011-12", "ret": 3.68}, {"date": "2012-01", "ret": 11.44}, {"date": "2012-02", "ret": -3.95}, {"date": "2012-03", "ret": 13.15}, {"date": "2012-04", "ret": 2.64}, {"date": "2012-05", "ret": -5.72}, {"date": "2012-06", "ret": -4.8}, {"date": "2012-07", "ret": 2.72}, {"date": "2012-08", "ret": 0.25}, {"date": "2012-09", "ret": 48.13}, {"date": "2012-10", "ret": -7.58}, {"date": "2012-11", "ret": 15.72}, {"date": "2012-12", "ret": 7.43}, {"date": "2013-01", "ret": -3.0}, {"date": "2013-02", "ret": -4.11}, {"date": "2013-03", "ret": -0.78}, {"date": "2013-04", "ret": 15.64}, {"date": "2013-05", "ret": -11.83}, {"date": "2013-06", "ret": 6.98}, {"date": "2013-07", "ret": 13.5}, {"date": "2013-08", "ret": 2.83}, {"date": "2013-09", "ret": -1.39}, {"date": "2013-10", "ret": 2.26}, {"date": "2013-11", "ret": -2.94}, {"date": "2013-12", "ret": 1.15}, {"date": "2014-01", "ret": 2.49}, {"date": "2014-02", "ret": 2.4}, {"date": "2014-03", "ret": -0.31}, {"date": "2014-04", "ret": 0.16}, {"date": "2014-05", "ret": -1.1}, {"date": "2014-06", "ret": 7.67}, {"date": "2014-07", "ret": 3.07}, {"date": "2014-08", "ret": 9.13}, {"date": "2014-09", "ret": 6.85}, {"date": "2014-10", "ret": 7.62}, {"date": "2014-11", "ret": 5.72}, {"date": "2014-12", "ret": 5.12}], "r1d_conv_bb": [{"date": "2010-02", "ret": 7.62}, {"date": "2010-03", "ret": -7.3}, {"date": "2010-04", "ret": -5.49}, {"date": "2010-05", "ret": -6.81}, {"date": "2010-06", "ret": 14.0}, {"date": "2010-07", "ret": 4.03}, {"date": "2010-08", "ret": 4.66}, {"date": "2010-09", "ret": 11.37}, {"date": "2010-10", "ret": -0.38}, {"date": "2010-11", "ret": -4.88}, {"date": "2010-12", "ret": -2.64}, {"date": "2011-01", "ret": 9.43}, {"date": "2011-02", "ret": 0.72}, {"date": "2011-03", "ret": 1.52}, {"date": "2011-04", "ret": -5.36}, {"date": "2011-05", "ret": 2.59}, {"date": "2011-06", "ret": -1.03}, {"date": "2011-07", "ret": 0.75}, {"date": "2011-08", "ret": -7.1}, {"date": "2011-09", "ret": 4.49}, {"date": "2011-10", "ret": -1.13}, {"date": "2011-11", "ret": -13.68}, {"date": "2011-12", "ret": 2.08}, {"date": "2012-01", "ret": 7.73}, {"date": "2012-02", "ret": -4.18}, {"date": "2012-03", "ret": 6.15}, {"date": "2012-04", "ret": 2.54}, {"date": "2012-05", "ret": -4.1}, {"date": "2012-06", "ret": -3.08}, {"date": "2012-07", "ret": 0.57}, {"date": "2012-08", "ret": 0.88}, {"date": "2012-09", "ret": 48.32}, {"date": "2012-10", "ret": -6.2}, {"date": "2012-11", "ret": 17.1}, {"date": "2012-12", "ret": 5.14}, {"date": "2013-01", "ret": -2.76}, {"date": "2013-02", "ret": -6.77}, {"date": "2013-03", "ret": -0.67}, {"date": "2013-04", "ret": 14.94}, {"date": "2013-05", "ret": -15.05}, {"date": "2013-06", "ret": 7.35}, {"date": "2013-07", "ret": 9.06}, {"date": "2013-08", "ret": 3.24}, {"date": "2013-09", "ret": -0.67}, {"date": "2013-10", "ret": 2.79}, {"date": "2013-11", "ret": -4.52}, {"date": "2013-12", "ret": 1.71}, {"date": "2014-01", "ret": 1.77}, {"date": "2014-02", "ret": 0.78}, {"date": "2014-03", "ret": -2.85}, {"date": "2014-04", "ret": 0.82}, {"date": "2014-05", "ret": 0.26}, {"date": "2014-06", "ret": 8.16}, {"date": "2014-07", "ret": 4.03}, {"date": "2014-08", "ret": 13.03}, {"date": "2014-09", "ret": 2.15}, {"date": "2014-10", "ret": 7.86}, {"date": "2014-11", "ret": 8.78}, {"date": "2014-12", "ret": 8.63}]}, "generated_at": "2026-06-29 05:25:41.181368"};
+function drawHeatmap() {
+  let labels = edata.factor_corr.labels;
+  let matrix = edata.factor_corr.matrix;
+  let ctx = document.getElementById('heatmapChart').getContext('2d');
+  
+  // Build Chart.js matrix dataset
+  let datasets = [];
+  for (let i = 0; i < labels.length; i++) {
+    datasets.push({
+      label: labels[i],
+      data: matrix[i],
+      backgroundColor: matrix[i].map(v => {
+        let r = v > 0 ? 34 : 239;
+        let g = v > 0 ? 197 : 68;
+        let b = v > 0 ? 94 : 68;
+        return 'rgba('+r+','+g+','+b+','+Math.abs(v)*0.7+')';
+      }),
+      borderColor: '#334155',
+      borderWidth: 1
+    });
+  }
+  
+  new Chart(ctx, {
+    type: 'bar',
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 11 } } } },
+      scales: {
+        x: { stacked: true, ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
+        y: { stacked: true, min: -1, max: 1, ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
+      }
+    }
+  });
+}
+
+function drawDecay() {
+  let ctx = document.getElementById('decayChart').getContext('2d');
+  let decay = edata.factor_decay;
+  let factors = Object.keys(decay);
+  let periods = ['1M','3M','6M','12M'];
+  let colors = ['#22c55e','#60a5fa','#eab308','#ef4444','#a855f7','#f97316','#06b6d4','#ec4899'];
+  
+  let datasets = factors.map((f,i) => ({
+    label: f,
+    data: periods.map(p => decay[f][p] || 0),
+    borderColor: colors[i],
+    backgroundColor: 'transparent',
+    tension: 0.3, pointRadius: 4
+  }));
+  
+  new Chart(ctx, {
+    type: 'line',
+    data: { labels: periods, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 11 } } } },
+      scales: {
+        y: { title: { display: true, text: '|IC|', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } },
+        x: { ticks: { color: '#94a3b8' }, grid: { color: '#1e293b' } }
+      }
+    }
+  });
+}
+
+drawHeatmap();
+drawDecay();
+
+
+function exportCSV(){
+  var rows=[],headers=[],data=[];
+  var table=document.querySelector("table");
+  table.querySelectorAll("th").forEach(function(th){headers.push(th.textContent.trim())});
+  rows.push(headers.join(","));
+  table.querySelectorAll("tbody tr").forEach(function(tr){
+    var cols=[];
+    tr.querySelectorAll("td").forEach(function(td){cols.push('"'+td.textContent.trim()+'"')});
+    rows.push(cols.join(","));
+  });
+  var blob=new Blob([rows.join("\n")],{type:"text/csv"});
+  var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="export.csv"; a.click();
+}
+
+</script>
+</body>
+</html>

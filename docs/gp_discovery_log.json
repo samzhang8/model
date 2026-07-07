@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-06-28",
+  "tested": 500,
+  "valid": 431,
+  "top_factors": [
+    {
+      "name": "GP_Alpha1",
+      "formula": "close+atr+r5d+vol via rank",
+      "ir": 1.938,
+      "wr": 100.0
+    },
+    {
+      "name": "GP_Alpha2",
+      "formula": "close+r20d+r1d+atr via corr20",
+      "ir": 1.896,
+      "wr": 100.0
+    },
+    {
+      "name": "GP_Alpha3",
+      "formula": "close+atr+vol_chg+bb via delta5",
+      "ir": 1.869,
+      "wr": 100.0
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-07-02T05:02:12.580356",
+  "factors": {
+    "total": 908,
+    "safe": 36,
+    "review": 642,
+    "reject": 230
+  },
+  "strategies": {
+    "total": 90,
+    "safe": 23,
+    "review": 60
+  },
+  "safe_factors": [
+    "ACF",
+    "Barra_DivYield",
+    "Alpha158_ROC20",
+    "illiquidity",
+    "min_ret_1m",
+    "PVCF",
+    "GTJA_rev016",
+    "GTJA_w17_rev",
+    "GTJA_rev017",
+    "GTJA_rev019",
+    "A158_ROC20",
+    "GTJA_rev018",
+    "GTJA_w20_rev",
+    "GTJA_rev020",
+    "GTJA_rev022",
+    "GTJA_rev028",
+    "GTJA_w26_rev",
+    "GTJA_rev026",
+    "GTJA_w23_rev",
+    "GTJA_rev024"
+  ],
+  "safe_strategies": [
+    "TOP3+止损3%",
+    "低换手+小盘(扣成本30bp)",
+    "小盘因子(扣成本30bp)",
+    "LSY三因子 OOS验证",
+    "四因子组合(扣30bp)",
+    "小盘+收敛(扣成本30bp)",
+    "低换手率(扣成本30bp)",
+    "低换手+小盘 OOS(扣成本)",
+    "低换手率 OOS验证",
+    "小盘+5日反转(扣30bp)",
+    "低换手+低波(扣30bp)",
+    "低波动率(扣30bp)",
+    "小盘因子 OOS验证",
+    "MAX+Turn(扣30bp)",
+    "低Beta(扣30bp) ⚠️OOS衰减",
+    "LSY三因子(扣30bp)",
+    "MAX+IVOL(扣30bp)",
+    "收敛(扣成本30bp)",
+    "非流动性(扣成本30bp)",
+    "20日反转(扣成本30bp)",
+    "IVOL OOS验证",
+    "5日反转(扣30bp)",
+    "52周高点反转(扣30bp)"
+  ],
+  "verifier_version": "1.0"
+}

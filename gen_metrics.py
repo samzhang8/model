@@ -83,6 +83,7 @@ ASSETS = [
     {"code": "159985", "prefix": "sz", "name": "豆粕ETF"},
     # ═══ 债券/货基 ═══
     {"code": "511010", "prefix": "sh", "name": "国债ETF"},
+    {"code": "511260", "prefix": "sh", "name": "十年国债ETF"},
     {"code": "511360", "prefix": "sh", "name": "短融ETF"},
     {"code": "511880", "prefix": "sh", "name": "银华日利ETF"},
     {"code": "511380", "prefix": "sh", "name": "可转债ETF"},

@@ -335,7 +335,7 @@ function loadAssets() {
       {code:'159949', name:'创业板50'},{code:'588000', name:'科创50ETF'},
       {code:'159552', name:'中证2000增强ETF'},{code:'512100', name:'中证1000ETF'},
       {code:'159901', name:'深证100ETF'},{code:'510880', name:'红利ETF(上证)'},
-      {code:'515080', name:'中证红利ETF'},{code:'512890', name:'红利低波ETF'},
+      {code:'515080', name:'中证红利ETF'},{code:'512890', name:'红利低波ETF'},{code:'159207', name:'高股息ETF'},
       {code:'513100', name:'纳指ETF(国泰)'},{code:'513500', name:'标普500ETF'},
       {code:'159920', name:'恒生ETF'},{code:'513030', name:'德国30ETF'},
       {code:'513520', name:'日经ETF'},{code:'513080', name:'法国CAC40ETF'},

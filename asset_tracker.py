@@ -353,7 +353,7 @@ function loadAssets() {
       {code:'159530', name:'机器人ETF'},{code:'159928', name:'消费ETF'},
       {code:'159647', name:'中药ETF'},{code:'518880', name:'黄金ETF'},
       {code:'518850', name:'黄金股票ETF'},{code:'159980', name:'有色ETF'},
-      {code:'159985', name:'豆粕ETF'},{code:'511010', name:'国债ETF'},{code:'511260', name:'十年国债ETF'},
+      {code:'159985', name:'豆粕ETF'},{code:'511260', name:'十年国债ETF'},
       {code:'511360', name:'短融ETF'},{code:'511880', name:'银华日利ETF'},
       {code:'511380', name:'可转债ETF'},{code:'511520', name:'政金债ETF'},
       {code:'508056', name:'普洛斯REIT'},{code:'600519', name:'贵州茅台'},

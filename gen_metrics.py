@@ -180,6 +180,67 @@ ASSETS = [
 RISK_FREE_RATE = 0.0
 TRADING_DAYS_PER_YEAR = 252
 
+# ETF代码 -> 蛋卷(雪球)指数代码：仅股票类指数有"估值分位"(PE/PB百分位)
+# 覆盖宽基/红利/主要行业/主要跨境，其余(加密/商品/债券/REITs/未收录指数)显示"—"
+VALUATION_INDEX_MAP = {
+    # 宽基
+    "510300": "SH000300",   # 沪深300ETF
+    "510500": "SH000905",   # 中证500ETF
+    "510050": "SH000016",   # 上证50ETF
+    "159915": "SZ399006",   # 创业板ETF
+    "588000": "SH000688",   # 科创50ETF
+    "512100": "SH000852",   # 中证1000ETF
+    "159901": "SZ399330",   # 深证100ETF
+    # 红利/价值
+    "510880": "SH000015",   # 红利ETF(上证)
+    "515080": "SH000922",   # 中证红利ETF
+    "512890": "CSIH30269",  # 红利低波ETF
+    # 行业/主题
+    "512880": "SZ399975",   # 证券ETF(证券公司)
+    "512800": "SZ399986",   # 银行ETF(中证银行)
+    "512170": "SZ399989",   # 医疗ETF(中证医疗)
+    "515220": "SZ399998",   # 煤炭ETF(中证煤炭)
+    "512660": "SZ399967",   # 军工ETF(中证军工)
+    "512980": "SZ399971",   # 传媒ETF(中证传媒)
+    "159928": "SH000932",   # 消费ETF(主要消费)
+    "515000": "CSI931087",  # 科技ETF(科技龙头)
+    # 跨境
+    "513180": "HKHSTECH",   # 恒生科技ETF
+    "513050": "CSIH30533",  # 中概互联网ETF(中概互联50)
+    "159920": "HKHSI",      # 恒生ETF(恒生指数)
+    "513500": "SP500",      # 标普500ETF
+    "159660": "NDX",        # 纳指ETF(纳指100)
+    "159561": "GDAXI",      # 德国ETF(德国DAX)
+}
+
+
+def fetch_valuation() -> dict:
+    """从蛋卷(雪球)API拉取指数估值分位，返回 {指数代码: percentile(0~1)}
+    优先用PE(TTM)分位，PE无效(≤0)时退回PB分位"""
+    url = "https://danjuanapp.com/djapi/index_eva/dj"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            data = json.loads(resp.read())
+    except Exception as e:
+        print(f"  估值分位拉取失败: {e}", file=sys.stderr)
+        return {}
+
+    result = {}
+    for it in data.get("data", {}).get("items", []):
+        code = it.get("index_code")
+        pe = it.get("pe") or 0
+        pe_pct = it.get("pe_percentile")
+        pb_pct = it.get("pb_percentile")
+        if pe and pe > 0 and pe_pct is not None:
+            pct = pe_pct
+        elif pb_pct is not None:
+            pct = pb_pct
+        else:
+            pct = None
+        result[code] = pct
+    return result
+
 
 def fetch_history(symbol: str, prefix: str) -> list:
     """分3段拉取2020-01-01至今的前复权日线数据"""
@@ -382,6 +443,9 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
 
 def main():
     print("📊 资产排名看板 - 数据生成中...")
+    print("  拉取指数估值分位(蛋卷)...", end=" ")
+    valuation = fetch_valuation()
+    print(f"{len(valuation)}个指数")
     results = []
 
     for asset in ASSETS:
@@ -393,6 +457,11 @@ def main():
         print(f"{len(bars)}个交易日")
         metrics = compute_metrics(bars, asset["code"], asset["name"])
         metrics["trade_type"] = asset.get("trade_type", "")
+        idx_code = VALUATION_INDEX_MAP.get(asset["code"])
+        if idx_code and idx_code in valuation and valuation[idx_code] is not None:
+            metrics["valuation_percentile"] = round(valuation[idx_code] * 100, 1)
+        else:
+            metrics["valuation_percentile"] = None
         if "error" in metrics:
             print(f"⚠️ {metrics['error']}")
             continue

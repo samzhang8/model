@@ -144,6 +144,7 @@
         <th data-sort="max_drawdown" onclick="sortBy('max_drawdown')">最大回撤</th>
         <th data-sort="median_annual_dd" onclick="sortBy('median_annual_dd')">历年回撤中位</th>
         <th data-sort="current_drawdown" onclick="sortBy('current_drawdown')">当前回撤</th>
+        <th data-sort="valuation_percentile" onclick="sortBy('valuation_percentile')">估值分位</th>
         <th data-sort="sharpe" onclick="sortBy('sharpe')">夏普比率</th>
         <th data-sort="calmar" onclick="sortBy('calmar')">卡玛比率</th>
         <th data-sort="annual_vol" onclick="sortBy('annual_vol')">年化波动</th>
@@ -155,13 +156,13 @@
       </tr>
     </thead>
     <tbody id="tbody">
-      <tr><td colspan="18"><div class="loading">加载历史数据中</div></td></tr>
+      <tr><td colspan="19"><div class="loading">加载历史数据中</div></td></tr>
     </tbody>
   </table>
 </div>
 
 <div class="footer">
-  📡 腾讯行情 · Binance · 前复权 · 无风险利率2% · 点击资产查看净值曲线 · 
+  📡 腾讯行情 · Binance · 前复权 · 无风险利率2% · 点击资产查看净值曲线 · 估值分位=PE(TTM)历史百分位(越高越贵,仅股票类指数) · 
   <a href="https://github.com/samzhang8/model" target="_blank">GitHub</a>
 </div>
 
@@ -206,7 +207,7 @@ async function loadData() {
     startRealtimeQuotes();
   } catch(e) {
     document.getElementById('tbody').innerHTML =
-      '<tr><td colspan="18"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
+      '<tr><td colspan="19"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
   }
 }
 
@@ -362,6 +363,8 @@ function renderTable() {
       if (typeof va === 'string') va = parseFloat(va);
       if (typeof vb === 'string') vb = parseFloat(vb);
     }
+    if (va == null) va = -Infinity;  // 无估值(null)排到末尾
+    if (vb == null) vb = -Infinity;
     return sortDesc ? vb - va : va - vb;
   });
   document.getElementById('tbody').innerHTML = sorted.map((a, i) => {
@@ -379,6 +382,7 @@ function renderTable() {
     const ddCls = a.max_drawdown > 20 ? 'down' : a.max_drawdown > 10 ? '' : 'up';
     const medDdCls = a.median_annual_dd > 20 ? 'down' : a.median_annual_dd > 10 ? '' : 'up';
     const curDdCls = a.current_drawdown > 20 ? 'down' : a.current_drawdown > 10 ? '' : 'up';
+    const valCls = a.valuation_percentile == null ? 'neutral' : a.valuation_percentile > 70 ? 'down' : a.valuation_percentile > 30 ? '' : 'up';
     const sharpeCls = a.sharpe >= 1 ? 'up' : a.sharpe >= 0 ? '' : 'down';
     const calmarCls = a.calmar >= 1 ? 'up' : a.calmar >= 0 ? '' : 'down';
     return '<tr class="' + flash + '" onclick="showChart(\'' + a.code + '\')">' +
@@ -392,6 +396,7 @@ function renderTable() {
       '<td class="' + ddCls + '">-' + a.max_drawdown.toFixed(1) + '%</td>' +
       '<td class="' + medDdCls + '">-' + a.median_annual_dd.toFixed(1) + '%</td>' +
       '<td class="' + curDdCls + '">-' + a.current_drawdown.toFixed(1) + '%</td>' +
+      '<td class="' + valCls + '">' + (a.valuation_percentile == null ? '—' : a.valuation_percentile.toFixed(1) + '%') + '</td>' +
       '<td class="' + sharpeCls + '">' + a.sharpe.toFixed(2) + '</td>' +
       '<td class="' + calmarCls + '">' + a.calmar.toFixed(2) + '</td>' +
       '<td>' + a.annual_vol.toFixed(1) + '%</td>' +

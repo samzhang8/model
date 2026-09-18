@@ -299,6 +299,33 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
     # ---- 4. 卡玛比率 ----
     calmar = annual_return / max_drawdown if max_drawdown > 0 else 0
 
+    # ---- 6. 历年最大回撤中位数 ----
+    # 回撤相对"运行历史最高点"(跨年延续)，取每年内出现的最大回撤值，再取各年中位数
+    # 与"当前回撤"口径一致，均相对历史最高点，可直接对照
+    from collections import defaultdict
+    year_dd = defaultdict(float)
+    running_peak = closes[0]
+    for d, p in zip(dates, closes):
+        if p > running_peak:
+            running_peak = p
+        dd = (running_peak - p) / running_peak
+        year = d[:4]
+        if dd > year_dd[year]:
+            year_dd[year] = dd
+
+    annual_dds = sorted(year_dd[year] for year in sorted(year_dd))
+    m = len(annual_dds)
+    if m == 0:
+        median_annual_dd = 0.0
+    elif m % 2 == 1:
+        median_annual_dd = annual_dds[m // 2]
+    else:
+        median_annual_dd = (annual_dds[m // 2 - 1] + annual_dds[m // 2]) / 2
+
+    # ---- 7. 当前回撤（现价相对历史最高点） ----
+    all_time_high = peak  # 循环结束后 peak 即历史最高价
+    current_drawdown = (all_time_high - closes[-1]) / all_time_high if all_time_high > 0 else 0.0
+
     # ---- 5. 创新高最长天数 + 起止日期 ----
     running_peak = closes[0]
     high_indices = [0]
@@ -338,6 +365,8 @@ def compute_metrics(bars: list, code: str, name: str) -> dict:
         "max_drawdown": round(max_drawdown * 100, 2),
         "max_dd_peak_date": max_dd_peak_date,
         "max_dd_trough_date": max_dd_trough_date,
+        "median_annual_dd": round(median_annual_dd * 100, 2),
+        "current_drawdown": round(current_drawdown * 100, 2),
         "sharpe": round(sharpe, 3),
         "calmar": round(calmar, 3),
         "annual_vol": round(annual_vol * 100, 2),
@@ -371,7 +400,7 @@ def main():
         gap_info = ""
         if metrics.get("max_high_gap_start"):
             gap_info = f"  无新高: {metrics['max_high_gap_start']} ~ {metrics['max_high_gap_end']} ({metrics['max_high_gap_days']}天)"
-        print(f"    年化: {metrics['annual_return']}%  回撤: {metrics['max_drawdown']}%  夏普: {metrics['sharpe']}  卡玛: {metrics['calmar']}{gap_info}  1万→{metrics['total_value_10k']:.0f}元")
+        print(f"    年化: {metrics['annual_return']}%  回撤: {metrics['max_drawdown']}%  历年回撤中位: {metrics['median_annual_dd']}%  当前回撤: {metrics['current_drawdown']}%  夏普: {metrics['sharpe']}  卡玛: {metrics['calmar']}{gap_info}  1万→{metrics['total_value_10k']:.0f}元")
 
     output = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),

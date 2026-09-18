@@ -142,6 +142,8 @@
         <th data-sort="total_return" onclick="sortBy('total_return')">累计收益</th>
         <th data-sort="annual_return" onclick="sortBy('annual_return')" class="sort-active">年化收益 ▾</th>
         <th data-sort="max_drawdown" onclick="sortBy('max_drawdown')">最大回撤</th>
+        <th data-sort="median_annual_dd" onclick="sortBy('median_annual_dd')">历年回撤中位</th>
+        <th data-sort="current_drawdown" onclick="sortBy('current_drawdown')">当前回撤</th>
         <th data-sort="sharpe" onclick="sortBy('sharpe')">夏普比率</th>
         <th data-sort="calmar" onclick="sortBy('calmar')">卡玛比率</th>
         <th data-sort="annual_vol" onclick="sortBy('annual_vol')">年化波动</th>
@@ -153,7 +155,7 @@
       </tr>
     </thead>
     <tbody id="tbody">
-      <tr><td colspan="16"><div class="loading">加载历史数据中</div></td></tr>
+      <tr><td colspan="18"><div class="loading">加载历史数据中</div></td></tr>
     </tbody>
   </table>
 </div>
@@ -204,7 +206,7 @@ async function loadData() {
     startRealtimeQuotes();
   } catch(e) {
     document.getElementById('tbody').innerHTML =
-      '<tr><td colspan="16"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
+      '<tr><td colspan="18"><div class="loading" style="color:var(--red)">数据加载失败: ' + e.message + '</div></td></tr>';
   }
 }
 
@@ -317,6 +319,8 @@ function recomputeMetrics(asset, livePrice) {
   asset.total_return = Math.round(totalReturn*10000)/100;
   asset.annual_return = Math.round(annualReturn*10000)/100;
   asset.max_drawdown = Math.round(maxDD*10000)/100;
+  const ath = Math.max(...closes);
+  asset.current_drawdown = Math.round((ath - closes[closes.length - 1]) / ath * 10000) / 100;
   asset.sharpe = Math.round(sharpe*1000)/1000;
   asset.calmar = Math.round(calmar*1000)/1000;
   asset.annual_vol = Math.round(annualVol*10000)/100;
@@ -373,6 +377,8 @@ function renderTable() {
     prevPrices[a.code] = price;
     const retCls = a.annual_return >= 0 ? 'up' : 'down';
     const ddCls = a.max_drawdown > 20 ? 'down' : a.max_drawdown > 10 ? '' : 'up';
+    const medDdCls = a.median_annual_dd > 20 ? 'down' : a.median_annual_dd > 10 ? '' : 'up';
+    const curDdCls = a.current_drawdown > 20 ? 'down' : a.current_drawdown > 10 ? '' : 'up';
     const sharpeCls = a.sharpe >= 1 ? 'up' : a.sharpe >= 0 ? '' : 'down';
     const calmarCls = a.calmar >= 1 ? 'up' : a.calmar >= 0 ? '' : 'down';
     return '<tr class="' + flash + '" onclick="showChart(\'' + a.code + '\')">' +
@@ -384,6 +390,8 @@ function renderTable() {
       '<td class="' + retCls + '">' + a.total_return.toFixed(1) + '%</td>' +
       '<td class="' + retCls + '" style="font-weight:600">' + a.annual_return.toFixed(1) + '%</td>' +
       '<td class="' + ddCls + '">-' + a.max_drawdown.toFixed(1) + '%</td>' +
+      '<td class="' + medDdCls + '">-' + a.median_annual_dd.toFixed(1) + '%</td>' +
+      '<td class="' + curDdCls + '">-' + a.current_drawdown.toFixed(1) + '%</td>' +
       '<td class="' + sharpeCls + '">' + a.sharpe.toFixed(2) + '</td>' +
       '<td class="' + calmarCls + '">' + a.calmar.toFixed(2) + '</td>' +
       '<td>' + a.annual_vol.toFixed(1) + '%</td>' +

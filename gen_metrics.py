@@ -15,7 +15,8 @@ import urllib.request
 import json
 import math
 import sys
-from datetime import datetime
+import gzip
+from datetime import datetime, timedelta
 
 ASSETS = [
     {"code": "510300", "prefix": "sh", "name": "沪深300ETF", "trade_type": "T+1"},
@@ -213,6 +214,119 @@ VALUATION_INDEX_MAP = {
     "159561": "GDAXI",      # 德国ETF(德国DAX)
 }
 
+# ETF代码 -> (理杏仁地区, 理杏仁指数代码)：补充蛋卷未收录的细分行业/港股/细分宽基
+# 2026-09-20 接入理杏仁，估值分位从 24 扩到 ~127 个股票类 ETF
+LIXINGER_INDEX_MAP = {
+    # 宽基(补蛋卷未覆盖)
+    "159949": ("cn", "399673"),   # 创业板50
+    "588020": ("cn", "000690"),   # 科创成长
+    "159780": ("cn", "931643"),   # 科创创业50
+    "159967": ("cn", "399296"),   # 创业板成长(创成长)
+    "159552": ("cn", "932000"),   # 中证2000
+    # 红利/风格
+    "159207": ("cn", "930838"),   # 高股息(CS高股息)
+    # 港股/港股通/中概
+    "513120": ("cn", "931787"),   # 港股创新药
+    "513090": ("cn", "930709"),   # 香港证券
+    "159570": ("cn", "987018"),   # 港股通创新药
+    "517520": ("cn", "931238"),   # 黄金股(SSH黄金股票)
+    "513330": ("hk", "HSIII"),    # 恒生互联网
+    "520500": ("hk", "HSIDI"),    # 恒生创新药
+    "159792": ("cn", "931637"),   # 港股通互联网
+    "159892": ("hk", "HSHCI"),    # 恒生医药(医疗保健)
+    "159131": ("cn", "930967"),   # 港股通信息技术
+    "159506": ("cn", "931250"),   # 港股通创新药医疗
+    "513060": ("hk", "HSHCI"),    # 恒生医疗
+    "159366": ("cn", "932069"),   # 港股医疗(港股通医疗主题)
+    "513190": ("cn", "H11146"),   # 港股通金融(内地金融)
+    "513750": ("cn", "931024"),   # 港股通非银
+    "513200": ("cn", "932069"),   # 港股通医药
+    "159262": ("cn", "987008"),   # 港股通科技
+    "159605": ("cn", "H11136"),   # 中概互联(中国互联网)
+    "513980": ("cn", "931574"),   # 港股科技
+    "159636": ("cn", "987008"),   # 港股通科技30
+    "520600": ("cn", "931239"),   # 港股通汽车
+    "513360": ("cn", "931456"),   # 教育(中国教育)
+    "513070": ("cn", "931454"),   # 港股通消费
+    "159750": ("cn", "931574"),   # 港股科技50
+    "513970": ("hk", "HSCGSI"),   # 恒生消费
+    "513550": ("cn", "930931"),   # 港股通50
+    "159976": ("cn", "931000"),   # 湾创(大湾区)
+    "513900": ("cn", "930957"),   # 港股通100(港股通中国100)
+    # A股行业/主题
+    "515880": ("cn", "931160"),   # 通信(通信设备)
+    "159516": ("cn", "931743"),   # 半导体设备(材料设备)
+    "512480": ("cn", "H30184"),   # 半导体
+    "512400": ("cn", "000819"),   # 有色金属
+    "159995": ("cn", "H30007"),   # 芯片(芯片产业)
+    "159992": ("cn", "931152"),   # 创新药(CS创新药)
+    "159326": ("cn", "931994"),   # 电网设备
+    "159530": ("cn", "H30590"),   # 机器人
+    "159732": ("cn", "980030"),   # 消费电子
+    "159611": ("cn", "H30199"),   # 电力
+    "159819": ("cn", "931071"),   # 人工智能
+    "159206": ("cn", "931594"),   # 卫星(卫星产业)
+    "560860": ("cn", "H11059"),   # 工业有色
+    "159852": ("cn", "930601"),   # 软件(中证软件)
+    "159865": ("cn", "930707"),   # 养殖(中证畜牧)
+    "159869": ("cn", "930901"),   # 游戏(动漫游戏)
+    "516150": ("cn", "930598"),   # 稀土
+    "512710": ("cn", "931066"),   # 军工龙头
+    "159566": ("cn", "932246"),   # 储能电池
+    "159755": ("cn", "931719"),   # 电池(CS电池)
+    "159870": ("cn", "000813"),   # 化工(细分化工)
+    "159859": ("cn", "399441"),   # 生物医药
+    "159698": ("cn", "399365"),   # 粮食(国证粮食)
+    "159851": ("cn", "930986"),   # 金融科技
+    "562800": ("cn", "930632"),   # 稀有金属(CS稀金属)
+    "159766": ("cn", "930633"),   # 旅游
+    "159825": ("cn", "000949"),   # 农业(中证农业)
+    "159227": ("cn", "930875"),   # 航空航天(空天军工)
+    "159997": ("cn", "930652"),   # 电子(CS电子)
+    "560280": ("cn", "931752"),   # 工程机械
+    "562550": ("cn", "399438"),   # 绿电(绿色电力)
+    "159930": ("cn", "000928"),   # 能源(中证能源)
+    "515030": ("cn", "930997"),   # 新能源车
+    "159697": ("cn", "H11057"),   # 石油(石化产业)
+    "159667": ("cn", "931866"),   # 工业母机(中证机床)
+    "516510": ("cn", "930851"),   # 云计算
+    "159309": ("cn", "931248"),   # 油气(油气资源)
+    "515790": ("cn", "931151"),   # 光伏
+    "516160": ("cn", "000941"),   # 新能源
+    "159883": ("cn", "H30217"),   # 医疗器械
+    "512200": ("cn", "931775"),   # 房地产
+    "510230": ("cn", "000018"),   # 金融(180金融)
+    "517900": ("cn", "931039"),   # 银行AH
+    "159546": ("cn", "932087"),   # 集成电路
+    "512670": ("cn", "399973"),   # 国防
+    "515400": ("cn", "930902"),   # 大数据(中证数据)
+    "560710": ("cn", "932420"),   # 船舶(智选船舶产业)
+    "159625": ("cn", "399438"),   # 绿色电力
+    "159998": ("cn", "H30182"),   # 计算机
+    "561330": ("cn", "931892"),   # 矿业(有色矿业)
+    "515210": ("cn", "930606"),   # 钢铁(中证钢铁)
+    "516620": ("cn", "930781"),   # 影视(中证影视)
+    "159731": ("cn", "H11057"),   # 石化(石化产业)
+    "560080": ("cn", "930641"),   # 中药
+    "516910": ("cn", "930716"),   # 物流(CS物流)
+    "159996": ("cn", "930697"),   # 家电(家用电器)
+    "563010": ("cn", "931235"),   # 电信(中证电信)
+    "159939": ("cn", "000993"),   # 信息技术(全指信息)
+    "159745": ("cn", "931009"),   # 建材(建筑材料)
+    "515170": ("cn", "000807"),   # 食品饮料
+    "159616": ("cn", "930910"),   # 农牧(农牧渔)
+    "562700": ("cn", "931230"),   # 汽车零部件
+    "515650": ("cn", "000126"),   # 消费50
+    "516820": ("cn", "931484"),   # 医疗创新(CS医药创新)
+    "159666": ("cn", "H30171"),   # 交通运输(运输指数)
+    "159837": ("cn", "930743"),   # 生物科技(中证生科)
+    "159230": ("cn", "931855"),   # 通用航空
+    "159811": ("cn", "931079"),   # 5G(5G通信)
+    "516520": ("cn", "931783"),   # 智能驾驶
+    "512220": ("cn", "399610"),   # TMT(TMT50)
+    "516970": ("cn", "930608"),   # 基建(中证基建)
+}
+
 
 def fetch_valuation() -> dict:
     """从蛋卷(雪球)API拉取指数估值分位，返回 {指数代码: percentile(0~1)}
@@ -239,6 +353,73 @@ def fetch_valuation() -> dict:
         else:
             pct = None
         result[code] = pct
+    return result
+
+
+def fetch_lixinger_valuation() -> dict:
+    """从理杏仁API拉取指数估值分位，返回 {理杏仁指数代码: percentile(0~1)}
+    优先PE(TTM)10年分位(pe_ttm.y10.mcw.cvpos)，PE无效(≤0/缺失)时退回PB分位"""
+    token_path = "/opt/quant/.lixinger_token"
+    try:
+        with open(token_path) as f:
+            token = f.read().strip()
+    except Exception:
+        print("  理杏仁token读取失败(跳过)", file=sys.stderr)
+        return {}
+    if not token:
+        return {}
+
+    # 按地区分组去重
+    by_area = {}
+    for _etf, (area, idx) in LIXINGER_INDEX_MAP.items():
+        by_area.setdefault(area, [])
+        if idx not in by_area[area]:
+            by_area[area].append(idx)
+
+    metrics = ["pe_ttm.y10.mcw.cvpos", "pe_ttm.mcw", "pb.y10.mcw.cvpos", "pb.mcw"]
+    result = {}
+
+    def _post(url, body):
+        req = urllib.request.Request(url, data=json.dumps(body).encode("utf-8"),
+                                     headers={"Content-Type": "application/json",
+                                              "Accept-Encoding": "gzip"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            raw = resp.read()
+        if raw[:2] == b"\x1f\x8b":
+            raw = gzip.decompress(raw)
+        return json.loads(raw)
+
+    today = datetime.now()
+    for area, codes in by_area.items():
+        for i in range(0, len(codes), 100):
+            batch = codes[i:i + 100]
+            got = False
+            for back in range(10):
+                d = (today - timedelta(days=back)).strftime("%Y-%m-%d")
+                body = {"token": token, "date": d,
+                        "stockCodes": batch, "metricsList": metrics}
+                try:
+                    resp = _post(f"https://open.lixinger.com/api/{area}/index/fundamental", body)
+                except Exception:
+                    continue
+                if resp.get("code") == 1 and resp.get("data"):
+                    for item in resp["data"]:
+                        code = item.get("stockCode")
+                        pe = item.get("pe_ttm.mcw")
+                        pe_pct = item.get("pe_ttm.y10.mcw.cvpos")
+                        pb = item.get("pb.mcw")
+                        pb_pct = item.get("pb.y10.mcw.cvpos")
+                        if pe and pe > 0 and pe_pct is not None:
+                            pct = pe_pct
+                        elif pb and pb > 0 and pb_pct is not None:
+                            pct = pb_pct
+                        else:
+                            pct = None
+                        result[code] = pct
+                    got = True
+                    break
+            if not got:
+                print(f"  理杏仁 {area} 部分指数无数据: {batch[:3]}...", file=sys.stderr)
     return result
 
 
@@ -446,6 +627,9 @@ def main():
     print("  拉取指数估值分位(蛋卷)...", end=" ")
     valuation = fetch_valuation()
     print(f"{len(valuation)}个指数")
+    print("  拉取指数估值分位(理杏仁)...", end=" ")
+    lix_valuation = fetch_lixinger_valuation()
+    print(f"{len(lix_valuation)}个指数")
     results = []
 
     for asset in ASSETS:
@@ -461,7 +645,11 @@ def main():
         if idx_code and idx_code in valuation and valuation[idx_code] is not None:
             metrics["valuation_percentile"] = round(valuation[idx_code] * 100, 1)
         else:
-            metrics["valuation_percentile"] = None
+            lix = LIXINGER_INDEX_MAP.get(asset["code"])
+            if lix and lix[1] in lix_valuation and lix_valuation[lix[1]] is not None:
+                metrics["valuation_percentile"] = round(lix_valuation[lix[1]] * 100, 1)
+            else:
+                metrics["valuation_percentile"] = None
         if "error" in metrics:
             print(f"⚠️ {metrics['error']}")
             continue

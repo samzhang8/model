@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>标准因子库 · 严格验证面板</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0d1117;color:#c9d1d9;padding:24px;max-width:1200px;margin:0 auto}
+h1{color:#58a6ff;margin-bottom:4px;font-size:22px}
+.sub{color:#8b949e;font-size:13px;margin-bottom:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-bottom:20px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;text-align:center}
+.card .v{font-size:26px;font-weight:700}
+.card .k{font-size:11px;color:#8b949e;margin-top:4px}
+table{width:100%;border-collapse:collapse;background:#161b22;border:1px solid #30363d;border-radius:8px;overflow:hidden}
+th,td{padding:9px 12px;text-align:right;border-bottom:1px solid #21262d;font-size:13px;white-space:nowrap}
+th{color:#8b949e;font-weight:500;font-size:11px;text-transform:uppercase;position:sticky;top:0;background:#161b22;z-index:1}
+td:first-child,th:first-child{text-align:left;font-family:monospace}
+tr{cursor:pointer}
+tr:hover{background:#1c2333}
+tr.active-row{background:#1a2733}
+.pos{color:#3fb950}
+.neg{color:#f85149}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.badge-green{background:#122d1e;color:#3fb950}
+.badge-red{background:#2d1215;color:#f85149}
+#detail{margin-top:20px;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;display:none}
+#detail h2{color:#58a6ff;font-size:18px;margin-bottom:4px}
+#detail .meta{color:#8b949e;font-size:12px;margin-bottom:16px}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:16px}
+.check{padding:8px 12px;border-radius:6px;font-size:12px}
+.check.ok{background:#122d1e;color:#3fb950}
+.check.no{background:#2d1215;color:#f85149}
+.back{color:#58a6ff;font-size:12px;cursor:pointer;text-decoration:underline;margin-bottom:12px;display:inline-block}
+</style>
+</head>
+<body>
+<h1>🧬 标准因子库 · 严格验证</h1>
+<p class="sub" id="sub">加载中...</p>
+<div class="cards" id="cards"></div>
+<table id="tbl">
+<thead><tr>
+<th>因子</th><th>IC均值</th><th>ICIR</th><th>IC正率</th><th>样本外IC</th><th>覆盖率</th><th>分位spread</th><th>状态</th>
+</tr></thead>
+<tbody></tbody>
+</table>
+<div id="detail">
+<span class="back" onclick="document.getElementById('detail').style.display='none'">← 返回列表</span>
+<h2 id="d-name"></h2>
+<p class="meta" id="d-meta"></p>
+<canvas id="icChart" height="90"></canvas>
+<div class="checks" id="d-checks"></div>
+</div>
+<script>
+let DATA = null, chart = null;
+async function load() {
+  const r = await fetch('factor_lab.json?v=' + Date.now());
+  DATA = await r.json();
+  const fs = DATA.factors;
+  document.getElementById('sub').textContent =
+    `数据源: ${DATA.data_source} · 生成: ${DATA.generated_at.slice(0,16).replace('T',' ')} · ${DATA.total_factors} 个因子`;
+  const active = fs.filter(f => f.passed).length;
+  document.getElementById('cards').innerHTML = [
+    ['因子总数', fs.length, '#58a6ff'],
+    ['已入库', active, '#3fb950'],
+    ['已拒绝', fs.length - active, '#f85149'],
+    ['最强|ICIR|', fs[0] ? fs[0].icir : '-', '#d2991d'],
+  ].map(([k,v,c]) => `<div class="card"><div class="v" style="color:${c}">${v}</div><div class="k">${k}</div></div>`).join('');
+  document.querySelector('#tbl tbody').innerHTML = fs.map(f => `
+    <tr onclick="detail('${f.factor_id}')">
+      <td>${f.factor_id}</td>
+      <td class="${f.ic_mean >= 0 ? 'pos' : 'neg'}">${f.ic_mean ?? '-'}</td>
+      <td class="${f.icir >= 0 ? 'pos' : 'neg'}">${f.icir ?? '-'}</td>
+      <td>${f.ic_pos_ratio != null ? (f.ic_pos_ratio*100).toFixed(1)+'%' : '-'}</td>
+      <td class="${f.oos_ic_mean >= 0 ? 'pos' : 'neg'}">${f.oos_ic_mean ?? '-'}</td>
+      <td>${f.coverage != null ? (f.coverage*100).toFixed(1)+'%' : '-'}</td>
+      <td>${f.monotonic_spread ?? '-'}</td>
+      <td><span class="badge ${f.passed ? 'badge-green' : 'badge-red'}">${f.passed ? '✓ 入库' : '✗ 拒绝'}</span></td>
+    </tr>`).join('');
+  // 默认展开第一个
+  if (fs.length) detail(fs[0].factor_id);
+}
+function detail(id) {
+  const f = DATA.factors.find(x => x.factor_id === id);
+  if (!f) return;
+  document.getElementById('detail').style.display = 'block';
+  document.getElementById('d-name').textContent = f.factor_id;
+  document.getElementById('d-meta').textContent =
+    `全样本 IC ${f.ic_mean} · ICIR ${f.icir} · 样本外 IC ${f.oos_ic_mean} · 覆盖率 ${(f.coverage*100).toFixed(1)}% · ${f.n_stocks}股 × ${f.n_days}日 (${f.start}~${f.end})`;
+  // IC 曲线
+  const labels = Object.keys(f.ic_series || {}), vals = Object.values(f.ic_series || {});
+  if (chart) chart.destroy();
+  if (labels.length) {
+    chart = new Chart(document.getElementById('icChart'), {
+      type: 'line',
+      data: { labels, datasets: [{ label: '日频 Rank IC', data: vals, borderColor: '#58a6ff', borderWidth: 1.5, pointRadius: 0, tension: 0.2 }] },
+      options: { plugins: { legend: { labels: { color: '#8b949e' } } }, scales: {
+        x: { ticks: { color: '#8b949e', maxTicksLimit: 12 } }, y: { ticks: { color: '#8b949e' } } } }
+    });
+  }
+  // 检查项
+  const ch = f.checks || {};
+  const names = { sign_match:'符号匹配', abs_ic:'|IC|>0.02', icir:'ICIR>0.3', oos_sign_match:'样本外符号', oos_abs_ic:'样本外|IC|', coverage:'覆盖率>80%', monotonic:'分位单调' };
+  document.getElementById('d-checks').innerHTML = Object.entries(ch).filter(([k]) => k !== 'passed').map(([k,v]) =>
+    `<div class="check ${v ? 'ok' : 'no'}">${names[k] || k}: ${v ? '✓' : '✗'}</div>`).join('');
+}
+load();
+</script>
+</body>
+</html>

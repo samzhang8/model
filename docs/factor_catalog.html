@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RQData 因子目录 · 10443因子查询</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--accent:#58a6ff;--green:#3fb950;--orange:#d29922;--red:#f85149;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;padding:24px;line-height:1.5;}
+h1{font-size:22px;margin-bottom:4px;}
+.sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+.cards{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 18px;min-width:120px;}
+.card .num{font-size:24px;font-weight:600;}
+.card .lbl{font-size:12px;color:var(--muted);margin-top:2px;}
+.card .num.blue{color:var(--accent);}.card .num.green{color:var(--green);}.card .num.orange{color:var(--orange);}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+.toolbar input[type=text]{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;width:260px;font-size:14px;}
+.toolbar select{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:6px;font-size:14px;}
+.toolbar button{background:var(--accent);border:none;color:#fff;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:14px;}
+.count{color:var(--muted);font-size:13px;margin-left:auto;}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;}
+th{background:#1c2128;color:var(--muted);font-weight:500;cursor:pointer;user-select:none;white-space:nowrap;}
+th:hover{color:var(--text);}
+td.num{font-variant-numeric:tabular-nums;}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;}
+.tag.fin{background:#1f3a2d;color:var(--green);}
+.tag.val{background:#3a2d1f;color:var(--orange);}
+.tag.tech{background:#1f2a3a;color:var(--accent);}
+.tag.alpha{background:#3a1f2f;color:#e879a0;}
+.tag.na{background:#21262d;color:var(--muted);}
+.pager{display:flex;gap:8px;align-items:center;margin-top:14px;color:var(--muted);font-size:13px;}
+.pager button{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;cursor:pointer;}
+.pager button:disabled{opacity:.4;cursor:default;}
+.notes{margin-top:24px;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:16px;}
+.notes h2{font-size:16px;margin-bottom:10px;}
+.notes ul{padding-left:20px;color:var(--text);font-size:13px;}
+.notes li{margin-bottom:6px;}
+.notes .warn{color:var(--orange);}
+</style>
+</head>
+<body>
+<h1>RQData 因子目录</h1>
+<div class="sub">数据源：ClickHouse rqdata.stock_factor_catalog（10443 目录）+ stock_factor_daily_long（300 有值因子）· 生成于 2026-10-02</div>
+
+<div class="cards" id="cards"></div>
+
+<div class="toolbar">
+  <input type="text" id="q" placeholder="搜索因子名，如 pe / macd / alpha" oninput="render()">
+  <select id="cat" onchange="render()">
+    <option value="">全部分类</option>
+    <option value="财务原始">财务原始</option>
+    <option value="估值/财务衍生">估值/财务衍生</option>
+    <option value="技术指标">技术指标</option>
+    <option value="alpha101">alpha101</option>
+  </select>
+  <select id="val" onchange="render()">
+    <option value="">全部（有值+未采样）</option>
+    <option value="1">仅看有值（300个）</option>
+    <option value="0">仅看未采样</option>
+  </select>
+  <span class="count" id="count"></span>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th onclick="sortBy('factor_name')">因子名 ▾</th>
+      <th onclick="sortBy('category')">分类</th>
+      <th onclick="sortBy('factor_type')">类型</th>
+      <th onclick="sortBy('stocks')">覆盖股票数</th>
+      <th onclick="sortBy('start_date')">起始日期</th>
+      <th onclick="sortBy('end_date')">截止日期</th>
+      <th onclick="sortBy('missing_rate')">缺失率</th>
+      <th>状态</th>
+    </tr>
+  </thead>
+  <tbody id="tb"></tbody>
+</table>
+
+<div class="pager">
+  <button onclick="prevPage()">‹ 上一页</button>
+  <span id="pinfo"></span>
+  <button onclick="nextPage()">下一页 ›</button>
+</div>
+
+<div class="notes">
+  <h2>📖 RQData 因子说明（据官方文档 + 数据实测）</h2>
+  <ul>
+    <li><b>10443 = 因子目录（全量定义），300 = 实际计算了值的因子（CORE300 核心因子）</b>。其余 10143 个有定义但未采样计算。</li>
+    <li><b>分类口径</b>：财务原始 9858（三大报表字段×lf/ttm/mrq等口径变体）、估值/财务衍生 323、技术指标 161、alpha101 101。</li>
+    <li><b>计算公式公开性</b>：alpha101（101个）✅ 完全公开（WorldQuant《101 Formulaic Alphas》论文）；财务原始字段 ✅ 会计准则公开定义；衍生指标（PE/PB/ROE等）⚠️ 标准公式公开但 RQData 口径（TTM/MRQ/LYR、极端值处理）不公开；技术指标 ⚠️ 标准公式公开（MACD/RSI/ADX）但具体参数不公开。</li>
+    <li class="warn"><b>公告日对齐（PIT）</b>：因子数据的 as_of_date 字段 = 财报期（报告期），<b>不是公告日</b>。严格按公告日对齐（无未来函数）需用 RQData 独立的 PIT 财务数据（stock_financial_pit_long，3290万行，含 info_pub_date 披露日）。做估值类策略务必用 PIT 数据，勿直接用因子数据。</li>
+    <li><b>覆盖与缺失率</b>：300 个有值因子覆盖 5449 只股票、2020-01-02 ~ 2026-09-30（1636 交易日），缺失率 12.44%（缺口为退市股/停牌/新上市正常缺口）。</li>
+  </ul>
+</div>
+
+<script>
+let DATA = {factors:[]};
+let filtered = [];
+let page = 0;
+const PAGE_SIZE = 200;
+let sortKey = 'factor_name', sortDir = 1;
+
+fetch('factor_catalog.json').then(r=>r.json()).then(d=>{
+  DATA = d;
+  const cards = document.getElementById('cards');
+  const has = d.has_value_count, total = d.total;
+  const c = d.categories;
+  cards.innerHTML = `
+    <div class="card"><div class="num blue">${total.toLocaleString()}</div><div class="lbl">因子目录总数</div></div>
+    <div class="card"><div class="num green">${has.toLocaleString()}</div><div class="lbl">有值因子（CORE300）</div></div>
+    <div class="card"><div class="num">${(c['财务原始']||0).toLocaleString()}</div><div class="lbl">财务原始</div></div>
+    <div class="card"><div class="num orange">${(c['估值/财务衍生']||0).toLocaleString()}</div><div class="lbl">估值/财务衍生</div></div>
+    <div class="card"><div class="num">${(c['技术指标']||0).toLocaleString()}</div><div class="lbl">技术指标</div></div>
+    <div class="card"><div class="num">${(c['alpha101']||0).toLocaleString()}</div><div class="lbl">alpha101</div></div>`;
+  render();
+}).catch(e=>{document.getElementById('tb').innerHTML='<tr><td colspan="8">加载失败: '+e+'</td></tr>';});
+
+function render(){
+  const q = document.getElementById('q').value.toLowerCase().trim();
+  const cat = document.getElementById('cat').value;
+  const val = document.getElementById('val').value;
+  filtered = DATA.factors.filter(f=>{
+    if(q && !f.factor_name.toLowerCase().includes(q)) return false;
+    if(cat && f.category !== cat) return false;
+    if(val==='1' && !f.has_value) return false;
+    if(val==='0' && f.has_value) return false;
+    return true;
+  });
+  filtered.sort((a,b)=>{
+    let va = a[sortKey], vb = b[sortKey];
+    if(va==null) return 1; if(vb==null) return -1;
+    if(typeof va==='string' && typeof vb==='string') return va.localeCompare(vb)*sortDir;
+    return (va-vb)*sortDir;
+  });
+  page = 0;
+  draw();
+}
+
+function draw(){
+  const start = page*PAGE_SIZE, end = start+PAGE_SIZE;
+  const slice = filtered.slice(start, end);
+  const tb = document.getElementById('tb');
+  tb.innerHTML = slice.map(f=>{
+    const catCls = f.category==='财务原始'?'fin':f.category==='估值/财务衍生'?'val':f.category==='技术指标'?'tech':'alpha';
+    const tag = `<span class="tag ${catCls}">${f.category}</span>`;
+    const stocks = f.has_value ? f.stocks.toLocaleString() : '—';
+    const d0 = f.start_date || '—';
+    const d1 = f.end_date || '—';
+    const mr = f.has_value ? (f.missing_rate*100).toFixed(2)+'%' : '—';
+    const status = f.has_value ? '<span class="tag fin">有值</span>' : '<span class="tag na">未采样</span>';
+    return `<tr><td style="font-family:monospace">${f.factor_name}</td><td>${tag}</td><td>${f.factor_type||'—'}</td><td class="num">${stocks}</td><td class="num">${d0}</td><td class="num">${d1}</td><td class="num">${mr}</td><td>${status}</td></tr>`;
+  }).join('');
+  document.getElementById('count').textContent = `匹配 ${filtered.length.toLocaleString()} 个因子`;
+  document.getElementById('pinfo').textContent = `第 ${start+1}-${Math.min(end,filtered.length)} 条 / 共 ${filtered.length.toLocaleString()} 条`;
+  document.querySelectorAll('.pager button')[0].disabled = page===0;
+  document.querySelectorAll('.pager button')[1].disabled = end>=filtered.length;
+}
+
+function sortBy(k){
+  if(sortKey===k) sortDir = -sortDir; else {sortKey=k; sortDir=1;}
+  render();
+}
+function prevPage(){ if(page>0){page--;draw();} }
+function nextPage(){ if((page+1)*PAGE_SIZE<filtered.length){page++;draw();} }
+</script>
+</body>
+</html>

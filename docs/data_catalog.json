@@ -1,0 +1,1756 @@
+{
+  "generated_at": "2026-10-02 16:28:00",
+  "pipelines": [
+    {
+      "name": "rqdata-daily-incremental.service",
+      "type": "systemd",
+      "desc": "ClickHouse rqdata库增量ingest(每天20:00)",
+      "status": "failed"
+    },
+    {
+      "name": "daily_etl.py",
+      "type": "cron",
+      "desc": "RQData parquet备份ETL(每天18:30)",
+      "status": "not-found-in-cron",
+      "last_log": "2026-10-01 18:30:13,638 [INFO] 每日 ETL v2 完成，耗时 12s"
+    }
+  ],
+  "databases": [
+    {
+      "name": "rqdata",
+      "role": "主库（W3规范，RQData数据源）",
+      "tables": [
+        {
+          "name": "stock_factor_daily_long",
+          "desc": "因子日频长表（factor_name×factor_value，23亿行）",
+          "rows": 2337029400,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "5447",
+          "n_cols": 10,
+          "key_cols": [
+            "trade_date",
+            "order_book_id",
+            "factor_name",
+            "factor_type",
+            "factor_value",
+            "as_of_date",
+            "calculation_logic"
+          ]
+        },
+        {
+          "name": "etf_price_1m_raw",
+          "desc": "ETF分钟K线",
+          "rows": 328392000,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 14,
+          "key_cols": [
+            "order_book_id",
+            "datetime",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "total_turnover",
+            "num_trades",
+            "iopv",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "index_price_1m_raw",
+          "desc": "指数分钟K线",
+          "rows": 290161920,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 12,
+          "key_cols": [
+            "order_book_id",
+            "datetime",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "total_turnover",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "etf_component_daily",
+          "desc": "ETF成分日频",
+          "rows": 164136764,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "",
+          "n_cols": 15,
+          "key_cols": [
+            "etf_id",
+            "component_id",
+            "requested_date",
+            "source_observation_date",
+            "pcf_date",
+            "effective_date",
+            "component_quantity",
+            "cash_substitution_flag",
+            "cash_substitution_proportion",
+            "fixed_cash_substitution",
+            "redeem_cash_substitution",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "stock_financial_pit_long",
+          "desc": "PIT财务长表（financial_field×quarter×info_date）",
+          "rows": 32905890,
+          "date_range": "2020Q1 ~ 2026Q2",
+          "symbols": "5445",
+          "n_cols": 15,
+          "key_cols": [
+            "order_book_id",
+            "statement_type",
+            "financial_field",
+            "quarter",
+            "info_date",
+            "rice_create_tm",
+            "if_adjusted",
+            "statements_mode",
+            "financial_value",
+            "unit",
+            "currency",
+            "raw_source_extra_json"
+          ]
+        },
+        {
+          "name": "stock_daily_status_flags",
+          "desc": "股票日状态（涨跌停/停牌/ST标记）",
+          "rows": 15580196,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "5447",
+          "n_cols": 7,
+          "key_cols": [
+            "trade_date",
+            "order_book_id",
+            "flag_name",
+            "flag_value"
+          ]
+        },
+        {
+          "name": "index_component_daily",
+          "desc": "指数成分日频",
+          "rows": 11651409,
+          "date_range": "\\N ~ \\N",
+          "symbols": "",
+          "n_cols": 14,
+          "key_cols": [
+            "index_id",
+            "constituent_id",
+            "requested_date",
+            "source_observation_date",
+            "effective_date",
+            "source_create_time",
+            "source_api",
+            "support_status",
+            "known_at",
+            "availability_class",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "index_weight_daily",
+          "desc": "指数权重日频",
+          "rows": 11631776,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "",
+          "n_cols": 18,
+          "key_cols": [
+            "index_id",
+            "constituent_id",
+            "requested_date",
+            "source_observation_date",
+            "effective_date",
+            "weight",
+            "weight_unit",
+            "weight_method",
+            "supports_weights_ex",
+            "support_status",
+            "known_at",
+            "availability_class",
+            "normalization_applied",
+            "source_api",
+            "source_schema_hash"
+          ]
+        },
+        {
+          "name": "index_price_1d_raw",
+          "desc": "指数日K线",
+          "rows": 8480668,
+          "date_range": "2020-01-01 ~ 2026-09-24",
+          "symbols": "6709",
+          "n_cols": 13,
+          "key_cols": [
+            "order_book_id",
+            "trade_date",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "total_turnover",
+            "prev_close",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "stock_security_state_daily",
+          "desc": "证券状态日频",
+          "rows": 7790098,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "5447",
+          "n_cols": 30,
+          "key_cols": [
+            "trade_date",
+            "instrument_uid",
+            "order_book_id",
+            "is_lifecycle_active",
+            "is_listed",
+            "is_st",
+            "is_suspended",
+            "has_price",
+            "has_turnover",
+            "days_since_listing",
+            "exchange",
+            "board_type",
+            "industry_code",
+            "status_fact_covered",
+            "market_fact_covered"
+          ]
+        },
+        {
+          "name": "stock_shares",
+          "desc": "股本",
+          "rows": 7790098,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "5447",
+          "n_cols": 12,
+          "key_cols": [
+            "order_book_id",
+            "trade_date",
+            "total",
+            "circulation_a",
+            "management_circulation",
+            "non_circulation_a",
+            "total_a",
+            "free_circulation",
+            "preferred_shares"
+          ]
+        },
+        {
+          "name": "stock_turnover_rate",
+          "desc": "换手率",
+          "rows": 7790098,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "5447",
+          "n_cols": 10,
+          "key_cols": [
+            "order_book_id",
+            "trade_date",
+            "today",
+            "week",
+            "month",
+            "year",
+            "current_year"
+          ]
+        },
+        {
+          "name": "stock_price_1d_raw",
+          "desc": "股票日K线（原始价，含涨跌停价/前收）",
+          "rows": 7766732,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "5447",
+          "n_cols": 17,
+          "key_cols": [
+            "order_book_id",
+            "trade_date",
+            "open",
+            "close",
+            "high",
+            "low",
+            "volume",
+            "total_turnover",
+            "limit_up",
+            "limit_down",
+            "num_trades",
+            "prev_close",
+            "adjust_type",
+            "skip_suspended"
+          ]
+        },
+        {
+          "name": "etf_price_1d_raw",
+          "desc": "ETF日K线",
+          "rows": 1368308,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "1790",
+          "n_cols": 17,
+          "key_cols": [
+            "order_book_id",
+            "trade_date",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "total_turnover",
+            "limit_up",
+            "limit_down",
+            "prev_close",
+            "num_trades",
+            "iopv",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "etf_daily_units",
+          "desc": "ETF份额日频",
+          "rows": 1368268,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "",
+          "n_cols": 7,
+          "key_cols": [
+            "etf_id",
+            "trade_date",
+            "units",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "etf_cash_component_daily",
+          "desc": "ETF现金成分日频",
+          "rows": 1364966,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 13,
+          "key_cols": [
+            "etf_id",
+            "requested_date",
+            "source_observation_date",
+            "pre_date",
+            "cash_component",
+            "estimated_cash_component",
+            "maximum_cash_ratio",
+            "nav_per_basket",
+            "unit_subscribe_redeem",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "stock_main_shareholder",
+          "desc": "主要股东",
+          "rows": 673974,
+          "date_range": "2020-01-02 ~ 2026-09-18",
+          "symbols": "5397",
+          "n_cols": 19,
+          "key_cols": [
+            "order_book_id",
+            "report_date",
+            "row_seq",
+            "info_date",
+            "end_date",
+            "shareholder_rank",
+            "shareholder_name",
+            "shareholder_name_hash",
+            "shareholder_attr",
+            "shareholder_kind",
+            "shareholder_type",
+            "hold_percent_total",
+            "hold_percent_float",
+            "share_pledge",
+            "share_freeze"
+          ]
+        },
+        {
+          "name": "index_indicator_daily",
+          "desc": "指数指标日频",
+          "rows": 254282,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "",
+          "n_cols": 15,
+          "key_cols": [
+            "index_id",
+            "trade_date",
+            "pe_ttm",
+            "pe_lyr",
+            "pb_ttm",
+            "pb_lf",
+            "pb_lyr",
+            "dividend_yield_ttm",
+            "total_market_value",
+            "circulation_market_value",
+            "free_circulation_market_value",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "stock_holder_number",
+          "desc": "股东户数",
+          "rows": 217051,
+          "date_range": "2020-01-02 ~ 2026-09-22",
+          "symbols": "5442",
+          "n_cols": 14,
+          "key_cols": [
+            "order_book_id",
+            "report_date",
+            "info_date",
+            "end_date",
+            "share_holders",
+            "avg_share_holders",
+            "a_share_holders",
+            "avg_a_share_holders",
+            "avg_circulation_share_holders"
+          ]
+        },
+        {
+          "name": "stock_block_trade",
+          "desc": "大宗交易",
+          "rows": 189901,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "4839",
+          "n_cols": 12,
+          "key_cols": [
+            "order_book_id",
+            "trade_date",
+            "price",
+            "volume",
+            "total_turnover",
+            "buyer",
+            "seller"
+          ]
+        },
+        {
+          "name": "stock_industry_snapshot",
+          "desc": "行业快照",
+          "rows": 72954,
+          "date_range": "2020-06-30 ~ 2026-09-24",
+          "symbols": "5444",
+          "n_cols": 14,
+          "key_cols": [
+            "query_date",
+            "order_book_id",
+            "industry_source",
+            "first_industry_code",
+            "first_industry_name",
+            "second_industry_code",
+            "second_industry_name",
+            "third_industry_code",
+            "third_industry_name",
+            "sector_code",
+            "sector_name"
+          ]
+        },
+        {
+          "name": "stock_adjust_factor",
+          "desc": "复权因子（ex_factor + ex_cum_factor）",
+          "rows": 26200,
+          "date_range": "2020-01-14 ~ 2026-09-24",
+          "symbols": "4742",
+          "n_cols": 11,
+          "key_cols": [
+            "order_book_id",
+            "ex_date",
+            "ex_factor",
+            "ex_cum_factor",
+            "announcement_date",
+            "ex_end_date"
+          ]
+        },
+        {
+          "name": "stock_dividend",
+          "desc": "分红事件",
+          "rows": 26019,
+          "date_range": "2019q3 ~ 2026q2",
+          "symbols": "4685",
+          "n_cols": 17,
+          "key_cols": [
+            "order_book_id",
+            "declaration_announcement_date",
+            "book_closure_date",
+            "dividend_cash_before_tax",
+            "ex_dividend_date",
+            "payable_date",
+            "round_lot",
+            "advance_date",
+            "quarter",
+            "dividend_type",
+            "event_procedure",
+            "amount"
+          ]
+        },
+        {
+          "name": "ops_backfill_batch_state",
+          "desc": "",
+          "rows": 23983,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 23,
+          "key_cols": [
+            "profile",
+            "table_family",
+            "scope_hash",
+            "source_api",
+            "delete_scope_json",
+            "status",
+            "attempt_count",
+            "source_row_count",
+            "inserted_row_count",
+            "validated_row_count",
+            "business_hash",
+            "duplicate_key_count",
+            "validation_status",
+            "started_at",
+            "finished_at"
+          ]
+        },
+        {
+          "name": "ref_index_cn",
+          "desc": "指数参考",
+          "rows": 16300,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 33,
+          "key_cols": [
+            "instrument_uid",
+            "order_book_id",
+            "symbol",
+            "abbrev_symbol",
+            "exchange",
+            "instrument_type",
+            "status",
+            "listed_date",
+            "de_listed_date",
+            "base_date",
+            "base_point",
+            "market_tplus",
+            "round_lot",
+            "trading_hours",
+            "underlying_symbol"
+          ]
+        },
+        {
+          "name": "ref_index_lifecycle_cn",
+          "desc": "指数生命周期",
+          "rows": 16300,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 17,
+          "key_cols": [
+            "instrument_uid",
+            "order_book_id",
+            "listed_date",
+            "de_listed_date",
+            "last_valid_trading_date",
+            "valid_from",
+            "valid_to",
+            "exchange",
+            "asset_subtype",
+            "is_currently_listed",
+            "source_as_of",
+            "lifecycle_version",
+            "source_record_hash",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "ref_security_stock_cn",
+          "desc": "A股证券参考表",
+          "rows": 10444,
+          "date_range": "2026-09-23 ~ 2026-09-24",
+          "symbols": "5222",
+          "n_cols": 28,
+          "key_cols": [
+            "query_date",
+            "order_book_id",
+            "symbol",
+            "abbrev_symbol",
+            "trading_code",
+            "exchange",
+            "security_type",
+            "status",
+            "listed_date",
+            "de_listed_date",
+            "board",
+            "board_type",
+            "special_type",
+            "industry_code",
+            "industry_name"
+          ]
+        },
+        {
+          "name": "stock_factor_catalog",
+          "desc": "因子目录（10443个因子定义）",
+          "rows": 10443,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 12,
+          "key_cols": [
+            "factor_name",
+            "factor_type",
+            "description",
+            "calculation_logic",
+            "is_raw_financial_statement",
+            "is_financial_derived",
+            "is_technical",
+            "is_alpha101",
+            "sampled_catalog_count"
+          ]
+        },
+        {
+          "name": "ref_calendar_cn",
+          "desc": "交易日历",
+          "rows": 8733,
+          "date_range": "1990-12-19 ~ 2026-09-24",
+          "symbols": "",
+          "n_cols": 6,
+          "key_cols": [
+            "market",
+            "trade_date",
+            "is_trading_day"
+          ]
+        },
+        {
+          "name": "ref_security_lifecycle_cn",
+          "desc": "证券生命周期",
+          "rows": 5560,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 24,
+          "key_cols": [
+            "instrument_uid",
+            "order_book_id",
+            "symbol",
+            "security_name",
+            "valid_from",
+            "valid_to",
+            "listed_date",
+            "de_listed_date",
+            "last_valid_trading_date",
+            "exchange",
+            "board_type",
+            "security_type",
+            "status",
+            "is_currently_listed",
+            "predecessor_order_book_id"
+          ]
+        },
+        {
+          "name": "stock_private_placement",
+          "desc": "定向增发",
+          "rows": 5192,
+          "date_range": "2020-01-02 ~ 2026-09-24",
+          "symbols": "2560",
+          "n_cols": 14,
+          "key_cols": [
+            "order_book_id",
+            "event_date",
+            "initial_info_date",
+            "issue_type",
+            "progress",
+            "listed_date",
+            "issued_shares",
+            "issue_price",
+            "csrc_approval_date"
+          ]
+        },
+        {
+          "name": "ref_etf_cn",
+          "desc": "ETF参考",
+          "rows": 3722,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 36,
+          "key_cols": [
+            "instrument_uid",
+            "order_book_id",
+            "symbol",
+            "abbrev_symbol",
+            "trading_code",
+            "exchange",
+            "instrument_type",
+            "status",
+            "listed_date",
+            "de_listed_date",
+            "establishment_date",
+            "fund_type",
+            "board_type",
+            "market_tplus",
+            "round_lot"
+          ]
+        },
+        {
+          "name": "ref_etf_lifecycle_cn",
+          "desc": "ETF生命周期",
+          "rows": 3646,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 17,
+          "key_cols": [
+            "instrument_uid",
+            "order_book_id",
+            "listed_date",
+            "de_listed_date",
+            "last_valid_trading_date",
+            "valid_from",
+            "valid_to",
+            "exchange",
+            "asset_subtype",
+            "is_currently_listed",
+            "source_as_of",
+            "lifecycle_version",
+            "source_record_hash",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "stock_symbol_change",
+          "desc": "代码变更",
+          "rows": 3620,
+          "date_range": "2020-01-02 ~ 2026-09-22",
+          "symbols": "2663",
+          "n_cols": 9,
+          "key_cols": [
+            "order_book_id",
+            "change_date",
+            "info_date",
+            "symbol"
+          ]
+        },
+        {
+          "name": "stock_split",
+          "desc": "拆分",
+          "rows": 2846,
+          "date_range": "2020-01-21 ~ 2026-09-23",
+          "symbols": "1731",
+          "n_cols": 13,
+          "key_cols": [
+            "order_book_id",
+            "event_date",
+            "ex_dividend_date",
+            "book_closure_date",
+            "split_coefficient_from",
+            "split_coefficient_to",
+            "payable_date",
+            "cum_factor"
+          ]
+        },
+        {
+          "name": "stock_special_treatment_event",
+          "desc": "ST事件",
+          "rows": 1716,
+          "date_range": "2020-01-13 ~ 2026-09-21",
+          "symbols": "704",
+          "n_cols": 11,
+          "key_cols": [
+            "order_book_id",
+            "change_date",
+            "info_date",
+            "symbol",
+            "treatment_type",
+            "description"
+          ]
+        },
+        {
+          "name": "ops_scheduler_family_state",
+          "desc": "",
+          "rows": 310,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 19,
+          "key_cols": [
+            "scheduler_run_id",
+            "family_name",
+            "atomicity_group",
+            "watermark_kind",
+            "canonical_watermark_before",
+            "canonical_watermark_after",
+            "source_latest_date",
+            "source_expected_date",
+            "target_date",
+            "gap_start",
+            "gap_end",
+            "scope_hash",
+            "status",
+            "pending_reason",
+            "source_calls"
+          ]
+        },
+        {
+          "name": "ref_rqdata_field_catalog",
+          "desc": "RQData字段目录",
+          "rows": 289,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 21,
+          "key_cols": [
+            "dataset_family",
+            "asset_type",
+            "frequency",
+            "field_name",
+            "source_dtype",
+            "normalized_dtype",
+            "nullable",
+            "unit",
+            "description",
+            "availability_class",
+            "first_observed_date",
+            "last_observed_date",
+            "sample_non_null_ratio",
+            "source_api",
+            "source_schema_hash"
+          ]
+        },
+        {
+          "name": "ops_backfill_stage_state",
+          "desc": "",
+          "rows": 232,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 15,
+          "key_cols": [
+            "stage_id",
+            "profile",
+            "scope_hash",
+            "table_families_json",
+            "status",
+            "row_counts_json",
+            "business_hashes_json",
+            "validation_status",
+            "started_at",
+            "finished_at",
+            "error_classification",
+            "error_message_redacted",
+            "created_at",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "ops_scheduler_lease",
+          "desc": "",
+          "rows": 126,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 10,
+          "key_cols": [
+            "lease_name",
+            "owner",
+            "host",
+            "pid",
+            "acquired_at",
+            "heartbeat_at",
+            "expires_at",
+            "status",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "stock_financial_field_catalog",
+          "desc": "财务字段目录（90字段）",
+          "rows": 90,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 10,
+          "key_cols": [
+            "statement_type",
+            "field_name",
+            "field_source",
+            "field_category",
+            "field_description",
+            "is_pit_field",
+            "is_active"
+          ]
+        },
+        {
+          "name": "ops_data_quality",
+          "desc": "",
+          "rows": 87,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 8,
+          "key_cols": [
+            "quality_id",
+            "table_family",
+            "metric_name",
+            "metric_value",
+            "metric_payload_json",
+            "status",
+            "checked_at"
+          ]
+        },
+        {
+          "name": "contract_compliance_report",
+          "desc": "",
+          "rows": 43,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 13,
+          "key_cols": [
+            "report_id",
+            "table_family",
+            "contract_version",
+            "status",
+            "row_count",
+            "duplicate_key_count",
+            "field_coverage_json",
+            "dtype_match_json",
+            "null_profile_json",
+            "blocker_reasons_json",
+            "warnings_json",
+            "checked_at"
+          ]
+        },
+        {
+          "name": "ops_ingest_batch",
+          "desc": "",
+          "rows": 43,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 10,
+          "key_cols": [
+            "phase",
+            "table_family",
+            "delete_scope_json",
+            "status",
+            "started_at",
+            "finished_at",
+            "row_count",
+            "error_message"
+          ]
+        },
+        {
+          "name": "source_manifest",
+          "desc": "数据源清单",
+          "rows": 43,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 17,
+          "key_cols": [
+            "manifest_id",
+            "status",
+            "table_family",
+            "source_api",
+            "api_params_redacted_json",
+            "source_shape_json",
+            "source_index_names_json",
+            "source_dtypes_json",
+            "normalized_shape_json",
+            "date_range_start",
+            "date_range_end",
+            "row_count",
+            "content_hash",
+            "warnings_json",
+            "created_at"
+          ]
+        },
+        {
+          "name": "stock_allotment",
+          "desc": "配股",
+          "rows": 35,
+          "date_range": "2020-03-30 ~ 2025-06-26",
+          "symbols": "28",
+          "n_cols": 14,
+          "key_cols": [
+            "order_book_id",
+            "event_date",
+            "declaration_announcement_date",
+            "proportion",
+            "allotted_proportion",
+            "allotted_shares",
+            "allotment_price",
+            "book_closure_date",
+            "ex_right_date"
+          ]
+        },
+        {
+          "name": "ops_scheduler_factor_batch_state",
+          "desc": "",
+          "rows": 33,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 24,
+          "key_cols": [
+            "scheduler_run_id",
+            "canonical_trade_date",
+            "pending_start",
+            "pending_end",
+            "scope_hash",
+            "factor_catalog_hash",
+            "selected_shape",
+            "expected_batches",
+            "completed_batches",
+            "source_calls",
+            "rows",
+            "spool_state",
+            "insert_state",
+            "validation_state",
+            "retry_state"
+          ]
+        },
+        {
+          "name": "ops_backfill_profile_state",
+          "desc": "",
+          "rows": 31,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 11,
+          "key_cols": [
+            "profile",
+            "scope_hash",
+            "status",
+            "stages_planned",
+            "stages_completed",
+            "started_at",
+            "finished_at",
+            "summary_json",
+            "created_at",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "ops_source_readiness_state",
+          "desc": "",
+          "rows": 19,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 13,
+          "key_cols": [
+            "dataset_family",
+            "checked_at",
+            "ready",
+            "latest_date",
+            "expected_date",
+            "target_end_date",
+            "target_range_ready",
+            "readiness_reason",
+            "source_status",
+            "source_schema_hash",
+            "updated_at"
+          ]
+        },
+        {
+          "name": "ops_universe_scope_manifest",
+          "desc": "",
+          "rows": 17,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 16,
+          "key_cols": [
+            "scope_id",
+            "profile_name",
+            "date_start",
+            "date_end",
+            "universe_mode",
+            "market",
+            "exchanges",
+            "lifecycle_version",
+            "planner_version",
+            "symbol_count",
+            "symbol_hash",
+            "universe_scope_hash",
+            "new_listing_count",
+            "delisting_count",
+            "created_at"
+          ]
+        },
+        {
+          "name": "ops_scheduler_run",
+          "desc": "",
+          "rows": 10,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 21,
+          "key_cols": [
+            "scheduler_run_id",
+            "mode",
+            "environment",
+            "host",
+            "scheduled_for",
+            "actual_start",
+            "actual_end",
+            "resolved_target_date",
+            "status",
+            "exit_code",
+            "source_calls",
+            "data_source_calls",
+            "readiness_calls",
+            "rows_written",
+            "families_passed"
+          ]
+        },
+        {
+          "name": "stock_share_transformation",
+          "desc": "转股",
+          "rows": 2,
+          "date_range": "2025-02-17 ~ 2025-03-04",
+          "symbols": "2",
+          "n_cols": 15,
+          "key_cols": [
+            "order_book_id",
+            "event_date",
+            "predecessor",
+            "successor",
+            "effective_date",
+            "share_conversion_ratio",
+            "predecessor_delisted",
+            "discretionary_execution",
+            "predecessor_delisted_date",
+            "transformation_event"
+          ]
+        },
+        {
+          "name": "etf_tick_raw",
+          "desc": "ETF逐笔（空表）",
+          "rows": 0,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 42,
+          "key_cols": [
+            "order_book_id",
+            "trading_date",
+            "datetime",
+            "source_row_ordinal",
+            "payload_hash",
+            "open",
+            "last",
+            "high",
+            "low",
+            "prev_close",
+            "volume",
+            "total_turnover",
+            "limit_up",
+            "limit_down",
+            "num_trades"
+          ]
+        },
+        {
+          "name": "index_tick_raw",
+          "desc": "指数逐笔（空表）",
+          "rows": 0,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 40,
+          "key_cols": [
+            "order_book_id",
+            "trading_date",
+            "datetime",
+            "source_row_ordinal",
+            "payload_hash",
+            "open",
+            "last",
+            "high",
+            "low",
+            "prev_close",
+            "volume",
+            "total_turnover",
+            "limit_up",
+            "limit_down",
+            "num_trades"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "amazingdata",
+      "role": "旧库（AD源，只读参考，停更）",
+      "tables": [
+        {
+          "name": "ods_kline_1m",
+          "desc": "分钟K线（旧库）",
+          "rows": 2003654680,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "6981",
+          "n_cols": 12,
+          "key_cols": [
+            "symbol",
+            "trade_date",
+            "bar_time",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "amount"
+          ]
+        },
+        {
+          "name": "ods_exchange_index_kline_1m",
+          "desc": "",
+          "rows": 202682796,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "",
+          "n_cols": 12,
+          "key_cols": [
+            "index_code",
+            "trade_date",
+            "bar_time",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "amount"
+          ]
+        },
+        {
+          "name": "ods_industry_index_weight_daily",
+          "desc": "",
+          "rows": 20575216,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "5390",
+          "n_cols": 7,
+          "key_cols": [
+            "index_code",
+            "trade_date",
+            "symbol",
+            "weight"
+          ]
+        },
+        {
+          "name": "ods_adj_factor_daily",
+          "desc": "复权因子日频（旧库）",
+          "rows": 12079871,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "7963",
+          "n_cols": 7,
+          "key_cols": [
+            "symbol",
+            "trade_date",
+            "adj_factor",
+            "post_adj_factor"
+          ]
+        },
+        {
+          "name": "ods_kline_1d",
+          "desc": "日K线（旧库）",
+          "rows": 8338762,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "6981",
+          "n_cols": 12,
+          "key_cols": [
+            "symbol",
+            "trade_date",
+            "bar_time",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "amount"
+          ]
+        },
+        {
+          "name": "ods_security_status_daily",
+          "desc": "证券状态日频（旧库）",
+          "rows": 7178309,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "5402",
+          "n_cols": 16,
+          "key_cols": [
+            "symbol",
+            "trade_date",
+            "status_code",
+            "is_trading",
+            "preclose",
+            "high_limited",
+            "low_limited",
+            "price_high_lmt_rate",
+            "price_low_lmt_rate",
+            "is_st",
+            "is_wd",
+            "is_xr",
+            "is_suspended"
+          ]
+        },
+        {
+          "name": "ods_exchange_index_weight_daily",
+          "desc": "",
+          "rows": 4020050,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "2746",
+          "n_cols": 12,
+          "key_cols": [
+            "index_code",
+            "trade_date",
+            "symbol",
+            "total_share",
+            "free_share_ratio",
+            "calc_share",
+            "weight_factor",
+            "weight",
+            "close"
+          ]
+        },
+        {
+          "name": "ods_fund_iopv_daily",
+          "desc": "",
+          "rows": 1115946,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "1498",
+          "n_cols": 6,
+          "key_cols": [
+            "symbol",
+            "trade_date",
+            "iopv_nav"
+          ]
+        },
+        {
+          "name": "ods_income_raw",
+          "desc": "利润表（旧库）",
+          "rows": 690852,
+          "date_range": "2020-03-31 ~ 2026-03-31",
+          "symbols": "5401",
+          "n_cols": 13,
+          "key_cols": [
+            "symbol",
+            "report_period",
+            "ann_date",
+            "actual_ann_date",
+            "report_type",
+            "statement_type",
+            "net_pro_excl_min_int_inc",
+            "tot_opera_rev",
+            "basic_eps",
+            "raw_payload"
+          ]
+        },
+        {
+          "name": "ods_cash_flow_raw",
+          "desc": "现金流量表（旧库）",
+          "rows": 688256,
+          "date_range": "2020-03-31 ~ 2026-03-31",
+          "symbols": "5401",
+          "n_cols": 11,
+          "key_cols": [
+            "symbol",
+            "report_period",
+            "ann_date",
+            "actual_ann_date",
+            "report_type",
+            "statement_type",
+            "net_cash_flows_opera_act",
+            "raw_payload"
+          ]
+        },
+        {
+          "name": "ods_industry_index_kline_1d",
+          "desc": "行业指数日线（旧库）",
+          "rows": 636045,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "",
+          "n_cols": 16,
+          "key_cols": [
+            "index_code",
+            "trade_date",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+            "amount",
+            "pre_close",
+            "pb",
+            "pe",
+            "total_cap",
+            "a_float_cap"
+          ]
+        },
+        {
+          "name": "factor_monthly",
+          "desc": "月度因子（旧库）",
+          "rows": 419752,
+          "date_range": "2020-01-23 ~ 2026-04-09",
+          "symbols": "6980",
+          "n_cols": 35,
+          "key_cols": [
+            "symbol",
+            "trade_date",
+            "ret_1m",
+            "ret_3m",
+            "ret_6m",
+            "ret_12m",
+            "volatility_1m",
+            "volatility_3m",
+            "reversal",
+            "momentum_12_1",
+            "avg_amount_1m",
+            "log_amount_1m",
+            "max_ret_1m",
+            "min_ret_1m",
+            "up_ratio_1m"
+          ]
+        },
+        {
+          "name": "ref_exchange_index_member",
+          "desc": "",
+          "rows": 268093,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 8,
+          "key_cols": [
+            "index_code",
+            "index_name",
+            "symbol",
+            "in_date",
+            "out_date"
+          ]
+        },
+        {
+          "name": "ods_balance_sheet_raw",
+          "desc": "资产负债表（旧库）",
+          "rows": 255907,
+          "date_range": "2020-03-31 ~ 2026-03-31",
+          "symbols": "5401",
+          "n_cols": 13,
+          "key_cols": [
+            "symbol",
+            "report_period",
+            "ann_date",
+            "actual_ann_date",
+            "report_type",
+            "statement_type",
+            "total_assets",
+            "total_liab",
+            "tot_share_equity_excl_min_int",
+            "raw_payload"
+          ]
+        },
+        {
+          "name": "ref_industry_index_member",
+          "desc": "",
+          "rows": 23249,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 8,
+          "key_cols": [
+            "index_code",
+            "index_name",
+            "symbol",
+            "in_date",
+            "out_date"
+          ]
+        },
+        {
+          "name": "ref_security",
+          "desc": "证券参考（旧库）",
+          "rows": 7962,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 11,
+          "key_cols": [
+            "symbol",
+            "sec_name",
+            "exchange",
+            "security_type",
+            "is_listed",
+            "list_plate_name",
+            "list_date",
+            "delist_date"
+          ]
+        },
+        {
+          "name": "factor_ic",
+          "desc": "因子IC（旧库）",
+          "rows": 3798,
+          "date_range": "1970-08-23 ~ 2026-03-31",
+          "symbols": "",
+          "n_cols": 4,
+          "key_cols": [
+            "trade_date",
+            "factor",
+            "IC",
+            "n_stocks"
+          ]
+        },
+        {
+          "name": "ref_calendar",
+          "desc": "交易日历（旧库）",
+          "rows": 1517,
+          "date_range": "2020-01-02 ~ 2026-04-09",
+          "symbols": "",
+          "n_cols": 8,
+          "key_cols": [
+            "trade_date",
+            "exchange",
+            "is_open",
+            "prev_trade_date",
+            "next_trade_date"
+          ]
+        },
+        {
+          "name": "ref_exchange_index",
+          "desc": "",
+          "rows": 634,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 10,
+          "key_cols": [
+            "index_code",
+            "index_name",
+            "exchange",
+            "security_type",
+            "is_listed",
+            "list_date",
+            "delist_date"
+          ]
+        },
+        {
+          "name": "ref_industry_index",
+          "desc": "",
+          "rows": 511,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 11,
+          "key_cols": [
+            "index_code",
+            "industry_code",
+            "level_type",
+            "level1_name",
+            "level2_name",
+            "level3_name",
+            "is_pub",
+            "change_reason"
+          ]
+        },
+        {
+          "name": "ops_run_log",
+          "desc": "",
+          "rows": 202,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 9,
+          "key_cols": [
+            "run_type",
+            "stage",
+            "status",
+            "start_time",
+            "end_time",
+            "message",
+            "created_at"
+          ]
+        },
+        {
+          "name": "ops_ingest_batch",
+          "desc": "",
+          "rows": 97,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 12,
+          "key_cols": [
+            "pipeline_name",
+            "scope",
+            "scope_detail",
+            "status",
+            "started_at",
+            "ended_at",
+            "rows_deleted",
+            "rows_written",
+            "error_message"
+          ]
+        },
+        {
+          "name": "ops_data_quality",
+          "desc": "",
+          "rows": 87,
+          "date_range": "2026-04-09 ~ 2026-04-09",
+          "symbols": "",
+          "n_cols": 11,
+          "key_cols": [
+            "check_id",
+            "check_name",
+            "table_name",
+            "trade_date",
+            "status",
+            "metric_name",
+            "metric_value",
+            "threshold",
+            "details",
+            "created_at"
+          ]
+        },
+        {
+          "name": "dwd_financial_pit_daily",
+          "desc": "PIT财务（旧库，空表）",
+          "rows": 0,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 14,
+          "key_cols": [
+            "symbol",
+            "trade_date",
+            "report_period",
+            "effective_date",
+            "total_assets",
+            "total_liab",
+            "tot_share_equity_excl_min_int",
+            "net_pro_excl_min_int_inc",
+            "tot_opera_rev",
+            "net_cash_flows_opera_act",
+            "basic_eps"
+          ]
+        },
+        {
+          "name": "ods_snapshot_l1",
+          "desc": "",
+          "rows": 0,
+          "date_range": "",
+          "symbols": "",
+          "n_cols": 36,
+          "key_cols": [
+            "symbol",
+            "trade_date",
+            "ts",
+            "last_price",
+            "pre_close",
+            "open",
+            "high",
+            "low",
+            "high_limited",
+            "low_limited",
+            "volume",
+            "amount",
+            "bid_price1",
+            "bid_vol1",
+            "bid_price2"
+          ]
+        }
+      ]
+    }
+  ],
+  "parquet_backup": [
+    {
+      "dir": "adj_factor_mcap_financials",
+      "size": "120M"
+    },
+    {
+      "dir": "alpha101",
+      "size": "1.1G"
+    },
+    {
+      "dir": "alpha101_data",
+      "size": "1.9G"
+    },
+    {
+      "dir": "alpha101_full",
+      "size": "5.1G"
+    },
+    {
+      "dir": "cache",
+      "size": "4.0K"
+    },
+    {
+      "dir": "citics_legacy_industry_2000_20260814",
+      "size": "4.2M"
+    },
+    {
+      "dir": "daily_etl_cron.log",
+      "size": "108K"
+    },
+    {
+      "dir": "daily_etl.log",
+      "size": "104K"
+    },
+    {
+      "dir": "daily_factors",
+      "size": "5.0M"
+    },
+    {
+      "dir": "ex_factor",
+      "size": "52K"
+    },
+    {
+      "dir": "financials",
+      "size": "108M"
+    },
+    {
+      "dir": "huatai_alpha101_full_2000_20260814",
+      "size": "880K"
+    },
+    {
+      "dir": "huatai_reproduction_inputs_2000_20260814",
+      "size": "1018M"
+    },
+    {
+      "dir": "index_components",
+      "size": "168K"
+    },
+    {
+      "dir": "index_kline",
+      "size": "536K"
+    },
+    {
+      "dir": "industry",
+      "size": "40K"
+    },
+    {
+      "dir": "kline",
+      "size": "707M"
+    },
+    {
+      "dir": "kline_daily",
+      "size": "7.2M"
+    },
+    {
+      "dir": "kline_full",
+      "size": "26M"
+    },
+    {
+      "dir": "pit_shares_yield",
+      "size": "97M"
+    },
+    {
+      "dir": "recommended_data_v2",
+      "size": "5.5G"
+    },
+    {
+      "dir": "recommended_data_v2_reference_backup_20260817",
+      "size": "29M"
+    },
+    {
+      "dir": "rq_factor_market_cap_20260604.parquet",
+      "size": "840K"
+    },
+    {
+      "dir": "rq_factor_pb_ratio_20260604.parquet",
+      "size": "680K"
+    },
+    {
+      "dir": "rq_factor_pe_ratio_20260604.parquet",
+      "size": "860K"
+    },
+    {
+      "dir": "rq_factor_ps_ratio_20260604.parquet",
+      "size": "696K"
+    },
+    {
+      "dir": "shares_daily",
+      "size": "2.7M"
+    },
+    {
+      "dir": "st_status",
+      "size": "304K"
+    },
+    {
+      "dir": "valuation",
+      "size": "1.5G"
+    }
+  ]
+}

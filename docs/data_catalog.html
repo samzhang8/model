@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A股数据资产目录</title>
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --panel2: #1c2129;
+    --border: #30363d; --text: #e6edf3; --muted: #8b949e;
+    --green: #3fb950; --red: #f85149; --yellow: #d29922; --blue: #58a6ff;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:24px; background:var(--bg); color:var(--text);
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  h2 { font-size:16px; margin:28px 0 12px; color:var(--blue); }
+  .meta { color:var(--muted); font-size:13px; margin-bottom:20px; }
+  .pipeline-bar { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+  .pipe-card { background:var(--panel); border:1px solid var(--border); border-radius:8px;
+               padding:12px 16px; flex:1; min-width:280px; }
+  .pipe-card .name { font-weight:600; font-size:14px; }
+  .pipe-card .desc { color:var(--muted); font-size:12px; margin:4px 0 8px; }
+  .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
+  .dot.ok { background:var(--green); } .dot.fail { background:var(--red); } .dot.warn { background:var(--yellow); }
+  .status { font-size:13px; font-weight:600; }
+  .status.ok { color:var(--green); } .status.fail { color:var(--red); } .status.warn { color:var(--yellow); }
+  .db-card { background:var(--panel); border:1px solid var(--border); border-radius:8px;
+             margin-bottom:20px; overflow:hidden; }
+  .db-head { padding:14px 18px; border-bottom:1px solid var(--border); display:flex;
+             justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  .db-head .db-name { font-weight:700; font-size:16px; }
+  .db-head .db-role { color:var(--muted); font-size:13px; }
+  .db-head .db-count { color:var(--blue); font-size:13px; }
+  .search { padding:10px 18px; border-bottom:1px solid var(--border); }
+  .search input { width:100%; max-width:360px; background:var(--panel2); border:1px solid var(--border);
+                  color:var(--text); padding:7px 12px; border-radius:6px; font-size:13px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { padding:9px 12px; text-align:left; border-bottom:1px solid var(--border); }
+  th { background:var(--panel2); color:var(--muted); font-weight:600; cursor:pointer;
+       white-space:nowrap; user-select:none; position:sticky; top:0; }
+  th:hover { color:var(--text); }
+  th .arrow { font-size:10px; }
+  td.name { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:var(--blue); }
+  td.desc { color:var(--text); }
+  td.rows { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  td.dates { color:var(--muted); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  td.sym { text-align:right; color:var(--muted); }
+  td.cols { color:var(--muted); }
+  .key-cols { color:var(--muted); font-size:11px; font-family:ui-monospace,Menlo,Consolas,monospace;
+              max-width:340px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .empty { color:var(--muted); font-style:italic; }
+  .parquet-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; }
+  .pq-item { background:var(--panel); border:1px solid var(--border); border-radius:6px;
+             padding:10px 12px; font-size:13px; }
+  .pq-item .pq-name { font-family:ui-monospace,Menlo,Consolas,monospace; color:var(--text); word-break:break-all; }
+  .pq-item .pq-size { color:var(--blue); font-size:12px; margin-top:4px; }
+  .formula { background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--blue);
+             border-radius:6px; padding:12px 16px; font-size:13px; margin-bottom:20px; color:var(--text); }
+  .formula code { color:var(--green); font-family:ui-monospace,Menlo,Consolas,monospace; }
+</style>
+</head>
+<body>
+  <h1>A股数据资产目录</h1>
+  <div class="meta" id="meta">加载中…</div>
+  <div class="pipeline-bar" id="pipelines"></div>
+
+  <h2>数据管道状态</h2>
+  <div id="pipe-status"></div>
+
+  <div class="formula" id="formula"></div>
+  <div id="databases"></div>
+
+  <h2>parquet 文件备份（/home/data/RQdata_files/）</h2>
+  <div class="parquet-grid" id="parquet"></div>
+
+<script>
+let CATALOG = null;
+function fmtRows(n){
+  if(n>=1e9) return (n/1e9).toFixed(2)+'亿';
+  if(n>=1e4) return (n/1e4).toFixed(0)+'万';
+  return String(n);
+}
+function statusClass(s){
+  s=(s||'').toLowerCase();
+  if(s==='active'||s==='success'||s==='ok') return 'ok';
+  if(s==='failed'||s==='fail'||s==='error') return 'fail';
+  return 'warn';
+}
+function statusLabel(s){
+  const m={'active':'正常','failed':'已失败','success':'正常','not-found-in-cron':'未见cron配置','unknown':'未知'};
+  return m[s]||s;
+}
+function render(){
+  const d=CATALOG;
+  document.getElementById('meta').textContent='生成时间：'+d.generated_at+'（数据目录自动扫描，可定期刷新）';
+  // 管道
+  const pb=document.getElementById('pipe-status');
+  pb.innerHTML=d.pipelines.map(p=>{
+    const cls=statusClass(p.status);
+    return `<div class="pipe-card">
+      <div class="name">${p.name}</div>
+      <div class="desc">${p.desc}</div>
+      <div class="status ${cls}"><span class="dot ${cls}"></span>${statusLabel(p.status)}</div>
+      ${p.last_log?`<div class="desc" style="margin-top:6px">${p.last_log}</div>`:''}
+    </div>`;
+  }).join('');
+  // 公式提示
+  document.getElementById('formula').innerHTML =
+    '前复权价 = <code>stock_price_1d_raw.close × stock_adjust_factor.ex_cum_factor</code>（按 order_book_id + 交易日 join）';
+  // 数据库
+  const dbBox=document.getElementById('databases');
+  dbBox.innerHTML=d.databases.map((db,i)=>`
+    <div class="db-card">
+      <div class="db-head">
+        <span><span class="db-name">${db.name}</span>
+              <span class="db-role"> — ${db.role}</span></span>
+        <span class="db-count">${db.tables.length} 张表</span>
+      </div>
+      <div class="search"><input type="text" placeholder="搜索表名/描述/字段…" data-db="${i}" oninput="filterTable(this)"></div>
+      <div style="overflow-x:auto">
+      <table data-db="${i}">
+        <thead><tr>
+          <th onclick="sortTable(this,${i},0)">表名 <span class="arrow"></span></th>
+          <th>描述</th>
+          <th onclick="sortTable(this,${i},2,'num')">行数 <span class="arrow"></span></th>
+          <th onclick="sortTable(this,${i},3)">时间范围 <span class="arrow"></span></th>
+          <th onclick="sortTable(this,${i},4,'num')">标的数 <span class="arrow"></span></th>
+          <th>关键字段</th>
+        </tr></thead>
+        <tbody>${db.tables.map(t=>`
+          <tr>
+            <td class="name">${t.name}</td>
+            <td class="desc">${t.desc||'<span class="empty">—</span>'}</td>
+            <td class="rows">${t.rows?fmtRows(t.rows):'<span class="empty">0</span>'}</td>
+            <td class="dates">${t.date_range||'<span class="empty">—</span>'}</td>
+            <td class="sym">${t.symbols||'<span class="empty">—</span>'}</td>
+            <td class="key-cols" title="${(t.key_cols||[]).join(', ')}">${(t.key_cols||[]).join(', ')}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      </div>
+    </div>`).join('');
+  // parquet
+  document.getElementById('parquet').innerHTML=d.parquet_backup.map(p=>`
+    <div class="pq-item">
+      <div class="pq-name">${p.dir}</div>
+      <div class="pq-size">${p.size}</div>
+    </div>`).join('');
+}
+function filterTable(input){
+  const db=+input.dataset.db;
+  const q=input.value.trim().toLowerCase();
+  const rows=document.querySelectorAll(`table[data-db="${db}"] tbody tr`);
+  rows.forEach(r=>{
+    const t=r.textContent.toLowerCase();
+    r.style.display=(q===''||t.includes(q))?'':'none';
+  });
+}
+let sortState={};
+function sortTable(th,db,col,num){
+  const key=db+'-'+col;
+  const dir=sortState[key]==='desc'?'asc':'desc';
+  sortState[key]=dir;
+  document.querySelectorAll(`table[data-db="${db}"] th .arrow`).forEach(a=>a.textContent='');
+  th.querySelector('.arrow').textContent=dir==='desc'?'▾':'▴';
+  const rows=Array.from(document.querySelectorAll(`table[data-db="${db}"] tbody tr`));
+  rows.sort((a,b)=>{
+    let va=a.cells[col].textContent.trim(), vb=b.cells[col].textContent.trim();
+    if(num){
+      const pa=parseFloat(va.replace(/[亿万]/g,m=>m==='亿'?'e8':m==='万'?'e4':''));
+      const pb=parseFloat(vb.replace(/[亿万]/g,m=>m==='亿'?'e8':m==='万'?'e4':''));
+      va=isNaN(pa)?0:pa; vb=isNaN(pb)?0:pb;
+    }
+    return dir==='desc'?(va<vb?1:va>vb?-1:0):(va>vb?1:va<vb?-1:0);
+  });
+  const tbody=document.querySelector(`table[data-db="${db}"] tbody`);
+  rows.forEach(r=>tbody.appendChild(r));
+}
+fetch('data_catalog.json').then(r=>r.json()).then(d=>{CATALOG=d;render();})
+  .catch(e=>{document.getElementById('meta').textContent='加载失败：'+e.message;});
+</script>
+</body>
+</html>

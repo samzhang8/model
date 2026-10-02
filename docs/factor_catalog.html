@@ -43,7 +43,7 @@ td.num{font-variant-numeric:tabular-nums;}
 </head>
 <body>
 <h1>RQData 因子目录</h1>
-<div class="sub">数据源：ClickHouse rqdata.stock_factor_catalog（10443 目录）+ stock_factor_daily_long（300 有值因子）· 生成于 2026-10-02</div>
+<div class="sub">数据源：RQData 全量 13483 因子（get_all_factor_names 实测）· catalog 目录 10443 · 已下载 300（CORE300）· 生成于 2026-10-02</div>
 
 <div class="cards" id="cards"></div>
 
@@ -57,9 +57,9 @@ td.num{font-variant-numeric:tabular-nums;}
     <option value="alpha101">alpha101</option>
   </select>
   <select id="val" onchange="render()">
-    <option value="">全部（有值+未采样）</option>
+    <option value="">全部（已下载+未下载）</option>
     <option value="1">仅看有值（300个）</option>
-    <option value="0">仅看未采样</option>
+    <option value="0">仅看未下载</option>
   </select>
   <span class="count" id="count"></span>
 </div>
@@ -89,11 +89,11 @@ td.num{font-variant-numeric:tabular-nums;}
 <div class="notes">
   <h2>📖 RQData 因子说明（据官方文档 + 数据实测）</h2>
   <ul>
-    <li><b>10443 = 因子目录（全量定义），300 = 实际计算了值的因子（CORE300 核心因子）</b>。其余 10143 个有定义但未采样计算。</li>
+    <li><b>RQData 侧全量 13483 因子，catalog 目录 10443，实际下载 300（CORE300 核心因子）</b>。其余 10143 个 RQData 侧有值（实测 total_assets 返回 3.7 万亿），是<b>框架未下载</b>，不是因子无值。</li>
     <li><b>分类口径</b>：财务原始 9858（三大报表字段×lf/ttm/mrq等口径变体）、估值/财务衍生 323、技术指标 161、alpha101 101。</li>
     <li><b>计算公式公开性</b>：alpha101（101个）✅ 完全公开（WorldQuant《101 Formulaic Alphas》论文）；财务原始字段 ✅ 会计准则公开定义；衍生指标（PE/PB/ROE等）⚠️ 标准公式公开但 RQData 口径（TTM/MRQ/LYR、极端值处理）不公开；技术指标 ⚠️ 标准公式公开（MACD/RSI/ADX）但具体参数不公开。</li>
     <li class="warn"><b>公告日对齐（PIT）</b>：因子数据的 as_of_date 字段 = 财报期（报告期），<b>不是公告日</b>。严格按公告日对齐（无未来函数）需用 RQData 独立的 PIT 财务数据（stock_financial_pit_long，3290万行，含 info_pub_date 披露日）。做估值类策略务必用 PIT 数据，勿直接用因子数据。</li>
-    <li><b>覆盖与缺失率</b>：300 个有值因子覆盖 5449 只股票、2020-01-02 ~ 2026-09-30（1636 交易日），缺失率 12.44%（缺口为退市股/停牌/新上市正常缺口）。</li>
+    <li><b>覆盖与缺失率</b>：300 个已下载因子覆盖 5449 只股票、2020-01-02 ~ 2026-09-30（1636 交易日），缺失率 12.44%（缺口为退市股/停牌/新上市正常缺口）。</li>
   </ul>
 </div>
 
@@ -111,7 +111,7 @@ fetch('factor_catalog.json').then(r=>r.json()).then(d=>{
   const c = d.categories;
   cards.innerHTML = `
     <div class="card"><div class="num blue">${total.toLocaleString()}</div><div class="lbl">因子目录总数</div></div>
-    <div class="card"><div class="num green">${has.toLocaleString()}</div><div class="lbl">有值因子（CORE300）</div></div>
+    <div class="card"><div class="num green">${has.toLocaleString()}</div><div class="lbl">已下载因子（CORE300）</div></div>
     <div class="card"><div class="num">${(c['财务原始']||0).toLocaleString()}</div><div class="lbl">财务原始</div></div>
     <div class="card"><div class="num orange">${(c['估值/财务衍生']||0).toLocaleString()}</div><div class="lbl">估值/财务衍生</div></div>
     <div class="card"><div class="num">${(c['技术指标']||0).toLocaleString()}</div><div class="lbl">技术指标</div></div>
@@ -151,7 +151,7 @@ function draw(){
     const d0 = f.start_date || '—';
     const d1 = f.end_date || '—';
     const mr = f.has_value ? (f.missing_rate*100).toFixed(2)+'%' : '—';
-    const status = f.has_value ? '<span class="tag fin">有值</span>' : '<span class="tag na">未采样</span>';
+    const status = f.has_value ? '<span class="tag fin">有值</span>' : '<span class="tag na">未下载</span>';
     return `<tr><td style="font-family:monospace">${f.factor_name}</td><td>${tag}</td><td>${f.factor_type||'—'}</td><td class="num">${stocks}</td><td class="num">${d0}</td><td class="num">${d1}</td><td class="num">${mr}</td><td>${status}</td></tr>`;
   }).join('');
   document.getElementById('count').textContent = `匹配 ${filtered.length.toLocaleString()} 个因子`;

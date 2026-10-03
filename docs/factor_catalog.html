@@ -75,6 +75,7 @@ td.num{font-variant-numeric:tabular-nums;}
       <th onclick="sortBy('end_date')">截止日期</th>
       <th onclick="sortBy('missing_rate')">缺失率</th>
       <th>状态</th>
+      <th>G2筛选</th>
     </tr>
   </thead>
   <tbody id="tb"></tbody>
@@ -94,6 +95,7 @@ td.num{font-variant-numeric:tabular-nums;}
     <li><b>计算公式公开性</b>：alpha101（101个）✅ 完全公开（WorldQuant《101 Formulaic Alphas》论文）；财务原始字段 ✅ 会计准则公开定义；衍生指标（PE/PB/ROE等）⚠️ 标准公式公开但 RQData 口径（TTM/MRQ/LYR、极端值处理）不公开；技术指标 ⚠️ 标准公式公开（MACD/RSI/ADX）但具体参数不公开。</li>
     <li class="warn"><b>公告日对齐（PIT）</b>：因子数据的 as_of_date 字段 = 财报期（报告期），<b>不是公告日</b>。严格按公告日对齐（无未来函数）需用 RQData 独立的 PIT 财务数据（stock_financial_pit_long，3290万行，含 info_pub_date 披露日）。做估值类策略务必用 PIT 数据，勿直接用因子数据。</li>
     <li><b>覆盖与缺失率</b>：300 个已下载因子覆盖 5449 只股票、2020-01-02 ~ 2026-09-30（1636 交易日），缺失率 12.44%（缺口为退市股/停牌/新上市正常缺口）。</li>
+    <li class="warn"><b>G2 候选筛选（2026-10-03）</b>：134 个价量因子（技术指标 114 + alpha101 20）逐因子计算，<b>无全空/常数因子</b>（常数比例 ≤ 0.06%）。冗余剔除：Spearman &gt; 0.95 连通聚类 8 簇，每簇保留度数最高代表（HMA20 / CYF / LWR1 / LWR2 / OSC / WR / TAPI / WorldQuant_alpha033），<b>剔除 45 个冗余因子，候选 89 个</b>。BOLL/MA20 与 HMA20 Spearman=1.0 完全重复，KDJ_D/LWR2、KDJ_K/LWR1 为 -1.0 完全镜像。candidate_list.csv sha256 <code>154a2f31…</code>。冻结切分：train 2016-01-01~2023-12-31，OOS 2024-01-01~2026-08-31。</li>
   </ul>
 </div>
 
@@ -115,9 +117,12 @@ fetch('factor_catalog.json').then(r=>r.json()).then(d=>{
     <div class="card"><div class="num">${(c['财务原始']||0).toLocaleString()}</div><div class="lbl">财务原始</div></div>
     <div class="card"><div class="num orange">${(c['估值/财务衍生']||0).toLocaleString()}</div><div class="lbl">估值/财务衍生</div></div>
     <div class="card"><div class="num">${(c['技术指标']||0).toLocaleString()}</div><div class="lbl">技术指标</div></div>
-    <div class="card"><div class="num">${(c['alpha101']||0).toLocaleString()}</div><div class="lbl">alpha101</div></div>`;
+    <div class="card"><div class="num">${(c['alpha101']||0).toLocaleString()}</div><div class="lbl">alpha101</div></div>
+    <div class="card"><div class="num green">${(d.g2_screening?.candidate_count||0).toLocaleString()}</div><div class="lbl">G2候选因子</div></div>
+    <div class="card"><div class="num orange">${(d.g2_screening?.removed_count||0).toLocaleString()}</div><div class="lbl">G2剔除(冗余)</div></div>
+    <div class="card"><div class="num">${(d.g2_screening?.redundant_cluster_count||0).toLocaleString()}</div><div class="lbl">冗余簇</div></div>`;
   render();
-}).catch(e=>{document.getElementById('tb').innerHTML='<tr><td colspan="8">加载失败: '+e+'</td></tr>';});
+}).catch(e=>{document.getElementById('tb').innerHTML='<tr><td colspan="9">加载失败: '+e+'</td></tr>';});
 
 function render(){
   const q = document.getElementById('q').value.toLowerCase().trim();
@@ -152,7 +157,8 @@ function draw(){
     const d1 = f.end_date || '—';
     const mr = f.has_value ? (f.missing_rate*100).toFixed(2)+'%' : '—';
     const status = f.has_value ? '<span class="tag fin">有值</span>' : '<span class="tag na">未下载</span>';
-    return `<tr><td style="font-family:monospace">${f.factor_name}</td><td>${tag}</td><td>${f.factor_type||'—'}</td><td class="num">${stocks}</td><td class="num">${d0}</td><td class="num">${d1}</td><td class="num">${mr}</td><td>${status}</td></tr>`;
+    const g2 = f.g2_status === '剔除' ? `<span class="tag na" title="${f.g2_reason||''}">剔除</span>` : f.g2_status === '候选' ? '<span class="tag fin">候选</span>' : '<span class="tag" style="background:#21262d;color:var(--muted)">—</span>';
+    return `<tr><td style="font-family:monospace">${f.factor_name}</td><td>${tag}</td><td>${f.factor_type||'—'}</td><td class="num">${stocks}</td><td class="num">${d0}</td><td class="num">${d1}</td><td class="num">${mr}</td><td>${status}</td><td>${g2}</td></tr>`;
   }).join('');
   document.getElementById('count').textContent = `匹配 ${filtered.length.toLocaleString()} 个因子`;
   document.getElementById('pinfo').textContent = `第 ${start+1}-${Math.min(end,filtered.length)} 条 / 共 ${filtered.length.toLocaleString()} 条`;

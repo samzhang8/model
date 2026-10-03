@@ -107,7 +107,7 @@ let sortKey = 'factor_name', sortDir = 1;
 fetch('factor_catalog.json').then(r=>r.json()).then(d=>{
   DATA = d;
   const cards = document.getElementById('cards');
-  const has = d.has_value_count, total = d.total;
+  const has = d.downloaded_count, total = d.catalog_count;
   const c = d.categories;
   cards.innerHTML = `
     <div class="card"><div class="num blue">${total.toLocaleString()}</div><div class="lbl">因子目录总数</div></div>

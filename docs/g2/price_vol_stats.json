@@ -1,0 +1,1208 @@
+[
+ {
+  "factor_name": "ACCER",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004843,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "ADTM",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.008341,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "ADX",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "ADXR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00876,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "AMP1",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003617,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "AMP10",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005567,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "AMP20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.007741,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "AMP3",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004049,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "AMP5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004482,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "AMP60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.016566,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "AMV20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "AMV5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004192,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "AMV60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.016274,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "AR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.008674,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "AROON_DOWN",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.006218,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "AROON_UP",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.006218,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "ASI",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.008982,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "ASIT",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.010957,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "ATR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.009974,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "BBI",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.008323,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "BBIBOLL_DOWN",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.010512,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "BBIBOLL_UP",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.010512,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "BIAS10",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004978,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "BIAS20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.007023,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "BIAS36",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004409,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "BIAS5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004192,
+  "constant_ratio": 0.000367
+ },
+ {
+  "factor_name": "BIAS612",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005711,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "BOLL",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "BOLL_DOWN",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "BOLL_UP",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "BR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.008979,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "CCI",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.006145,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "CR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.008979,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "CYF",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005516,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "CYR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003444,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "DAVOL10",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.031431,
+  "constant_ratio": 0.000185
+ },
+ {
+  "factor_name": "DAVOL20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.031431,
+  "constant_ratio": 0.000185
+ },
+ {
+  "factor_name": "DAVOL5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.031431,
+  "constant_ratio": 0.000185
+ },
+ {
+  "factor_name": "DI1",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.006362,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "DI2",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.006362,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "DKX",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.007668,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "DPO",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.009635,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "EMA20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003229,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "EMA5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003229,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "EMA60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003229,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "HMA20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "HMA5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004192,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "HMA60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.016274,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "KDJ_D",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004961,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "KDJ_J",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004961,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "KDJ_K",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004961,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "LMA20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "LMA5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004192,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "LMA60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.016274,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "LWR1",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004961,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "LWR2",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004961,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "MA20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00735,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "MA5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004093,
+  "constant_ratio": 0.000367
+ },
+ {
+  "factor_name": "MA60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.016175,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MAADTM",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.009877,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MABIAS",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005494,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MACD_DEA",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003229,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "MACD_DIFF",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003229,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "MACD_HIST",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003229,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "MACR1",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.012051,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MACR2",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.015159,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MACR3",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.021417,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MACR4",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.028158,
+  "constant_ratio": 0.000185
+ },
+ {
+  "factor_name": "MACYR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004309,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MADKX",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.009635,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "MADPO",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.010732,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "MAMASS",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.013222,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "MAMTM",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "MARSI10",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005395,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MARSI6",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004528,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MASS",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.012112,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MATAPI",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004409,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MATRIX",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.007568,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MAUDL",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.008541,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "MAVR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.010077,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MCST",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.070795,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "MDD20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.007523,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "MDD60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.016343,
+  "constant_ratio": 0.000369
+ },
+ {
+  "factor_name": "MFI",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.006362,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "MTM",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.006362,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "OBOS",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005494,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "OBV",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.000191,
+  "constant_ratio": 0.000367
+ },
+ {
+  "factor_name": "OSC",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005276,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "PCNT",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003544,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "QTYR_5_20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.007523,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "ROC",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005928,
+  "constant_ratio": 0.000367
+ },
+ {
+  "factor_name": "RSI10",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005395,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "RSI6",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00453,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "SKD_D",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005394,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "SKD_K",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00496,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "SWL",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003229,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "SY",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005276,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "TAPI",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003329,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "TR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005177,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "TRIX",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003444,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "UDL",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "VMA20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00745,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "VMA5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004192,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "VMA60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.016274,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "VOL20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.008488,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "VOL5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.0051,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "VOL60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.017576,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "VOLT20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.007523,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "VOLT60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.016343,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "VR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.008981,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "WMA20",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.007523,
+  "constant_ratio": 0.000368
+ },
+ {
+  "factor_name": "WMA5",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004266,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WMA60",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.016343,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "WR",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005177,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha002",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004776,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha004",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004955,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha005",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005172,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "WorldQuant_alpha006",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005172,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "WorldQuant_alpha009",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004304,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha010",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004087,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha011",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003871,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "WorldQuant_alpha012",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003439,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha013",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004139,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha014",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.005172,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "WorldQuant_alpha015",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004302,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha016",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.0041,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha020",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003439,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "WorldQuant_alpha027",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004521,
+  "constant_ratio": 0.000367
+ },
+ {
+  "factor_name": "WorldQuant_alpha033",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003224,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha034",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.00434,
+  "constant_ratio": 0.0
+ },
+ {
+  "factor_name": "WorldQuant_alpha041",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003224,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha042",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003224,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha044",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.004239,
+  "constant_ratio": 0.000184
+ },
+ {
+  "factor_name": "WorldQuant_alpha101",
+  "stocks": 5449,
+  "d0": "2020-01-02",
+  "d1": "2026-09-30",
+  "missing_rate": 0.12438,
+  "null_ratio": 0.003224,
+  "constant_ratio": 0.000551
+ }
+]

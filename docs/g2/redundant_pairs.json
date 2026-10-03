@@ -1,0 +1,2582 @@
+[
+ {
+  "factor_a": "AMV20",
+  "factor_b": "AMV5",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "AMV60",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "BBI",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "BBIBOLL_DOWN",
+  "spearman": 0.994
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "BBIBOLL_UP",
+  "spearman": 0.9975
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "BOLL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "BOLL_DOWN",
+  "spearman": 0.9969
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "BOLL_UP",
+  "spearman": 0.9993
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "DKX",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "EMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "EMA5",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "EMA60",
+  "spearman": 0.9985
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "HMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "HMA5",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "HMA60",
+  "spearman": 0.9976
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "LMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "LMA5",
+  "spearman": 0.9992
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "LMA60",
+  "spearman": 0.9973
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "MA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "MA5",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "MA60",
+  "spearman": 0.9976
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "MADKX",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "MAUDL",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "SWL",
+  "spearman": 0.9992
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "UDL",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "VMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "VMA5",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "VMA60",
+  "spearman": 0.9975
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "WMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "WMA5",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "AMV20",
+  "factor_b": "WMA60",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "AMV60",
+  "spearman": 0.9966
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "BBI",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "BBIBOLL_DOWN",
+  "spearman": 0.9928
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "BBIBOLL_UP",
+  "spearman": 0.9984
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "BOLL",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "BOLL_DOWN",
+  "spearman": 0.9956
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "BOLL_UP",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "DKX",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "EMA20",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "EMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "EMA60",
+  "spearman": 0.9971
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "HMA20",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "HMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "HMA60",
+  "spearman": 0.996
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "LMA20",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "LMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "LMA60",
+  "spearman": 0.9957
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "MA20",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "MA5",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "MA60",
+  "spearman": 0.996
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "MADKX",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "MAUDL",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "SWL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "UDL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "VMA20",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "VMA5",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "VMA60",
+  "spearman": 0.9959
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "WMA20",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "WMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "AMV5",
+  "factor_b": "WMA60",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "BBI",
+  "spearman": 0.9975
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "BBIBOLL_DOWN",
+  "spearman": 0.9939
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "BBIBOLL_UP",
+  "spearman": 0.9943
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "BOLL",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "BOLL_DOWN",
+  "spearman": 0.9966
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "BOLL_UP",
+  "spearman": 0.9968
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "DKX",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "EMA20",
+  "spearman": 0.9984
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "EMA5",
+  "spearman": 0.9966
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "EMA60",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "HMA20",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "HMA5",
+  "spearman": 0.9963
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "HMA60",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "LMA20",
+  "spearman": 0.9984
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "LMA5",
+  "spearman": 0.9969
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "LMA60",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "MA20",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "MA5",
+  "spearman": 0.9965
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "MA60",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "MADKX",
+  "spearman": 0.9984
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "MAUDL",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "SWL",
+  "spearman": 0.9968
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "UDL",
+  "spearman": 0.9973
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "VMA20",
+  "spearman": 0.9983
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "VMA5",
+  "spearman": 0.9966
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "VMA60",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "WMA20",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "WMA5",
+  "spearman": 0.9963
+ },
+ {
+  "factor_a": "AMV60",
+  "factor_b": "WMA60",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "ATR",
+  "factor_b": "BBIBOLL_UP",
+  "spearman": 0.9549
+ },
+ {
+  "factor_a": "ATR",
+  "factor_b": "BOLL_UP",
+  "spearman": 0.9566
+ },
+ {
+  "factor_a": "ATR",
+  "factor_b": "HMA20",
+  "spearman": 0.9502
+ },
+ {
+  "factor_a": "ATR",
+  "factor_b": "TR",
+  "spearman": 0.9736
+ },
+ {
+  "factor_a": "ATR",
+  "factor_b": "VOLT20",
+  "spearman": 0.9626
+ },
+ {
+  "factor_a": "ATR",
+  "factor_b": "VOLT60",
+  "spearman": 0.9707
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "BBIBOLL_DOWN",
+  "spearman": 0.994
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "BBIBOLL_UP",
+  "spearman": 0.998
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "BOLL",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "BOLL_DOWN",
+  "spearman": 0.9968
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "BOLL_UP",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "DKX",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "EMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "EMA5",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "EMA60",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "HMA20",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "HMA5",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "HMA60",
+  "spearman": 0.9971
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "LMA20",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "LMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "LMA60",
+  "spearman": 0.9968
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "MA20",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "MA5",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "MA60",
+  "spearman": 0.9971
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "MADKX",
+  "spearman": 0.9993
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "MAUDL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "SWL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "UDL",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "VMA20",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "VMA5",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "VMA60",
+  "spearman": 0.997
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "WMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "WMA5",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "BBI",
+  "factor_b": "WMA60",
+  "spearman": 0.9987
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "BBIBOLL_UP",
+  "spearman": 0.9857
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "BOLL",
+  "spearman": 0.9951
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "BOLL_DOWN",
+  "spearman": 0.9987
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "BOLL_UP",
+  "spearman": 0.9903
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "DKX",
+  "spearman": 0.9944
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "EMA20",
+  "spearman": 0.9948
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "EMA5",
+  "spearman": 0.9931
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "EMA60",
+  "spearman": 0.9953
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "HMA20",
+  "spearman": 0.9947
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "HMA5",
+  "spearman": 0.9922
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "HMA60",
+  "spearman": 0.995
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "LMA20",
+  "spearman": 0.9955
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "LMA5",
+  "spearman": 0.9934
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "LMA60",
+  "spearman": 0.9953
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "MA20",
+  "spearman": 0.9951
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "MA5",
+  "spearman": 0.9928
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "MA60",
+  "spearman": 0.9953
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "MADKX",
+  "spearman": 0.9954
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "MAUDL",
+  "spearman": 0.9942
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "SWL",
+  "spearman": 0.9933
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "UDL",
+  "spearman": 0.9938
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "VMA20",
+  "spearman": 0.9952
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "VMA5",
+  "spearman": 0.9929
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "VMA60",
+  "spearman": 0.9952
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "WMA20",
+  "spearman": 0.9944
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "WMA5",
+  "spearman": 0.9928
+ },
+ {
+  "factor_a": "BBIBOLL_DOWN",
+  "factor_b": "WMA60",
+  "spearman": 0.9956
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "BOLL",
+  "spearman": 0.9969
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "BOLL_DOWN",
+  "spearman": 0.9906
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "BOLL_UP",
+  "spearman": 0.9987
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "DKX",
+  "spearman": 0.9977
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "EMA20",
+  "spearman": 0.9974
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "EMA5",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "EMA60",
+  "spearman": 0.9945
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "HMA20",
+  "spearman": 0.9971
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "HMA5",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "HMA60",
+  "spearman": 0.9931
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "LMA20",
+  "spearman": 0.9965
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "LMA5",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "LMA60",
+  "spearman": 0.9924
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "MA20",
+  "spearman": 0.9969
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "MA5",
+  "spearman": 0.9983
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "MA60",
+  "spearman": 0.9929
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "MADKX",
+  "spearman": 0.9964
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "MAUDL",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "SWL",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "UDL",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "VMA20",
+  "spearman": 0.9968
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "VMA5",
+  "spearman": 0.9984
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "VMA60",
+  "spearman": 0.9928
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "WMA20",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "WMA5",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "BBIBOLL_UP",
+  "factor_b": "WMA60",
+  "spearman": 0.9952
+ },
+ {
+  "factor_a": "BIAS10",
+  "factor_b": "OSC",
+  "spearman": 0.9533
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "BOLL_DOWN",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "BOLL_UP",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "DKX",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "EMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "EMA5",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "EMA60",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "HMA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "HMA5",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "HMA60",
+  "spearman": 0.998
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "LMA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "LMA5",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "LMA60",
+  "spearman": 0.9977
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "MA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "MA5",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "MA60",
+  "spearman": 0.9979
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "MADKX",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "MAUDL",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "SWL",
+  "spearman": 0.9992
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "UDL",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "VMA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "VMA5",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "VMA60",
+  "spearman": 0.9979
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "WMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "WMA5",
+  "spearman": 0.9987
+ },
+ {
+  "factor_a": "BOLL",
+  "factor_b": "WMA60",
+  "spearman": 0.9993
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "BOLL_UP",
+  "spearman": 0.9938
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "DKX",
+  "spearman": 0.9972
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "EMA20",
+  "spearman": 0.9975
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "EMA5",
+  "spearman": 0.9959
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "EMA60",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "HMA20",
+  "spearman": 0.9975
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "HMA5",
+  "spearman": 0.9952
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "HMA60",
+  "spearman": 0.9974
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "LMA20",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "LMA5",
+  "spearman": 0.9962
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "LMA60",
+  "spearman": 0.9977
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "MA20",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "MA5",
+  "spearman": 0.9957
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "MA60",
+  "spearman": 0.9976
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "MADKX",
+  "spearman": 0.998
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "MAUDL",
+  "spearman": 0.9971
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "SWL",
+  "spearman": 0.9961
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "UDL",
+  "spearman": 0.9966
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "VMA20",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "VMA5",
+  "spearman": 0.9958
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "VMA60",
+  "spearman": 0.9976
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "WMA20",
+  "spearman": 0.9972
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "WMA5",
+  "spearman": 0.9956
+ },
+ {
+  "factor_a": "BOLL_DOWN",
+  "factor_b": "WMA60",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "DKX",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "EMA20",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "EMA5",
+  "spearman": 0.9984
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "EMA60",
+  "spearman": 0.9969
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "HMA20",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "HMA5",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "HMA60",
+  "spearman": 0.9958
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "LMA20",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "LMA5",
+  "spearman": 0.9985
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "LMA60",
+  "spearman": 0.9952
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "MA20",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "MA5",
+  "spearman": 0.9985
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "MA60",
+  "spearman": 0.9956
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "MADKX",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "MAUDL",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "SWL",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "UDL",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "VMA20",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "VMA5",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "VMA60",
+  "spearman": 0.9955
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "WMA20",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "WMA5",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "BOLL_UP",
+  "factor_b": "WMA60",
+  "spearman": 0.9976
+ },
+ {
+  "factor_a": "CYF",
+  "factor_b": "VOL20",
+  "spearman": 0.9917
+ },
+ {
+  "factor_a": "CYF",
+  "factor_b": "VOL5",
+  "spearman": 0.9596
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "EMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "EMA5",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "EMA60",
+  "spearman": 0.9984
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "HMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "HMA5",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "HMA60",
+  "spearman": 0.9975
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "LMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "LMA5",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "LMA60",
+  "spearman": 0.9972
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "MA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "MA5",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "MA60",
+  "spearman": 0.9974
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "MADKX",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "MAUDL",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "SWL",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "UDL",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "VMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "VMA5",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "VMA60",
+  "spearman": 0.9973
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "WMA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "WMA5",
+  "spearman": 0.9993
+ },
+ {
+  "factor_a": "DKX",
+  "factor_b": "WMA60",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "EMA5",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "EMA60",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "HMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "HMA5",
+  "spearman": 0.9992
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "HMA60",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "LMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "LMA5",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "LMA60",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "MA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "MA5",
+  "spearman": 0.9993
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "MA60",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "MADKX",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "MAUDL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "SWL",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "UDL",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "VMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "VMA5",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "VMA60",
+  "spearman": 0.998
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "WMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "WMA5",
+  "spearman": 0.9992
+ },
+ {
+  "factor_a": "EMA20",
+  "factor_b": "WMA60",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "EMA60",
+  "spearman": 0.9972
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "HMA20",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "HMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "HMA60",
+  "spearman": 0.9961
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "LMA20",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "LMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "LMA60",
+  "spearman": 0.9958
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "MA20",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "MA5",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "MA60",
+  "spearman": 0.9961
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "MADKX",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "MAUDL",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "SWL",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "UDL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "VMA20",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "VMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "VMA60",
+  "spearman": 0.996
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "WMA20",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "WMA5",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "EMA5",
+  "factor_b": "WMA60",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "HMA20",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "HMA5",
+  "spearman": 0.9969
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "HMA60",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "LMA20",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "LMA5",
+  "spearman": 0.9975
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "LMA60",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "MA20",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "MA5",
+  "spearman": 0.9971
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "MA60",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "MADKX",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "MAUDL",
+  "spearman": 0.9984
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "SWL",
+  "spearman": 0.9974
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "UDL",
+  "spearman": 0.9979
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "VMA20",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "VMA5",
+  "spearman": 0.9972
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "VMA60",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "WMA20",
+  "spearman": 0.9983
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "WMA5",
+  "spearman": 0.9969
+ },
+ {
+  "factor_a": "EMA60",
+  "factor_b": "WMA60",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "HMA5",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "HMA60",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "LMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "LMA5",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "LMA60",
+  "spearman": 0.9974
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "MA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "MA5",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "MA60",
+  "spearman": 0.9977
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "MADKX",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "MAUDL",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "SWL",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "UDL",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "VMA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "VMA5",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "VMA60",
+  "spearman": 0.9976
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "WMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "WMA5",
+  "spearman": 0.9987
+ },
+ {
+  "factor_a": "HMA20",
+  "factor_b": "WMA60",
+  "spearman": 0.9992
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "HMA60",
+  "spearman": 0.9957
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "LMA20",
+  "spearman": 0.9985
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "LMA5",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "LMA60",
+  "spearman": 0.9953
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "MA20",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "MA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "MA60",
+  "spearman": 0.9956
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "MADKX",
+  "spearman": 0.9983
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "MAUDL",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "SWL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "UDL",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "VMA20",
+  "spearman": 0.9987
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "VMA5",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "VMA60",
+  "spearman": 0.9955
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "WMA20",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "WMA5",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "HMA5",
+  "factor_b": "WMA60",
+  "spearman": 0.9975
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "LMA20",
+  "spearman": 0.9983
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "LMA5",
+  "spearman": 0.9964
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "LMA60",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "MA20",
+  "spearman": 0.998
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "MA5",
+  "spearman": 0.996
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "MA60",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "MADKX",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "MAUDL",
+  "spearman": 0.9974
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "SWL",
+  "spearman": 0.9964
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "UDL",
+  "spearman": 0.9968
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "VMA20",
+  "spearman": 0.998
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "VMA5",
+  "spearman": 0.9961
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "VMA60",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "WMA20",
+  "spearman": 0.9974
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "WMA5",
+  "spearman": 0.9958
+ },
+ {
+  "factor_a": "HMA60",
+  "factor_b": "WMA60",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "KDJ_D",
+  "factor_b": "LWR2",
+  "spearman": -1.0
+ },
+ {
+  "factor_a": "KDJ_D",
+  "factor_b": "SKD_D",
+  "spearman": 0.9889
+ },
+ {
+  "factor_a": "KDJ_J",
+  "factor_b": "WR",
+  "spearman": -0.9706
+ },
+ {
+  "factor_a": "KDJ_K",
+  "factor_b": "LWR1",
+  "spearman": -1.0
+ },
+ {
+  "factor_a": "KDJ_K",
+  "factor_b": "SKD_K",
+  "spearman": 0.9945
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "LMA5",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "LMA60",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "MA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "MA5",
+  "spearman": 0.9987
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "MA60",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "MADKX",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "MAUDL",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "SWL",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "UDL",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "VMA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "VMA5",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "VMA60",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "WMA20",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "WMA5",
+  "spearman": 0.9985
+ },
+ {
+  "factor_a": "LMA20",
+  "factor_b": "WMA60",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "LMA60",
+  "spearman": 0.9962
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "MA20",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "MA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "MA60",
+  "spearman": 0.9964
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "MADKX",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "MAUDL",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "SWL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "UDL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "VMA20",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "VMA5",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "VMA60",
+  "spearman": 0.9963
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "WMA20",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "WMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "LMA5",
+  "factor_b": "WMA60",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "MA20",
+  "spearman": 0.9977
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "MA5",
+  "spearman": 0.9957
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "MA60",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "MADKX",
+  "spearman": 0.998
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "MAUDL",
+  "spearman": 0.9971
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "SWL",
+  "spearman": 0.9961
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "UDL",
+  "spearman": 0.9966
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "VMA20",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "VMA5",
+  "spearman": 0.9958
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "VMA60",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "WMA20",
+  "spearman": 0.9971
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "WMA5",
+  "spearman": 0.9955
+ },
+ {
+  "factor_a": "LMA60",
+  "factor_b": "WMA60",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "LWR1",
+  "factor_b": "SKD_K",
+  "spearman": -0.9945
+ },
+ {
+  "factor_a": "LWR2",
+  "factor_b": "SKD_D",
+  "spearman": -0.9889
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "MA5",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "MA60",
+  "spearman": 0.9979
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "MADKX",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "MAUDL",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "SWL",
+  "spearman": 0.9992
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "UDL",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "VMA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "VMA5",
+  "spearman": 0.999
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "VMA60",
+  "spearman": 0.9979
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "WMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "WMA5",
+  "spearman": 0.9987
+ },
+ {
+  "factor_a": "MA20",
+  "factor_b": "WMA60",
+  "spearman": 0.9993
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "MA60",
+  "spearman": 0.9959
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "MADKX",
+  "spearman": 0.9985
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "MAUDL",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "SWL",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "UDL",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "VMA20",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "VMA5",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "VMA60",
+  "spearman": 0.9958
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "WMA20",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "WMA5",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "MA5",
+  "factor_b": "WMA60",
+  "spearman": 0.9977
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "MADKX",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "MAUDL",
+  "spearman": 0.9974
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "SWL",
+  "spearman": 0.9963
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "UDL",
+  "spearman": 0.9968
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "VMA20",
+  "spearman": 0.998
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "VMA5",
+  "spearman": 0.996
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "VMA60",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "WMA20",
+  "spearman": 0.9973
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "WMA5",
+  "spearman": 0.9958
+ },
+ {
+  "factor_a": "MA60",
+  "factor_b": "WMA60",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "MADKX",
+  "factor_b": "MAUDL",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "MADKX",
+  "factor_b": "SWL",
+  "spearman": 0.9988
+ },
+ {
+  "factor_a": "MADKX",
+  "factor_b": "UDL",
+  "spearman": 0.9992
+ },
+ {
+  "factor_a": "MADKX",
+  "factor_b": "VMA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "MADKX",
+  "factor_b": "VMA5",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "MADKX",
+  "factor_b": "VMA60",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "MADKX",
+  "factor_b": "WMA20",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "MADKX",
+  "factor_b": "WMA5",
+  "spearman": 0.9982
+ },
+ {
+  "factor_a": "MADKX",
+  "factor_b": "WMA60",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "MATAPI",
+  "factor_b": "TAPI",
+  "spearman": 0.9654
+ },
+ {
+  "factor_a": "MAUDL",
+  "factor_b": "SWL",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "MAUDL",
+  "factor_b": "UDL",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "MAUDL",
+  "factor_b": "VMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "MAUDL",
+  "factor_b": "VMA5",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "MAUDL",
+  "factor_b": "VMA60",
+  "spearman": 0.9973
+ },
+ {
+  "factor_a": "MAUDL",
+  "factor_b": "WMA20",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "MAUDL",
+  "factor_b": "WMA5",
+  "spearman": 0.9993
+ },
+ {
+  "factor_a": "MAUDL",
+  "factor_b": "WMA60",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "SWL",
+  "factor_b": "UDL",
+  "spearman": 1.0
+ },
+ {
+  "factor_a": "SWL",
+  "factor_b": "VMA20",
+  "spearman": 0.9991
+ },
+ {
+  "factor_a": "SWL",
+  "factor_b": "VMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "SWL",
+  "factor_b": "VMA60",
+  "spearman": 0.9963
+ },
+ {
+  "factor_a": "SWL",
+  "factor_b": "WMA20",
+  "spearman": 0.9997
+ },
+ {
+  "factor_a": "SWL",
+  "factor_b": "WMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "SWL",
+  "factor_b": "WMA60",
+  "spearman": 0.9981
+ },
+ {
+  "factor_a": "TR",
+  "factor_b": "VOLT20",
+  "spearman": 0.9535
+ },
+ {
+  "factor_a": "TR",
+  "factor_b": "VOLT60",
+  "spearman": 0.9512
+ },
+ {
+  "factor_a": "UDL",
+  "factor_b": "VMA20",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "UDL",
+  "factor_b": "VMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "UDL",
+  "factor_b": "VMA60",
+  "spearman": 0.9967
+ },
+ {
+  "factor_a": "UDL",
+  "factor_b": "WMA20",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "UDL",
+  "factor_b": "WMA5",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "UDL",
+  "factor_b": "WMA60",
+  "spearman": 0.9985
+ },
+ {
+  "factor_a": "VMA20",
+  "factor_b": "VMA5",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "VMA20",
+  "factor_b": "VMA60",
+  "spearman": 0.9979
+ },
+ {
+  "factor_a": "VMA20",
+  "factor_b": "WMA20",
+  "spearman": 0.9998
+ },
+ {
+  "factor_a": "VMA20",
+  "factor_b": "WMA5",
+  "spearman": 0.9986
+ },
+ {
+  "factor_a": "VMA20",
+  "factor_b": "WMA60",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "VMA5",
+  "factor_b": "VMA60",
+  "spearman": 0.996
+ },
+ {
+  "factor_a": "VMA5",
+  "factor_b": "WMA20",
+  "spearman": 0.9996
+ },
+ {
+  "factor_a": "VMA5",
+  "factor_b": "WMA5",
+  "spearman": 0.9999
+ },
+ {
+  "factor_a": "VMA5",
+  "factor_b": "WMA60",
+  "spearman": 0.9978
+ },
+ {
+  "factor_a": "VMA60",
+  "factor_b": "WMA20",
+  "spearman": 0.9973
+ },
+ {
+  "factor_a": "VMA60",
+  "factor_b": "WMA5",
+  "spearman": 0.9957
+ },
+ {
+  "factor_a": "VMA60",
+  "factor_b": "WMA60",
+  "spearman": 0.9995
+ },
+ {
+  "factor_a": "WMA20",
+  "factor_b": "WMA5",
+  "spearman": 0.9994
+ },
+ {
+  "factor_a": "WMA20",
+  "factor_b": "WMA60",
+  "spearman": 0.9989
+ },
+ {
+  "factor_a": "WMA5",
+  "factor_b": "WMA60",
+  "spearman": 0.9976
+ },
+ {
+  "factor_a": "WorldQuant_alpha033",
+  "factor_b": "WorldQuant_alpha101",
+  "spearman": -0.9524
+ }
+]

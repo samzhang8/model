@@ -1,0 +1,135 @@
+factor_name,status,reason
+ACCER,候选,
+ADTM,候选,
+ADX,候选,
+ADXR,候选,
+AMP1,候选,
+AMP10,候选,
+AMP20,候选,
+AMP3,候选,
+AMP5,候选,
+AMP60,候选,
+AR,候选,
+AROON_DOWN,候选,
+AROON_UP,候选,
+ASI,候选,
+ASIT,候选,
+BIAS20,候选,
+BIAS36,候选,
+BIAS5,候选,
+BIAS612,候选,
+BR,候选,
+CCI,候选,
+CR,候选,
+CYF,候选,
+CYR,候选,
+DAVOL10,候选,
+DAVOL20,候选,
+DAVOL5,候选,
+DI1,候选,
+DI2,候选,
+DPO,候选,
+HMA20,候选,
+LWR1,候选,
+LWR2,候选,
+MAADTM,候选,
+MABIAS,候选,
+MACD_DEA,候选,
+MACD_DIFF,候选,
+MACD_HIST,候选,
+MACR1,候选,
+MACR2,候选,
+MACR3,候选,
+MACR4,候选,
+MACYR,候选,
+MADPO,候选,
+MAMASS,候选,
+MAMTM,候选,
+MARSI10,候选,
+MARSI6,候选,
+MASS,候选,
+MATRIX,候选,
+MAVR,候选,
+MCST,候选,
+MDD20,候选,
+MDD60,候选,
+MFI,候选,
+MTM,候选,
+OBOS,候选,
+OBV,候选,
+OSC,候选,
+PCNT,候选,
+QTYR_5_20,候选,
+ROC,候选,
+RSI10,候选,
+RSI6,候选,
+SY,候选,
+TAPI,候选,
+TRIX,候选,
+VOL60,候选,
+VR,候选,
+WR,候选,
+WorldQuant_alpha002,候选,
+WorldQuant_alpha004,候选,
+WorldQuant_alpha005,候选,
+WorldQuant_alpha006,候选,
+WorldQuant_alpha009,候选,
+WorldQuant_alpha010,候选,
+WorldQuant_alpha011,候选,
+WorldQuant_alpha012,候选,
+WorldQuant_alpha013,候选,
+WorldQuant_alpha014,候选,
+WorldQuant_alpha015,候选,
+WorldQuant_alpha016,候选,
+WorldQuant_alpha020,候选,
+WorldQuant_alpha027,候选,
+WorldQuant_alpha033,候选,
+WorldQuant_alpha034,候选,
+WorldQuant_alpha041,候选,
+WorldQuant_alpha042,候选,
+WorldQuant_alpha044,候选,
+AMV20,剔除,冗余: 与HMA20 Spearman=0.9999
+AMV5,剔除,冗余: 与HMA20 Spearman=0.999
+AMV60,剔除,冗余: 与HMA20 Spearman=0.9981
+ATR,剔除,冗余: 与HMA20 Spearman=0.9502
+BBI,剔除,冗余: 与HMA20 Spearman=0.9996
+BBIBOLL_DOWN,剔除,冗余: 与HMA20 Spearman=0.9947
+BBIBOLL_UP,剔除,冗余: 与HMA20 Spearman=0.9971
+BIAS10,剔除,冗余: 与OSC Spearman=0.9533
+BOLL,剔除,冗余: 与HMA20 Spearman=1.0
+BOLL_DOWN,剔除,冗余: 与HMA20 Spearman=0.9975
+BOLL_UP,剔除,冗余: 与HMA20 Spearman=0.9991
+DKX,剔除,冗余: 与HMA20 Spearman=0.9998
+EMA20,剔除,冗余: 与HMA20 Spearman=0.9998
+EMA5,剔除,冗余: 与HMA20 Spearman=0.9989
+EMA60,剔除,冗余: 与HMA20 Spearman=0.9986
+HMA5,剔除,冗余: 与HMA20 Spearman=0.9988
+HMA60,剔除,冗余: 与HMA20 Spearman=0.9978
+KDJ_D,剔除,冗余: 与LWR2 Spearman=-1.0
+KDJ_J,剔除,冗余: 与WR Spearman=-0.9706
+KDJ_K,剔除,冗余: 与LWR1 Spearman=-1.0
+LMA20,剔除,冗余: 与HMA20 Spearman=0.9999
+LMA5,剔除,冗余: 与HMA20 Spearman=0.9991
+LMA60,剔除,冗余: 与HMA20 Spearman=0.9974
+MA20,剔除,冗余: 与HMA20 Spearman=1.0
+MA5,剔除,冗余: 与HMA20 Spearman=0.9989
+MA60,剔除,冗余: 与HMA20 Spearman=0.9977
+MADKX,剔除,冗余: 与HMA20 Spearman=0.9999
+MATAPI,剔除,冗余: 与TAPI Spearman=0.9654
+MAUDL,剔除,冗余: 与HMA20 Spearman=0.9998
+SKD_D,剔除,冗余: 与LWR2 Spearman=-0.9889
+SKD_K,剔除,冗余: 与LWR1 Spearman=-0.9945
+SWL,剔除,冗余: 与HMA20 Spearman=0.9991
+TR,剔除,冗余: 与HMA20 Spearman=0.9295
+UDL,剔除,冗余: 与HMA20 Spearman=0.9995
+VMA20,剔除,冗余: 与HMA20 Spearman=1.0
+VMA5,剔除,冗余: 与HMA20 Spearman=0.999
+VMA60,剔除,冗余: 与HMA20 Spearman=0.9976
+VOL20,剔除,冗余: 与CYF Spearman=0.9917
+VOL5,剔除,冗余: 与CYF Spearman=0.9596
+VOLT20,剔除,冗余: 与HMA20 Spearman=0.9078
+VOLT60,剔除,冗余: 与HMA20 Spearman=0.9262
+WMA20,剔除,冗余: 与HMA20 Spearman=0.9998
+WMA5,剔除,冗余: 与HMA20 Spearman=0.9987
+WMA60,剔除,冗余: 与HMA20 Spearman=0.9992
+WorldQuant_alpha101,剔除,冗余: 与WorldQuant_alpha033 Spearman=-0.9524
